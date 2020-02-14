@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+      - run:
+          name: Compile, Package and Test
+          command: mvn package
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
+
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
