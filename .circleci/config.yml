@@ -8,7 +8,9 @@ jobs:
       - checkout
       - restore_cache:
           key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline
+      - run:
+          name: Download uncached Dependencies
+          command: mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
