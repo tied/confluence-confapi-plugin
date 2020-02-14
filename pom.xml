@@ -57,6 +57,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- TODO: Remove as defined in new parent pom -->
+        <sonar.projectKey>aservo_${project.artifactId}</sonar.projectKey>
+        <sonar.organization>800c9135c81800959e51375f6594c91a1f757be9bbbc14d311783a4f75c501ec7807da061e787a9ea89433eb1cf2d6088b664332abd6a411ca5b44e811e97a23</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <build>
@@ -80,8 +84,6 @@
                         </Export-Package>
                         <!-- Add package import here -->
                         <Import-Package>
-                            org.springframework.osgi.*;resolution:="optional",
-                            org.eclipse.gemini.blueprint.*;resolution:="optional",
                             *
                         </Import-Package>
                         <!-- Ensure plugin is spring powered -->
