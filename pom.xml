@@ -9,7 +9,7 @@
     <parent>
         <groupId>de.aservo</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.4</version>
     </parent>
 
     <groupId>de.aservo.atlassian</groupId>
@@ -54,13 +54,6 @@
         <amps.version>8.0.0</amps.version>
         <ajp.port>8009</ajp.port>
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- TODO: Remove as defined in new parent pom -->
-        <sonar.projectKey>aservo_${project.artifactId}</sonar.projectKey>
-        <sonar.organization>800c9135c81800959e51375f6594c91a1f757be9bbbc14d311783a4f75c501ec7807da061e787a9ea89433eb1cf2d6088b664332abd6a411ca5b44e811e97a23</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <build>
