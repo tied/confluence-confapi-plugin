@@ -1,29 +1,74 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  maven:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: /tmp/build
+
+jobs:
+  build:
+    executor: maven
     steps:
       - checkout
       - restore_cache:
           key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
       - run:
-          name: Download uncached Dependencies
+          name: Download Dependencies
           command: mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Compile, Package and Test
           command: mvn package
       - run:
+          name: Copy Artifacts into separate Directory
+          command: mkdir -p /tmp/artifacts && cp target/*.{jar,obr} /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+      - store_test_results:
+          path: target/surefire-reports
+      - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+          command: mvn -DskipTests sonar:sonar
+      - persist_to_workspace:
+          root: /tmp/build
+          paths:
+            - .
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.sonar/cache
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+  deploy:
+    executor: maven
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - restore_cache:
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+      - run:
+          name: Decrypt Signing Key
+          command: openssl aes-256-cbc -S ${SIGN_ASC_SALT} -K ${SIGN_ASC_KEY} -iv ${SIGN_ASC_IV} -in .circleci/sign.asc.enc -out .circleci/sign.asc -d
+      - run:
+          name: Import Signing Key
+          command: gpg --no-tty --batch --import .circleci/sign.asc
+      - run:
+          name: Deploy to Maven Central
+          command: export GPG_TTY=$(tty) && mvn -s .circleci/settings.xml -DskipTests deploy
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.sonar/cache
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
 
 workflows:
   main:
     jobs:
       - build:
           context: global
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+          context: deploy-maven
