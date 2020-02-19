@@ -1,6 +1,6 @@
-<atlassian-plugin key="${project.groupId}.${project.artifactId}-tests" name="${project.name}" plugins-version="2">
+<atlassian-plugin key="${project.groupId}.${project.artifactId}-tests" name="${project.name} Tests" plugins-version="2">
     <plugin-info>
-        <description>${project.description}</description>
+        <description>Tests for the ${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
     </plugin-info>

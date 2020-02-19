@@ -17,18 +17,13 @@ jobs:
           name: Download Dependencies
           command: mvn dependency:go-offline
       - run:
-          name: Compile, Package and Test
-          command: mvn package
+          name: Compile and Package
+          command: mvn package -DskipTests
       - run:
           name: Copy Artifacts into separate Directory
           command: mkdir -p /tmp/artifacts && cp target/*.{jar,obr} /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
-      - store_test_results:
-          path: target/surefire-reports
-      - run:
-          name: Analyze on SonarCloud
-          command: mvn -DskipTests sonar:sonar
       - persist_to_workspace:
           root: /tmp/build
           paths:
@@ -36,7 +31,25 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-            - ~/.sonar/cache
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+  test:
+    executor: maven
+    steps:
+      - attach_workspace:
+          at: /tmp/build
+      - restore_cache:
+          key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
+      - run:
+          name: Run Unit and Integration Tests
+          command: mvn verify
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn sonar:sonar -DskipTests
+      - store_test_results:
+          path: target/surefire-reports
+      - save_cache:
+          paths:
+            - ~/.m2
           key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
   deploy:
     executor: maven
@@ -57,17 +70,19 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-            - ~/.sonar/cache
           key: confluence-confapi-plugin-{{ checksum "pom.xml" }}
 
 workflows:
   main:
     jobs:
-      - build:
+      - build
+      - test:
+          requires:
+            - build
           context: global
       - deploy:
           requires:
-            - build
+            - test
           filters:
             branches:
               only: master
