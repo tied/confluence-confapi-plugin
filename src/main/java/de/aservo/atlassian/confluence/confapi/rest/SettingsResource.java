@@ -4,7 +4,7 @@ import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confluence.confapi.model.SettingsBean;
+import de.aservo.atlassian.confapi.model.SettingsBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -62,7 +62,7 @@ public class SettingsResource {
 
         settingsManager.updateGlobalSettings(settings);
 
-        return Response.ok(SettingsBean.from(settings)).build();
+        return Response.ok(new SettingsBean(settings.getBaseUrl(), settings.getSiteTitle())).build();
     }
 
 }

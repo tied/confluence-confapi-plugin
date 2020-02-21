@@ -5,19 +5,21 @@ import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
+
 import static org.junit.Assert.assertEquals;
 
 public class PingResourceFuncTest {
 
+    final String baseUrl = System.getProperty("baseurl");
+    final String resourceUrl = baseUrl + "/rest/confapi/1/" + ConfAPI.PING;
+
+    private RestClient client = new RestClient();
+    private Resource resource = client.resource(resourceUrl);
+
     @Test
-    public void testPing() {
-        final String baseUrl = System.getProperty("baseurl");
-        final String resourceUrl = baseUrl + "/rest/confapi/1/" + ConfAPI.PING;
-
-        final RestClient client = new RestClient();
-        final Resource resource = client.resource(resourceUrl);
-
-        assertEquals(200, resource.get().getStatusCode());
+    public void testGetPing() {
+        assertEquals(Response.Status.OK.getStatusCode(), resource.get().getStatusCode());
     }
 
 }

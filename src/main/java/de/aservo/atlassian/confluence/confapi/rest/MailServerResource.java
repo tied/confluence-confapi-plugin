@@ -9,10 +9,11 @@ import com.atlassian.mail.server.impl.PopMailServerImpl;
 import com.atlassian.mail.server.impl.SMTPMailServerImpl;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confluence.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confluence.confapi.model.PopMailServerBean;
-import de.aservo.atlassian.confluence.confapi.model.SmtpMailServerBean;
-import de.aservo.atlassian.confluence.confapi.util.MailProtocolUtil;
+import de.aservo.atlassian.confapi.exception.NoContentException;
+import de.aservo.atlassian.confapi.model.ErrorCollection;
+import de.aservo.atlassian.confapi.model.PopMailServerBean;
+import de.aservo.atlassian.confapi.model.SmtpMailServerBean;
+import de.aservo.atlassian.confapi.util.MailProtocolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,13 +55,14 @@ public class MailServerResource {
     @GET
     @Path(ConfAPI.MAIL_SMTP)
     public Response getSmtpMailServer() {
+
         final ErrorCollection errorCollection = new ErrorCollection();
 
         try {
             final SMTPMailServer smtpMailServer = mailServerManager.getDefaultSMTPMailServer();
             final SmtpMailServerBean bean = SmtpMailServerBean.from(smtpMailServer);
             return Response.ok(bean).build();
-        } catch (Exception e) {
+        } catch (NoContentException e) {
             log.error(e.getMessage(), e);
             errorCollection.addErrorMessage(e.getMessage());
         }
@@ -143,7 +145,7 @@ public class MailServerResource {
             final PopMailServer popMailServer = mailServerManager.getDefaultPopMailServer();
             final PopMailServerBean bean = PopMailServerBean.from(popMailServer);
             return Response.ok(bean).build();
-        } catch (Exception e) {
+        } catch (NoContentException e) {
             log.error(e.getMessage(), e);
             errorCollection.addErrorMessage(e.getMessage());
         }
