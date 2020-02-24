@@ -67,7 +67,7 @@ public class MailServerResource {
             errorCollection.addErrorMessage(e.getMessage());
         }
 
-        return Response.status(Response.Status.NOT_FOUND).entity(errorCollection).build();
+        return Response.status(Response.Status.NO_CONTENT).entity(errorCollection).build();
     }
 
     @PUT
@@ -150,7 +150,7 @@ public class MailServerResource {
             errorCollection.addErrorMessage(e.getMessage());
         }
 
-        return Response.status(Response.Status.NOT_FOUND).entity(errorCollection).build();
+        return Response.status(Response.Status.NO_CONTENT).entity(errorCollection).build();
     }
 
     @PUT
