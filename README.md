@@ -275,6 +275,11 @@ updating and deleting one single mail server.
   ![Status 403][status-403]
 
   Returned if the current user is not an administrator.
+  
+Other Resources
+---------
+The documentation of all REST endpoints is currently under construction. Follow this [link](doc/swagger/README.md) in order to find documentation of all other REST endpoints. 
+Please note, that swagger also creates documentation stubs for the resources described above. This will be resolved shortly.
 
 [status-200]: https://img.shields.io/badge/status-200-brightgreen.svg
 [status-204]: https://img.shields.io/badge/status-204-yellow.svg

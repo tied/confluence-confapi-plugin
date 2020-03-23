@@ -12,3 +12,7 @@
 # Private keys
 *.asc
 
+# auto generated eclipse stuff
+.classpath
+.project
+/.settings

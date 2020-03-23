@@ -1,0 +1,245 @@
+openapi: 3.0.1
+info:
+  title: ConfAPI for Confluence
+  description: This resource provides methods for accessing user directory configuration
+    for Confluence.
+  contact:
+    url: https://github.com/aservo/confluence-confapi-plugin
+    email: info@aservo.com
+  version: "1"
+security:
+- http_basic_scheme: []
+paths:
+  /mail/smtp:
+    get:
+      operationId: getSmtpMailServer
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    put:
+      operationId: putSmtpMailServer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmtpMailServerBean'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /mail/pop:
+    get:
+      operationId: getPopMailServer
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    put:
+      operationId: putPopMailServer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PopMailServerBean'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /ping:
+    get:
+      operationId: getPing
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /settings:
+    get:
+      operationId: getSettings
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    put:
+      operationId: putSettings
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SettingsBean'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /directories:
+    get:
+      summary: Retrieves user directory information
+      description: Upon successful request, returns a list of UserDirectoryBean object
+        containing user directory details
+      operationId: getDirectories
+      responses:
+        "200":
+          description: user directory details list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDirectoryBean'
+        "400":
+          description: An error occurred while retrieving the user directory list
+    put:
+      summary: Adds a new user directory
+      description: Upon successful request, returns the added UserDirectoryBean object,
+        Any existing configurations with the same name property are removed before
+        adding the new configuration
+      operationId: addDirectory
+      parameters:
+      - name: test
+        in: query
+        description: Whether or not to test the connection to the user directory service,
+          e.g. CROWD (null defaults to TRUE)
+        schema:
+          type: boolean
+      requestBody:
+        description: The user directory to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDirectoryBean'
+        required: true
+      responses:
+        "200":
+          description: user directory added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDirectoryBean'
+        "400":
+          description: An error occured while setting adding the new user directory
+components:
+  schemas:
+    SmtpMailServerBean:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        adminContact:
+          type: string
+        from:
+          type: string
+        prefix:
+          type: string
+        protocol:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        tls:
+          type: boolean
+        timeout:
+          type: integer
+          format: int64
+        username:
+          type: string
+        password:
+          type: string
+      xml:
+        name: smtp
+    PopMailServerBean:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        protocol:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        timeout:
+          type: integer
+          format: int64
+        username:
+          type: string
+        password:
+          type: string
+      xml:
+        name: pop
+    SettingsBean:
+      type: object
+      properties:
+        baseurl:
+          type: string
+        title:
+          type: string
+      xml:
+        name: settings
+    UserDirectoryBean:
+      required:
+      - appPassword
+      - clientName
+      - crowdUrl
+      - implClass
+      - name
+      - type
+      type: object
+      properties:
+        active:
+          type: boolean
+        name:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        clientName:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - UNKNOWN
+          - INTERNAL
+          - CONNECTOR
+          - CUSTOM
+          - DELEGATING
+          - CROWD
+        description:
+          type: string
+        crowdUrl:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        appPassword:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        implClass:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        proxyHost:
+          type: string
+        proxyPort:
+          type: string
+        proxyUsername:
+          type: string
+        proxyPassword:
+          type: string
+      xml:
+        name: directory
+  securitySchemes:
+    http_basic_scheme:
+      type: http
