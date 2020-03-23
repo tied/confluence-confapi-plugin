@@ -1,14 +1,17 @@
 package it.de.aservo.atlassian.confluence.confapi.rest;
 
+import com.atlassian.plugins.osgi.test.AtlassianPluginsTestRunner;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(AtlassianPluginsTestRunner.class)
 public class PingResourceFuncTest {
 
     final String baseUrl = System.getProperty("baseurl");
@@ -19,7 +22,7 @@ public class PingResourceFuncTest {
 
     @Test
     public void testGetPing() {
-        assertEquals(Response.Status.OK.getStatusCode(), resource.get().getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), resource.get().getStatusCode());
     }
 
 }
