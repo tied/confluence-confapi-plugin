@@ -1,5 +1,6 @@
 package it.de.aservo.atlassian.confluence.confapi.rest;
 
+import de.aservo.atlassian.confapi.constants.ConfAPI;
 import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class PingResourceFuncTest {
     @Test
     public void testPing() {
         final String baseUrl = System.getProperty("baseurl");
-        final String resourceUrl = baseUrl + "/rest/confapi/1/ping";
+        final String resourceUrl = baseUrl + "/rest/confapi/1/" + ConfAPI.PING;
 
         final RestClient client = new RestClient();
         final Resource resource = client.resource(resourceUrl);

@@ -21,8 +21,8 @@ public class PingResourceTest {
     }
 
     @Test
-    public void testPing() {
-        final Response pingResponse = pingResource.get();
+    public void testGetPing() {
+        final Response pingResponse = pingResource.getPing();
         assertEquals(PONG, pingResponse.getEntity().toString());
     }
 

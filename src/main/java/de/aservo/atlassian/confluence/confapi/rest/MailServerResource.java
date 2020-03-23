@@ -8,16 +8,17 @@ import com.atlassian.mail.server.SMTPMailServer;
 import com.atlassian.mail.server.impl.PopMailServerImpl;
 import com.atlassian.mail.server.impl.SMTPMailServerImpl;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
+import de.aservo.atlassian.confapi.constants.ConfAPI;
+import de.aservo.atlassian.confluence.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confluence.confapi.model.PopMailServerBean;
 import de.aservo.atlassian.confluence.confapi.model.SmtpMailServerBean;
-import de.aservo.atlassian.confluence.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confluence.confapi.util.MailProtocolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -25,13 +26,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 /**
  * Resource to set mail server configuration.
  */
-@Path("/mail")
+@Path(ConfAPI.MAIL)
 @Produces(MediaType.APPLICATION_JSON)
-@Named
+@Component
 public class MailServerResource {
 
     private static final Logger log = LoggerFactory.getLogger(MailServerResource.class);
@@ -52,7 +52,7 @@ public class MailServerResource {
     }
 
     @GET
-    @Path("smtp")
+    @Path(ConfAPI.MAIL_SMTP)
     public Response getSmtpMailServer() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -69,7 +69,7 @@ public class MailServerResource {
     }
 
     @PUT
-    @Path("smtp")
+    @Path(ConfAPI.MAIL_SMTP)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putSmtpMailServer(
             final SmtpMailServerBean bean) {
@@ -135,7 +135,7 @@ public class MailServerResource {
     }
 
     @GET
-    @Path("pop")
+    @Path(ConfAPI.MAIL_POP)
     public Response getPopMailServer() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -152,7 +152,7 @@ public class MailServerResource {
     }
 
     @PUT
-    @Path("pop")
+    @Path(ConfAPI.MAIL_POP)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putPopMailServer(
             final PopMailServerBean bean) {

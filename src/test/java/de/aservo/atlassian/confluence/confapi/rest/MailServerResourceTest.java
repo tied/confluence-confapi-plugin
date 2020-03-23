@@ -121,6 +121,7 @@ public class MailServerResourceTest {
         final SMTPMailServer smtpMailServer = smtpMailServerCaptor.getValue();
 
         assertEquals(createSmtpMailServer.getMailProtocol().getDefaultPort(), smtpMailServer.getPort());
+        assertEquals(requestSmtpMailServerBean, responseSmtpMailServerBean);
     }
 
     @Test
@@ -226,6 +227,7 @@ public class MailServerResourceTest {
         final PopMailServer popMailServer = popMailServerCaptor.getValue();
 
         assertEquals(createPopMailServer.getMailProtocol().getDefaultPort(), popMailServer.getPort());
+        assertEquals(requestPopMailServerBean, responsePopMailServerBean);
     }
 
     @Test

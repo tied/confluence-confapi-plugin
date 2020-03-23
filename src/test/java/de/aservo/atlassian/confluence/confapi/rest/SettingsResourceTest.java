@@ -5,6 +5,7 @@ import com.atlassian.confluence.settings.setup.OtherTestSettings;
 import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
 import de.aservo.atlassian.confluence.confapi.model.SettingsBean;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -20,20 +21,22 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SettingsResourceTest {
 
-
-    public static final String OTHER_BASEURL = "http://localhost:1990/confluence";
-    public static final String OTHER_TITLE = "Other title";
-
     @Mock
     private SettingsManager settingsManager;
+
+    private SettingsResource settingsResource;
+
+    @Before
+    public void setup() {
+        settingsResource = new SettingsResource(settingsManager);
+    }
 
     @Test
     public void testGetSettings() {
         final Settings settings = new DefaultTestSettings();
         doReturn(settings).when(settingsManager).getGlobalSettings();
 
-        final SettingsResource resource = new SettingsResource(settingsManager);
-        final Response response = resource.getSettings();
+        final Response response = settingsResource.getSettings();
         final SettingsBean bean = (SettingsBean) response.getEntity();
 
         assertEquals(SettingsBean.from(settings), bean);
