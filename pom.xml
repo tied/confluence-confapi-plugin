@@ -49,16 +49,29 @@
     </developers>
 
     <properties>
+        <amps.version>8.0.2</amps.version>
+        <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <atlassian.spring.scanner.version>1.2.13</atlassian.spring.scanner.version>
+        <ajp.port>8009</ajp.port>
         <confluence.version>6.15.10</confluence.version>
         <confluence.data.version>6.14.0</confluence.data.version>
-        <amps.version>8.0.0</amps.version>
-        <ajp.port>8009</ajp.port>
+        <confapi-commons.version>0.0.1-SNAPSHOT</confapi-commons.version>
+        <atlassian-crowd.version>2.10.6</atlassian-crowd.version>
+        <javax.inject.version>1</javax.inject.version>
+        <spring-context.version>5.2.4.RELEASE</spring-context.version>
         <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
-        <atlassian.spring.scanner.version>1.2.13</atlassian.spring.scanner.version>
-        <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <junit.version>4.12</junit.version>
+        <mockito.version>1.8.5</mockito.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>de.aservo.atlassian</groupId>
+            <artifactId>confapi-commons</artifactId>
+            <version>${confapi-commons.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.atlassian.confluence</groupId>
             <artifactId>confluence</artifactId>
@@ -74,23 +87,23 @@
         </dependency>
 
         <dependency>
-            <groupId>com.atlassian.plugin</groupId>
-            <artifactId>atlassian-spring-scanner-annotation</artifactId>
-            <version>${atlassian.spring.scanner.version}</version>
-            <scope>compile</scope>
+            <groupId>com.atlassian.crowd</groupId>
+            <artifactId>crowd-api</artifactId>
+            <version>${atlassian-crowd.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.atlassian.plugin</groupId>
-            <artifactId>atlassian-spring-scanner-runtime</artifactId>
+            <artifactId>atlassian-spring-scanner-annotation</artifactId>
             <version>${atlassian.spring.scanner.version}</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <version>${javax.inject.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -102,9 +115,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-context.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.2-atlassian-1</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -128,7 +149,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- WIRED TEST RUNNER DEPENDENCIES -->
+        <!-- test dependencies -->
+
+        <dependency>
+            <groupId>de.aservo.atlassian</groupId>
+            <artifactId>confapi-commons</artifactId>
+            <version>${confapi-commons.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.atlassian.plugins</groupId>
             <artifactId>atlassian-plugins-osgi-testrunner</artifactId>
@@ -139,14 +169,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.8.5</version>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -183,6 +213,14 @@
                         <Spring-Context>*</Spring-Context>
                     </instructions>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-bundled-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -191,10 +229,10 @@
                 <version>${atlassian.spring.scanner.version}</version>
                 <executions>
                     <execution>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>atlassian-spring-scanner</goal>
                         </goals>
-                        <phase>process-classes</phase>
                     </execution>
                 </executions>
                 <configuration>
@@ -204,7 +242,7 @@
                             <artifactId>atlassian-spring-scanner-external-jar</artifactId>
                         </dependency>
                     </scannedDependencies>
-                    <verbose>false</verbose>
+                    <verbose>true</verbose>
                 </configuration>
             </plugin>
         </plugins>

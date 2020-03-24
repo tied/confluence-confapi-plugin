@@ -110,6 +110,10 @@ updating and deleting one single mail server.
   }
   ```
 
+  ![Status 204][status-204]
+
+  Returned if no SMTP mail server is configured.
+
   ![Status 401][status-401]
 
   Returned if the current user is not authenticated.
@@ -117,10 +121,6 @@ updating and deleting one single mail server.
   ![Status 403][status-403]
 
   Returned if the current user is not an administrator.
-
-  ![Status 404][status-404]
-
-  Returned if no SMTP mail server is configured.
 
 * #### `PUT /rest/confapi/1/mail/smtp`
 
@@ -208,6 +208,10 @@ updating and deleting one single mail server.
   }
   ```
 
+  ![Status 204][status-204]
+
+  Returned if no POP mail server is configured.
+
   ![Status 401][status-401]
 
   Returned if the current user is not authenticated.
@@ -215,10 +219,6 @@ updating and deleting one single mail server.
   ![Status 403][status-403]
 
   Returned if the current user is not an administrator.
-
-  ![Status 404][status-404]
-
-  Returned if no POP mail server is configured.
 
 * #### `PUT /rest/confapi/1/mail/pop`
 
@@ -277,7 +277,7 @@ updating and deleting one single mail server.
   Returned if the current user is not an administrator.
 
 [status-200]: https://img.shields.io/badge/status-200-brightgreen.svg
+[status-204]: https://img.shields.io/badge/status-204-yellow.svg
 [status-400]: https://img.shields.io/badge/status-400-red.svg
 [status-401]: https://img.shields.io/badge/status-401-red.svg
 [status-403]: https://img.shields.io/badge/status-403-red.svg
-[status-404]: https://img.shields.io/badge/status-404-red.svg
