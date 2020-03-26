@@ -3,6 +3,7 @@ package de.aservo.confapi.confluence.service.api;
 import de.aservo.confapi.confluence.model.BackupBean;
 import de.aservo.confapi.confluence.model.BackupQueueBean;
 
+import java.io.File;
 import java.net.URI;
 
 public interface BackupService {
@@ -12,6 +13,12 @@ public interface BackupService {
 
     URI getExportAsynchronously(
             BackupBean backupBean);
+
+    void doImportSynchronously(
+            File filePart);
+
+    URI doImportAsynchronously(
+            File filePart);
 
     BackupQueueBean getQueue(
             String uuid);

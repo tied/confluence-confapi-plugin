@@ -18,3 +18,4 @@
 /.settings
 
 .openapi-generator*
+jacoco.exec

@@ -1,5 +1,7 @@
 package de.aservo.confapi.confluence.rest.api;
 
+import com.atlassian.plugins.rest.common.multipart.FilePart;
+import com.atlassian.plugins.rest.common.multipart.MultipartFormParam;
 import de.aservo.confapi.commons.constants.ConfAPI;
 import de.aservo.confapi.commons.model.ErrorCollection;
 import de.aservo.confapi.confluence.model.BackupBean;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,7 +34,7 @@ public interface BackupResource {
             responses = {
                     @ApiResponse(responseCode = "201", description = "Synchronous export, the download URL will be returned in the location header"),
                     @ApiResponse(responseCode = "202", description = "Asynchronous export, the queue URL will be returned in the location header"),
-                    @ApiResponse(responseCode = "default", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+                    @ApiResponse(content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
     Response getExport(
@@ -47,11 +50,28 @@ public interface BackupResource {
             responses = {
                     @ApiResponse(responseCode = "201", description = "Synchronous export, the download URL will be returned in the location header"),
                     @ApiResponse(responseCode = "202", description = "Asynchronous export, the queue URL will be returned in the location header"),
-                    @ApiResponse(responseCode = "default", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+                    @ApiResponse(content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
     Response getExportByKey(
             @Nonnull @PathParam("key") String key);
+
+    @PUT
+    @Path(ConfAPI.BACKUP_IMPORT)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            tags = { ConfAPI.BACKUP },
+            summary = "Import based on an export file upload",
+            description = "Initiates an asynchronous import if enabled by server, synchronous otherwise",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Synchronous import"),
+                    @ApiResponse(responseCode = "202", description = "Asynchronous import, the queue URL will be returned in the location header"),
+                    @ApiResponse(content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+            }
+    )
+    Response doImportByFileUpload(
+            @Nonnull @MultipartFormParam("file") final FilePart filePart);
 
     @GET
     @Path(ConfAPI.BACKUP_QUEUE + "/{uuid}")
@@ -70,7 +90,7 @@ public interface BackupResource {
                             description = "Task completed, return download URL in the location header (export only)"
                     ),
                     @ApiResponse(responseCode = "404", description = "No task found for the given UUID"),
-                    @ApiResponse(responseCode = "default", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+                    @ApiResponse(content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
     Response getQueue(

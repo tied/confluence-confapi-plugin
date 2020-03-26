@@ -1,5 +1,6 @@
 package de.aservo.confapi.confluence.rest;
 
+import com.atlassian.plugins.rest.common.multipart.FilePart;
 import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.confapi.commons.constants.ConfAPI;
 import de.aservo.confapi.confluence.filter.SysAdminOnlyResourceFilter;
@@ -7,12 +8,14 @@ import de.aservo.confapi.confluence.model.BackupBean;
 import de.aservo.confapi.confluence.model.BackupQueueBean;
 import de.aservo.confapi.confluence.rest.api.BackupResource;
 import de.aservo.confapi.confluence.service.api.BackupService;
+import de.aservo.confapi.confluence.util.FilePartUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import java.io.File;
 
 import static de.aservo.confapi.confluence.util.HttpUtil.isLongRunningTaskSupported;
 import static javax.ws.rs.core.Response.Status.*;
@@ -58,6 +61,21 @@ public class BackupResourceImpl implements BackupResource {
         return getExport(backupBean);
     }
 
+    public Response doImportByFileUpload(
+            @Nonnull final FilePart filePart) {
+
+        final File file = FilePartUtil.createFile(filePart);
+
+        if (isLongRunningTaskSupported()) {
+            return Response.status(ACCEPTED)
+                    .location(backupService.doImportAsynchronously(file))
+                    .build();
+        }
+
+        backupService.doImportSynchronously(file);
+        return Response.status(CREATED).build();
+    }
+
     @Override
     public Response getQueue(
             @Nonnull final String uuid) {
@@ -70,15 +88,15 @@ public class BackupResourceImpl implements BackupResource {
 
         // It's not possible to create a ResponseBuilder without a status,
         // so take "ok", which is returned if task has not completed yet
-        Response.ResponseBuilder responseBuilder = Response.ok().entity(backupQueueBean);
+        final Response.ResponseBuilder responseBuilder = Response.ok().entity(backupQueueBean);
 
         if (backupQueueBean.getPercentageComplete() == 100) {
             // override responseBuilder status when task is completed
-            responseBuilder = responseBuilder.status(CREATED);
+            responseBuilder.status(CREATED);
 
             if (backupQueueBean.getEntityUri() != null) {
                 // set location header if entity URI is set
-                responseBuilder = responseBuilder.location(backupQueueBean.getEntityUri());
+                responseBuilder.location(backupQueueBean.getEntityUri());
             }
         }
 
