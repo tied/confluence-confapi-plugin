@@ -1107,6 +1107,271 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Users]
+=== Users
+
+
+[.getUser]
+==== getUser
+    
+`GET /users`
+
+Retrieves user information
+
+===== Description 
+
+Upon successful request, returns a `UserBean` object containing user details
+
+
+// markup not found, no include::{specDir}users/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateUser]
+==== updateUser
+    
+`PUT /users`
+
+Updates user details
+
+===== Description 
+
+NOTE: Currently only the email address is updated from the provided `UserBean` property. Upon successful request, returns the updated `UserBean` object
+
+
+// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserBean 
+|  <<UserBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateUserPassword]
+==== updateUserPassword
+    
+`PUT /users/password`
+
+Updates the user password
+
+===== Description 
+
+Upon successful request, returns the updated `UserBean` object.
+
+
+// markup not found, no include::{specDir}users/password/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserBean 
+|  <<UserBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/password/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/password/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/password/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/password/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [#models]
 == Models
 
@@ -1502,6 +1767,43 @@ endif::internal-generation[]
 |  
 
 | title 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#UserBean]
+=== _UserBean_ 
+
+
+
+[.fields-UserBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| userName 
+| X 
+| String  
+| 
+|  
+
+| fullName 
+|  
+| String  
+| 
+|  
+
+| email 
+|  
+| String  
+| 
+|  
+
+| password 
 |  
 | String  
 | 
