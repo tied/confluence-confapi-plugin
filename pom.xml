@@ -84,6 +84,9 @@
     </properties>
 
     <dependencies>
+
+        <!-- runtime dependencies -->
+
         <dependency>
             <groupId>de.aservo.atlassian</groupId>
             <artifactId>confapi-commons</artifactId>
