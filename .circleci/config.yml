@@ -97,7 +97,7 @@ workflows:
       - deploy:
           requires:
             - unit-tests
-            - integration-tests
+#           - integration-tests
           filters:
             branches:
               only: master
