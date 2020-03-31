@@ -1,0 +1,1000 @@
+= ConfAPI for Confluence
+github@aservo.com
+1
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, ConfAPI for Confluence 
+:specDir: src/main/resources/doc/
+:snippetDir: 
+:generator-template: v1 2019-12-20
+:info-url: https://github.com/aservo/confluence-confapi-plugin
+:app-name: ConfAPI for Confluence
+
+[abstract]
+.Abstract
+This resource provides methods for accessing user directory configuration for Confluence.
+
+
+// markup not found, no include::{specDir}intro.adoc[opts=optional]
+
+
+== Access
+
+
+
+
+
+
+
+== Endpoints
+
+
+[.Default]
+=== Default
+
+
+[.addDirectory]
+==== addDirectory
+    
+`PUT /directories`
+
+Adds a new user directory
+
+===== Description 
+
+Upon successful request, returns the added UserDirectoryBean object, Any existing configurations with the same name property are removed before adding the new configuration
+
+
+include::{specDir}directories/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserDirectoryBean 
+| The user directory to add <<UserDirectoryBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| test 
+| Whether or not to test the connection to the user directory service, e.g. CROWD (null defaults to TRUE)  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| user directory added
+|  <<UserDirectoryBean>>
+
+
+| 400
+| An error occured while setting adding the new user directory
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getDirectories]
+==== getDirectories
+    
+`GET /directories`
+
+Retrieves user directory information
+
+===== Description 
+
+Upon successful request, returns a list of UserDirectoryBean object containing user directory details
+
+
+// markup not found, no include::{specDir}directories/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<UserDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| user directory details list
+|  <<UserDirectoryBean>>
+
+
+| 400
+| An error occurred while retrieving the user directory list
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPing]
+==== getPing
+    
+`GET /ping`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}ping/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}ping/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}ping/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ping/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}ping/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPopMailServer]
+==== getPopMailServer
+    
+`GET /mail/pop`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail/pop/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail/pop/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail/pop/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail/pop/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail/pop/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getSettings]
+==== getSettings
+    
+`GET /settings`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}settings/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}settings/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}settings/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :settings/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}settings/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getSmtpMailServer]
+==== getSmtpMailServer
+    
+`GET /mail/smtp`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail/smtp/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail/smtp/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail/smtp/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail/smtp/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail/smtp/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.putPopMailServer]
+==== putPopMailServer
+    
+`PUT /mail/pop`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail/pop/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| PopMailServerBean 
+|  <<PopMailServerBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail/pop/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail/pop/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail/pop/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail/pop/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.putSettings]
+==== putSettings
+    
+`PUT /settings`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}settings/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| SettingsBean 
+|  <<SettingsBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}settings/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}settings/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :settings/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}settings/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.putSmtpMailServer]
+==== putSmtpMailServer
+    
+`PUT /mail/smtp`
+
+
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail/smtp/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| SmtpMailServerBean 
+|  <<SmtpMailServerBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail/smtp/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail/smtp/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail/smtp/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail/smtp/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[#models]
+== Models
+
+
+[#PopMailServerBean]
+=== _PopMailServerBean_ 
+
+
+
+[.fields-PopMailServerBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#SettingsBean]
+=== _SettingsBean_ 
+
+
+
+[.fields-SettingsBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| baseurl 
+|  
+| String  
+| 
+|  
+
+| title 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#SmtpMailServerBean]
+=== _SmtpMailServerBean_ 
+
+
+
+[.fields-SmtpMailServerBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| adminContact 
+|  
+| String  
+| 
+|  
+
+| from 
+|  
+| String  
+| 
+|  
+
+| prefix 
+|  
+| String  
+| 
+|  
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| tls 
+|  
+| Boolean  
+| 
+|  
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#UserDirectoryBean]
+=== _UserDirectoryBean_ 
+
+
+
+[.fields-UserDirectoryBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| clientName 
+| X 
+| String  
+| 
+|  
+
+| type 
+| X 
+| String  
+| 
+|  _Enum:_ UNKNOWN, INTERNAL, CONNECTOR, CUSTOM, DELEGATING, CROWD, 
+
+| description 
+|  
+| String  
+| 
+|  
+
+| crowdUrl 
+| X 
+| String  
+| 
+|  
+
+| appPassword 
+| X 
+| String  
+| 
+|  
+
+| implClass 
+| X 
+| String  
+| 
+|  
+
+| proxyHost 
+|  
+| String  
+| 
+|  
+
+| proxyPort 
+|  
+| String  
+| 
+|  
+
+| proxyUsername 
+|  
+| String  
+| 
+|  
+
+| proxyPassword 
+|  
+| String  
+| 
+|  
+
+|===
+
+
