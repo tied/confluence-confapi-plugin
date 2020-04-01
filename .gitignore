@@ -16,3 +16,5 @@
 .classpath
 .project
 /.settings
+
+.openapi-generator*

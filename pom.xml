@@ -75,13 +75,12 @@
         <lombok.version>1.18.10</lombok.version>
         <mockito-all.version>1.8.5</mockito-all.version>
         <mockito.version>1.8.5</mockito.version>
-        <openapi-generator-maven-plugin.version>4.2.3</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
         <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
         <powermock-api-easymock.version>2.0.5</powermock-api-easymock.version>
         <servlet-api.version>2.4</servlet-api.version>
         <spring-context.version>5.2.4.RELEASE</spring-context.version>
-        <swagger-annotations.version>2.1.1</swagger-annotations.version>
-        <swagger-maven-plugin.version>2.1.2</swagger-maven-plugin.version>
+        <swagger.version>2.1.1</swagger.version>
         <wink-client.version>1.4</wink-client.version>
     </properties>
 
@@ -149,13 +148,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>jsr311-api</artifactId>
-            <version>${jsr311-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring-context.version}</version>
@@ -166,13 +158,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -194,6 +179,27 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${swagger.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -277,14 +283,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- FOR AUTOMATIC SWAGGER REST DOCUMENTATION -->
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -347,24 +345,24 @@
             </plugin>
 
             <plugin>
-                <groupId>io.openapitools.swagger</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>${swagger-maven-plugin.version}</version>
+                <version>${swagger.version}</version>
                 <configuration>
+                    <openapiFilePath>${basedir}/src/main/resources/openapi.yaml</openapiFilePath>
                     <resourcePackages>
                         <resourcePackage>de.aservo.atlassian.confluence.confapi.rest</resourcePackage>
                     </resourcePackages>
-                    <outputDirectory>${basedir}/</outputDirectory>
-                    <outputFilename>swagger</outputFilename>
-                    <outputFormats>YAML</outputFormats>
+                    <outputPath>${project.build.directory}</outputPath>
+                    <outputFormat>YAML</outputFormat>
                     <prettyPrint>true</prettyPrint>
                 </configuration>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
                         <phase>package</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -375,19 +373,21 @@
                 <version>${openapi-generator-maven-plugin.version}</version>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <phase>package</phase>
                         <configuration>
-                            <inputSpec>${project.basedir}/swagger.yaml</inputSpec>
-                            <generatorName>markdown</generatorName>
+                            <inputSpec>${project.build.directory}/openapi.yaml</inputSpec>
+                            <generatorName>asciidoc</generatorName>
+                            <output>${project.basedir}</output>
                             <skipValidateSpec>true</skipValidateSpec>
-                            <output>doc/swagger</output>
+                            <additionalProperties>specDir=src/main/resources/doc/</additionalProperties>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>
