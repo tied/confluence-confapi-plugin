@@ -349,6 +349,7 @@
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>${swagger.version}</version>
                 <configuration>
+                    <openapiFilePath>${basedir}/src/main/resources/openapi.yaml</openapiFilePath>
                     <resourcePackages>
                         <resourcePackage>de.aservo.atlassian.confluence.confapi.rest</resourcePackage>
                     </resourcePackages>

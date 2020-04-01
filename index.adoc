@@ -14,7 +14,7 @@ github@aservo.com
 
 [abstract]
 .Abstract
-This resource provides methods for accessing user directory configuration for Confluence.
+This plugin provides methods for accessing configuration for Confluence.
 
 
 // markup not found, no include::{specDir}intro.adoc[opts=optional]
@@ -22,7 +22,7 @@ This resource provides methods for accessing user directory configuration for Co
 
 == Access
 
-
+* *HTTP Basic* Authentication _basicAuth_
 
 
 
@@ -40,14 +40,14 @@ This resource provides methods for accessing user directory configuration for Co
     
 `PUT /directories`
 
-Adds a new user directory
+Add a new directory
 
 ===== Description 
 
-Upon successful request, returns the added UserDirectoryBean object, Any existing configurations with the same name property are removed before adding the new configuration
+Any existing directory with the same name will be removed before adding the new one
 
 
-include::{specDir}directories/PUT/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}directories/PUT/spec.adoc[opts=optional]
 
 
 
@@ -61,8 +61,8 @@ include::{specDir}directories/PUT/spec.adoc[opts=optional]
 |Name| Description| Required| Default| Pattern
 
 | UserDirectoryBean 
-| The user directory to add <<UserDirectoryBean>> 
-| X 
+|  <<UserDirectoryBean>> 
+| - 
 |  
 |  
 
@@ -76,8 +76,8 @@ include::{specDir}directories/PUT/spec.adoc[opts=optional]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| test 
-| Whether or not to test the connection to the user directory service, e.g. CROWD (null defaults to TRUE)  
+| testConnection 
+|   
 | - 
 | null 
 |  
@@ -103,13 +103,13 @@ include::{specDir}directories/PUT/spec.adoc[opts=optional]
 
 
 | 200
-| user directory added
+| 
 |  <<UserDirectoryBean>>
 
 
 | 400
-| An error occured while setting adding the new user directory
-|  <<>>
+| 
+|  <<ErrorCollection>>
 
 |===         
 
@@ -140,11 +140,11 @@ endif::internal-generation[]
     
 `GET /directories`
 
-Retrieves user directory information
+Get the list of user directories
 
 ===== Description 
 
-Upon successful request, returns a list of UserDirectoryBean object containing user directory details
+
 
 
 // markup not found, no include::{specDir}directories/GET/spec.adoc[opts=optional]
@@ -177,13 +177,13 @@ Upon successful request, returns a list of UserDirectoryBean object containing u
 
 
 | 200
-| user directory details list
+| 
 |  <<UserDirectoryBean>>
 
 
 | 400
-| An error occurred while retrieving the user directory list
-|  <<>>
+| 
+|  <<ErrorCollection>>
 
 |===         
 
@@ -740,6 +740,25 @@ endif::internal-generation[]
 
 [#models]
 == Models
+
+
+[#ErrorCollection]
+=== _ErrorCollection_ 
+
+
+
+[.fields-ErrorCollection]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| errorMessages 
+|  
+| List  of <<string>> 
+| 
+|  
+
+|===
 
 
 [#PopMailServerBean]
