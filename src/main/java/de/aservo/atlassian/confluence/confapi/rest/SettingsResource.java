@@ -38,10 +38,9 @@ public class SettingsResource {
     public Response getSettings() {
         final Settings settings = settingsManager.getGlobalSettings();
 
-        final SettingsBean settingsBean = new SettingsBean(
-                settings.getBaseUrl(),
-                settings.getSiteTitle()
-        );
+        final SettingsBean settingsBean = new SettingsBean();
+        settingsBean.setBaseUrl(settings.getBaseUrl());
+        settingsBean.setTitle(settings.getSiteTitle());
 
         return Response.ok(settingsBean).build();
     }
@@ -52,8 +51,8 @@ public class SettingsResource {
 
         final Settings settings = settingsManager.getGlobalSettings();
 
-        if (StringUtils.isNotBlank(bean.getBaseurl())) {
-            settings.setBaseUrl(bean.getBaseurl());
+        if (StringUtils.isNotBlank(bean.getBaseUrl())) {
+            settings.setBaseUrl(bean.getBaseUrl());
         }
 
         if (StringUtils.isNotBlank(bean.getTitle())) {
@@ -62,7 +61,7 @@ public class SettingsResource {
 
         settingsManager.updateGlobalSettings(settings);
 
-        return Response.ok(new SettingsBean(settings.getBaseUrl(), settings.getSiteTitle())).build();
+        return getSettings();
     }
 
 }

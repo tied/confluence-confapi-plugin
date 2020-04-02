@@ -3,8 +3,8 @@ package de.aservo.atlassian.confluence.confapi.rest;
 import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.model.UserDirectoryBean;
-import de.aservo.atlassian.confapi.service.UserDirectoryService;
+import de.aservo.atlassian.confapi.model.DirectoryBean;
+import de.aservo.atlassian.confapi.service.DirectoryService;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,14 +32,14 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 @Produces(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class UserDirectoryResource {
+public class DirectoryResource {
 
-    private static final Logger log = LoggerFactory.getLogger(UserDirectoryResource.class);
+    private static final Logger log = LoggerFactory.getLogger(DirectoryResource.class);
 
-    private final UserDirectoryService directoryService;
+    private final DirectoryService directoryService;
 
     @Inject
-    public UserDirectoryResource(UserDirectoryService directoryService) {
+    public DirectoryResource(DirectoryService directoryService) {
         this.directoryService = checkNotNull(directoryService);
     }
 
@@ -47,14 +47,14 @@ public class UserDirectoryResource {
     @Operation(
             summary = "Get the list of user directories",
             responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = UserDirectoryBean.class))),
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = DirectoryBean.class))),
                     @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
     public Response getDirectories() {
         final ErrorCollection errorCollection = new ErrorCollection();
         try {
-            List<UserDirectoryBean> directories = directoryService.getDirectories();
+            List<DirectoryBean> directories = directoryService.getDirectories();
             return Response.ok(directories).build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -69,17 +69,17 @@ public class UserDirectoryResource {
             summary = "Add a new directory",
             description = "Any existing directory with the same name will be removed before adding the new one",
             responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = UserDirectoryBean.class))),
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = DirectoryBean.class))),
                     @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
     public Response addDirectory(
             @QueryParam("testConnection") boolean testConnection,
-            final UserDirectoryBean directory) {
+            final DirectoryBean directory) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
         try {
-            UserDirectoryBean addDirectory = directoryService.addDirectory(directory, testConnection);
+            DirectoryBean addDirectory = directoryService.addDirectory(directory, testConnection);
             return Response.ok(addDirectory).build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

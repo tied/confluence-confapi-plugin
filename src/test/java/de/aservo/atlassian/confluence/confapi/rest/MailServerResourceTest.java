@@ -10,8 +10,8 @@ import com.atlassian.mail.server.PopMailServer;
 import com.atlassian.mail.server.SMTPMailServer;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.model.PopMailServerBean;
-import de.aservo.atlassian.confapi.model.SmtpMailServerBean;
+import de.aservo.atlassian.confapi.model.MailServerPopBean;
+import de.aservo.atlassian.confapi.model.MailServerSmtpBean;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,12 +41,12 @@ public class MailServerResourceTest {
 
     @Test
     public void testResourcePath() {
-        assertResourcePath(mailServerResource, ConfAPI.MAIL);
+        assertResourcePath(mailServerResource, ConfAPI.MAIL_SERVER);
     }
 
     @Test
     public void testGetSmtpMailServerPath() {
-        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_SMTP, "getSmtpMailServer");
+        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_SERVER_SMTP, "getSmtpMailServer");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class MailServerResourceTest {
         doReturn(smtpMailServer).when(mailServerManager).getDefaultSMTPMailServer();
 
         final Response response = mailServerResource.getSmtpMailServer();
-        final SmtpMailServerBean bean = (SmtpMailServerBean) response.getEntity();
+        final MailServerSmtpBean bean = (MailServerSmtpBean) response.getEntity();
 
         assertEquals(smtpMailServer.getName(), bean.getName());
         assertEquals(smtpMailServer.getDescription(), bean.getDescription());
@@ -85,7 +85,7 @@ public class MailServerResourceTest {
 
     @Test
     public void testPutSmtpMailServerPath() {
-        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_SMTP, "putSmtpMailServer", SmtpMailServerBean.class);
+        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_SERVER_SMTP, "putSmtpMailServer", MailServerSmtpBean.class);
     }
 
     @Test
@@ -95,16 +95,16 @@ public class MailServerResourceTest {
         doReturn(defaultSmtpMailServer).when(mailServerManager).getDefaultSMTPMailServer();
 
         final SMTPMailServer updateSmtpMailServer = new OtherTestSmtpMailServerImpl();
-        final SmtpMailServerBean requestSmtpMailServerBean = SmtpMailServerBean.from(updateSmtpMailServer);
-        final Response response = mailServerResource.putSmtpMailServer(requestSmtpMailServerBean);
-        final SmtpMailServerBean responseSmtpMailServerBean = (SmtpMailServerBean) response.getEntity();
+        final MailServerSmtpBean requestMailServerSmtpBean = MailServerSmtpBean.from(updateSmtpMailServer);
+        final Response response = mailServerResource.putSmtpMailServer(requestMailServerSmtpBean);
+        final MailServerSmtpBean responseMailServerSmtpBean = (MailServerSmtpBean) response.getEntity();
 
         final ArgumentCaptor<SMTPMailServer> smtpMailServerCaptor = ArgumentCaptor.forClass(SMTPMailServer.class);
         verify(mailServerManager).update(smtpMailServerCaptor.capture());
         final SMTPMailServer smtpMailServer = smtpMailServerCaptor.getValue();
 
-        assertEquals(SmtpMailServerBean.from(updateSmtpMailServer), SmtpMailServerBean.from(smtpMailServer));
-        assertEquals(requestSmtpMailServerBean, responseSmtpMailServerBean);
+        assertEquals(MailServerSmtpBean.from(updateSmtpMailServer), MailServerSmtpBean.from(smtpMailServer));
+        assertEquals(requestMailServerSmtpBean, responseMailServerSmtpBean);
     }
 
     @Test
@@ -113,16 +113,16 @@ public class MailServerResourceTest {
         doReturn(null).when(mailServerManager).getDefaultSMTPMailServer();
 
         final SMTPMailServer createSmtpMailServer = new DefaultTestSmtpMailServerImpl();
-        final SmtpMailServerBean requestSmtpMailServerBean = SmtpMailServerBean.from(createSmtpMailServer);
-        final Response response = mailServerResource.putSmtpMailServer(requestSmtpMailServerBean);
-        final SmtpMailServerBean responseSmtpMailServerBean = (SmtpMailServerBean) response.getEntity();
+        final MailServerSmtpBean requestMailServerSmtpBean = MailServerSmtpBean.from(createSmtpMailServer);
+        final Response response = mailServerResource.putSmtpMailServer(requestMailServerSmtpBean);
+        final MailServerSmtpBean responseMailServerSmtpBean = (MailServerSmtpBean) response.getEntity();
 
         final ArgumentCaptor<SMTPMailServer> smtpMailServerCaptor = ArgumentCaptor.forClass(SMTPMailServer.class);
         verify(mailServerManager).create(smtpMailServerCaptor.capture());
         final SMTPMailServer smtpMailServer = smtpMailServerCaptor.getValue();
 
-        assertEquals(SmtpMailServerBean.from(createSmtpMailServer), SmtpMailServerBean.from(smtpMailServer));
-        assertEquals(requestSmtpMailServerBean, responseSmtpMailServerBean);
+        assertEquals(MailServerSmtpBean.from(createSmtpMailServer), MailServerSmtpBean.from(smtpMailServer));
+        assertEquals(requestMailServerSmtpBean, responseMailServerSmtpBean);
     }
 
     @Test
@@ -133,16 +133,16 @@ public class MailServerResourceTest {
         final SMTPMailServer createSmtpMailServer = new DefaultTestSmtpMailServerImpl();
         createSmtpMailServer.setPort(null);
 
-        final SmtpMailServerBean requestSmtpMailServerBean = SmtpMailServerBean.from(createSmtpMailServer);
-        final Response response = mailServerResource.putSmtpMailServer(requestSmtpMailServerBean);
-        final SmtpMailServerBean responseSmtpMailServerBean = (SmtpMailServerBean) response.getEntity();
+        final MailServerSmtpBean requestMailServerSmtpBean = MailServerSmtpBean.from(createSmtpMailServer);
+        final Response response = mailServerResource.putSmtpMailServer(requestMailServerSmtpBean);
+        final MailServerSmtpBean responseMailServerSmtpBean = (MailServerSmtpBean) response.getEntity();
 
         final ArgumentCaptor<SMTPMailServer> smtpMailServerCaptor = ArgumentCaptor.forClass(SMTPMailServer.class);
         verify(mailServerManager).create(smtpMailServerCaptor.capture());
         final SMTPMailServer smtpMailServer = smtpMailServerCaptor.getValue();
 
         assertEquals(createSmtpMailServer.getMailProtocol().getDefaultPort(), smtpMailServer.getPort());
-        assertEquals(requestSmtpMailServerBean, responseSmtpMailServerBean);
+        assertEquals(requestMailServerSmtpBean, responseMailServerSmtpBean);
     }
 
     @Test
@@ -152,8 +152,8 @@ public class MailServerResourceTest {
         doThrow(new MailException("SMTP test exception")).when(mailServerManager).create(any());
 
         final SMTPMailServer createSmtpMailServer = new DefaultTestSmtpMailServerImpl();
-        final SmtpMailServerBean requestSmtpMailServerBean = SmtpMailServerBean.from(createSmtpMailServer);
-        final Response response = mailServerResource.putSmtpMailServer(requestSmtpMailServerBean);
+        final MailServerSmtpBean requestMailServerSmtpBean = MailServerSmtpBean.from(createSmtpMailServer);
+        final Response response = mailServerResource.putSmtpMailServer(requestMailServerSmtpBean);
         final ErrorCollection responseErrorCollection = (ErrorCollection) response.getEntity();
 
         assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
@@ -162,7 +162,7 @@ public class MailServerResourceTest {
 
     @Test
     public void testGetPopMailServerPath() {
-        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_POP, "getPopMailServer");
+        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_SERVER_POP, "getPopMailServer");
     }
 
     @Test
@@ -171,7 +171,7 @@ public class MailServerResourceTest {
         doReturn(popMailServer).when(mailServerManager).getDefaultPopMailServer();
 
         final Response response = mailServerResource.getPopMailServer();
-        final PopMailServerBean bean = (PopMailServerBean) response.getEntity();
+        final MailServerPopBean bean = (MailServerPopBean) response.getEntity();
 
         assertEquals(popMailServer.getName(), bean.getName());
         assertEquals(popMailServer.getDescription(), bean.getDescription());
@@ -196,7 +196,7 @@ public class MailServerResourceTest {
 
     @Test
     public void testPutPopMailServerPath() {
-        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_POP, "putPopMailServer", PopMailServerBean.class);
+        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_SERVER_POP, "putPopMailServer", MailServerPopBean.class);
     }
 
     @Test
@@ -205,16 +205,16 @@ public class MailServerResourceTest {
         doReturn(defaultPopMailServer).when(mailServerManager).getDefaultPopMailServer();
 
         final PopMailServer updatePopMailServer = new OtherTestPopMailServerImpl();
-        final PopMailServerBean requestPopMailServerBean = PopMailServerBean.from(updatePopMailServer);
-        final Response response = mailServerResource.putPopMailServer(requestPopMailServerBean);
-        final PopMailServerBean responsePopMailServerBean = (PopMailServerBean) response.getEntity();
+        final MailServerPopBean requestMailServerPopBean = MailServerPopBean.from(updatePopMailServer);
+        final Response response = mailServerResource.putPopMailServer(requestMailServerPopBean);
+        final MailServerPopBean responseMailServerPopBean = (MailServerPopBean) response.getEntity();
 
         final ArgumentCaptor<PopMailServer> popMailServerCaptor = ArgumentCaptor.forClass(PopMailServer.class);
         verify(mailServerManager).update(popMailServerCaptor.capture());
         final PopMailServer popMailServer = popMailServerCaptor.getValue();
 
-        assertEquals(PopMailServerBean.from(updatePopMailServer), PopMailServerBean.from(popMailServer));
-        assertEquals(requestPopMailServerBean, responsePopMailServerBean);
+        assertEquals(MailServerPopBean.from(updatePopMailServer), MailServerPopBean.from(popMailServer));
+        assertEquals(requestMailServerPopBean, responseMailServerPopBean);
     }
 
     @Test
@@ -222,19 +222,19 @@ public class MailServerResourceTest {
         doReturn(null).when(mailServerManager).getDefaultPopMailServer();
 
         final PopMailServer createPopMailServer = new DefaultTestPopMailServerImpl();
-        final PopMailServerBean requestPopMailServerBean = PopMailServerBean.from(createPopMailServer);
-        final Response response = mailServerResource.putPopMailServer(requestPopMailServerBean);
-        final PopMailServerBean responsePopMailServerBean = (PopMailServerBean) response.getEntity();
+        final MailServerPopBean requestMailServerPopBean = MailServerPopBean.from(createPopMailServer);
+        final Response response = mailServerResource.putPopMailServer(requestMailServerPopBean);
+        final MailServerPopBean responseMailServerPopBean = (MailServerPopBean) response.getEntity();
 
         final ArgumentCaptor<PopMailServer> popMailServerCaptor = ArgumentCaptor.forClass(PopMailServer.class);
         verify(mailServerManager).create(popMailServerCaptor.capture());
         final PopMailServer popMailServer = popMailServerCaptor.getValue();
 
-        PopMailServerBean from1 = PopMailServerBean.from(createPopMailServer);
-        PopMailServerBean from2 = PopMailServerBean.from(popMailServer);
+        MailServerPopBean from1 = MailServerPopBean.from(createPopMailServer);
+        MailServerPopBean from2 = MailServerPopBean.from(popMailServer);
 
         assertEquals(from1, from2);
-        assertEquals(requestPopMailServerBean, responsePopMailServerBean);
+        assertEquals(requestMailServerPopBean, responseMailServerPopBean);
     }
 
     @Test
@@ -244,16 +244,16 @@ public class MailServerResourceTest {
         final PopMailServer createPopMailServer = new DefaultTestPopMailServerImpl();
         createPopMailServer.setPort(null);
 
-        final PopMailServerBean requestPopMailServerBean = PopMailServerBean.from(createPopMailServer);
-        final Response response = mailServerResource.putPopMailServer(requestPopMailServerBean);
-        final PopMailServerBean responsePopMailServerBean = (PopMailServerBean) response.getEntity();
+        final MailServerPopBean requestMailServerPopBean = MailServerPopBean.from(createPopMailServer);
+        final Response response = mailServerResource.putPopMailServer(requestMailServerPopBean);
+        final MailServerPopBean responseMailServerPopBean = (MailServerPopBean) response.getEntity();
 
         final ArgumentCaptor<PopMailServer> popMailServerCaptor = ArgumentCaptor.forClass(PopMailServer.class);
         verify(mailServerManager).create(popMailServerCaptor.capture());
         final PopMailServer popMailServer = popMailServerCaptor.getValue();
 
         assertEquals(createPopMailServer.getMailProtocol().getDefaultPort(), popMailServer.getPort());
-        assertEquals(requestPopMailServerBean, responsePopMailServerBean);
+        assertEquals(requestMailServerPopBean, responseMailServerPopBean);
     }
 
     @Test
@@ -262,8 +262,8 @@ public class MailServerResourceTest {
         doThrow(new MailException("POP test exception")).when(mailServerManager).create(any());
 
         final PopMailServer createPopMailServer = new DefaultTestPopMailServerImpl();
-        final PopMailServerBean requestPopMailServerBean = PopMailServerBean.from(createPopMailServer);
-        final Response response = mailServerResource.putPopMailServer(requestPopMailServerBean);
+        final MailServerPopBean requestMailServerPopBean = MailServerPopBean.from(createPopMailServer);
+        final Response response = mailServerResource.putPopMailServer(requestMailServerPopBean);
         final ErrorCollection responseErrorCollection = (ErrorCollection) response.getEntity();
 
         assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());

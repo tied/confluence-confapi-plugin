@@ -60,8 +60,8 @@ Any existing directory with the same name will be removed before adding the new 
 |===         
 |Name| Description| Required| Default| Pattern
 
-| UserDirectoryBean 
-|  <<UserDirectoryBean>> 
+| DirectoryBean 
+|  <<DirectoryBean>> 
 | - 
 |  
 |  
@@ -87,7 +87,7 @@ Any existing directory with the same name will be removed before adding the new 
 
 ===== Return Type
 
-<<UserDirectoryBean>>
+<<DirectoryBean>>
 
 
 ===== Content Type
@@ -104,7 +104,7 @@ Any existing directory with the same name will be removed before adding the new 
 
 | 200
 | 
-|  <<UserDirectoryBean>>
+|  <<DirectoryBean>>
 
 
 | 400
@@ -161,7 +161,7 @@ Get the list of user directories
 
 ===== Return Type
 
-<<UserDirectoryBean>>
+<<DirectoryBean>>
 
 
 ===== Content Type
@@ -178,7 +178,7 @@ Get the list of user directories
 
 | 200
 | 
-|  <<UserDirectoryBean>>
+|  <<DirectoryBean>>
 
 
 | 400
@@ -282,7 +282,7 @@ endif::internal-generation[]
 [.getPopMailServer]
 ==== getPopMailServer
     
-`GET /mail/pop`
+`GET /mail-server/pop`
 
 
 
@@ -291,7 +291,7 @@ endif::internal-generation[]
 
 
 
-// markup not found, no include::{specDir}mail/pop/GET/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/pop/GET/spec.adoc[opts=optional]
 
 
 
@@ -330,20 +330,20 @@ endif::internal-generation[]
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}mail/pop/GET/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/pop/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}mail/pop/GET/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/pop/GET/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :mail/pop/GET/GET.json[]
+// file not found, no * wiremock data link :mail-server/pop/GET/GET.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}mail/pop/GET/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/pop/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -422,7 +422,7 @@ endif::internal-generation[]
 [.getSmtpMailServer]
 ==== getSmtpMailServer
     
-`GET /mail/smtp`
+`GET /mail-server/smtp`
 
 
 
@@ -431,7 +431,7 @@ endif::internal-generation[]
 
 
 
-// markup not found, no include::{specDir}mail/smtp/GET/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/smtp/GET/spec.adoc[opts=optional]
 
 
 
@@ -470,20 +470,20 @@ endif::internal-generation[]
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}mail/smtp/GET/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/smtp/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}mail/smtp/GET/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/smtp/GET/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :mail/smtp/GET/GET.json[]
+// file not found, no * wiremock data link :mail-server/smtp/GET/GET.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}mail/smtp/GET/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/smtp/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -492,7 +492,7 @@ endif::internal-generation[]
 [.putPopMailServer]
 ==== putPopMailServer
     
-`PUT /mail/pop`
+`PUT /mail-server/pop`
 
 
 
@@ -501,7 +501,7 @@ endif::internal-generation[]
 
 
 
-// markup not found, no include::{specDir}mail/pop/PUT/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/pop/PUT/spec.adoc[opts=optional]
 
 
 
@@ -514,8 +514,8 @@ endif::internal-generation[]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| PopMailServerBean 
-|  <<PopMailServerBean>> 
+| MailServerPopBean 
+|  <<MailServerPopBean>> 
 | - 
 |  
 |  
@@ -553,20 +553,20 @@ endif::internal-generation[]
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}mail/pop/PUT/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/pop/PUT/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}mail/pop/PUT/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/pop/PUT/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :mail/pop/PUT/PUT.json[]
+// file not found, no * wiremock data link :mail-server/pop/PUT/PUT.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}mail/pop/PUT/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/pop/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -658,7 +658,7 @@ endif::internal-generation[]
 [.putSmtpMailServer]
 ==== putSmtpMailServer
     
-`PUT /mail/smtp`
+`PUT /mail-server/smtp`
 
 
 
@@ -667,7 +667,7 @@ endif::internal-generation[]
 
 
 
-// markup not found, no include::{specDir}mail/smtp/PUT/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/smtp/PUT/spec.adoc[opts=optional]
 
 
 
@@ -680,8 +680,8 @@ endif::internal-generation[]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| SmtpMailServerBean 
-|  <<SmtpMailServerBean>> 
+| MailServerSmtpBean 
+|  <<MailServerSmtpBean>> 
 | - 
 |  
 |  
@@ -719,20 +719,20 @@ endif::internal-generation[]
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}mail/smtp/PUT/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/smtp/PUT/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}mail/smtp/PUT/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}mail-server/smtp/PUT/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :mail/smtp/PUT/PUT.json[]
+// file not found, no * wiremock data link :mail-server/smtp/PUT/PUT.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}mail/smtp/PUT/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}mail-server/smtp/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -742,202 +742,12 @@ endif::internal-generation[]
 == Models
 
 
-[#ErrorCollection]
-=== _ErrorCollection_ 
+[#DirectoryBean]
+=== _DirectoryBean_ 
 
 
 
-[.fields-ErrorCollection]
-[cols="2,1,2,4,1"]
-|===         
-| Field Name| Required| Type| Description| Format
-
-| errorMessages 
-|  
-| List  of <<string>> 
-| 
-|  
-
-|===
-
-
-[#PopMailServerBean]
-=== _PopMailServerBean_ 
-
-
-
-[.fields-PopMailServerBean]
-[cols="2,1,2,4,1"]
-|===         
-| Field Name| Required| Type| Description| Format
-
-| name 
-|  
-| String  
-| 
-|  
-
-| description 
-|  
-| String  
-| 
-|  
-
-| protocol 
-|  
-| String  
-| 
-|  
-
-| host 
-|  
-| String  
-| 
-|  
-
-| port 
-|  
-| Integer  
-| 
-| int32 
-
-| timeout 
-|  
-| Long  
-| 
-| int64 
-
-| username 
-|  
-| String  
-| 
-|  
-
-| password 
-|  
-| String  
-| 
-|  
-
-|===
-
-
-[#SettingsBean]
-=== _SettingsBean_ 
-
-
-
-[.fields-SettingsBean]
-[cols="2,1,2,4,1"]
-|===         
-| Field Name| Required| Type| Description| Format
-
-| baseurl 
-|  
-| String  
-| 
-|  
-
-| title 
-|  
-| String  
-| 
-|  
-
-|===
-
-
-[#SmtpMailServerBean]
-=== _SmtpMailServerBean_ 
-
-
-
-[.fields-SmtpMailServerBean]
-[cols="2,1,2,4,1"]
-|===         
-| Field Name| Required| Type| Description| Format
-
-| name 
-|  
-| String  
-| 
-|  
-
-| description 
-|  
-| String  
-| 
-|  
-
-| adminContact 
-|  
-| String  
-| 
-|  
-
-| from 
-|  
-| String  
-| 
-|  
-
-| prefix 
-|  
-| String  
-| 
-|  
-
-| protocol 
-|  
-| String  
-| 
-|  
-
-| host 
-|  
-| String  
-| 
-|  
-
-| port 
-|  
-| Integer  
-| 
-| int32 
-
-| tls 
-|  
-| Boolean  
-| 
-|  
-
-| timeout 
-|  
-| Long  
-| 
-| int64 
-
-| username 
-|  
-| String  
-| 
-|  
-
-| password 
-|  
-| String  
-| 
-|  
-
-|===
-
-
-[#UserDirectoryBean]
-=== _UserDirectoryBean_ 
-
-
-
-[.fields-UserDirectoryBean]
+[.fields-DirectoryBean]
 [cols="2,1,2,4,1"]
 |===         
 | Field Name| Required| Type| Description| Format
@@ -1009,6 +819,196 @@ endif::internal-generation[]
 |  
 
 | proxyPassword 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#ErrorCollection]
+=== _ErrorCollection_ 
+
+
+
+[.fields-ErrorCollection]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| errorMessages 
+|  
+| List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#MailServerPopBean]
+=== _MailServerPopBean_ 
+
+
+
+[.fields-MailServerPopBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#MailServerSmtpBean]
+=== _MailServerSmtpBean_ 
+
+
+
+[.fields-MailServerSmtpBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+| adminContact 
+|  
+| String  
+| 
+|  
+
+| from 
+|  
+| String  
+| 
+|  
+
+| prefix 
+|  
+| String  
+| 
+|  
+
+| tls 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#SettingsBean]
+=== _SettingsBean_ 
+
+
+
+[.fields-SettingsBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| baseUrl 
+|  
+| String  
+| 
+|  
+
+| title 
 |  
 | String  
 | 

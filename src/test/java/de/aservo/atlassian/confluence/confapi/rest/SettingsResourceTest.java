@@ -48,9 +48,13 @@ public class SettingsResourceTest {
         doReturn(settings).when(settingsManager).getGlobalSettings();
 
         final Response response = settingsResource.getSettings();
-        final SettingsBean bean = (SettingsBean) response.getEntity();
+        final SettingsBean responseBean = (SettingsBean) response.getEntity();
 
-        assertEquals(new SettingsBean(settings.getBaseUrl(), settings.getSiteTitle()), bean);
+        final SettingsBean settingsBean = new SettingsBean();
+        settingsBean.setBaseUrl(settings.getBaseUrl());
+        settingsBean.setTitle(settings.getSiteTitle());
+
+        assertEquals(settingsBean, responseBean);
     }
 
     @Test
@@ -65,7 +69,11 @@ public class SettingsResourceTest {
 
         final Settings updateSettings = new OtherTestSettings();
         final SettingsResource resource = new SettingsResource(settingsManager);
-        final SettingsBean requestBean = new SettingsBean(updateSettings.getBaseUrl(), updateSettings.getSiteTitle());
+
+        final SettingsBean requestBean = new SettingsBean();
+        requestBean.setBaseUrl(updateSettings.getBaseUrl());
+        requestBean.setTitle(updateSettings.getSiteTitle());
+        
         final Response response = resource.putSettings(requestBean);
         final SettingsBean responseBean = (SettingsBean) response.getEntity();
 
@@ -73,7 +81,11 @@ public class SettingsResourceTest {
         verify(settingsManager).updateGlobalSettings(settingsCaptor.capture());
         final Settings settings = settingsCaptor.getValue();
 
-        assertEquals(requestBean, new SettingsBean(settings.getBaseUrl(), settings.getSiteTitle()));
+        final SettingsBean settingsBean = new SettingsBean();
+        settingsBean.setBaseUrl(settings.getBaseUrl());
+        settingsBean.setTitle(settings.getSiteTitle());
+
+        assertEquals(requestBean, settingsBean);
         assertEquals(requestBean, responseBean);
     }
 

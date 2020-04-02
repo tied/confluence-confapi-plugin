@@ -11,8 +11,8 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.exception.NoContentException;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.model.PopMailServerBean;
-import de.aservo.atlassian.confapi.model.SmtpMailServerBean;
+import de.aservo.atlassian.confapi.model.MailServerPopBean;
+import de.aservo.atlassian.confapi.model.MailServerSmtpBean;
 import de.aservo.atlassian.confapi.util.MailProtocolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 /**
  * Resource to set mail server configuration.
  */
-@Path(ConfAPI.MAIL)
+@Path(ConfAPI.MAIL_SERVER)
 @Produces(MediaType.APPLICATION_JSON)
 @Component
 public class MailServerResource {
@@ -53,14 +53,14 @@ public class MailServerResource {
     }
 
     @GET
-    @Path(ConfAPI.MAIL_SMTP)
+    @Path(ConfAPI.MAIL_SERVER_SMTP)
     public Response getSmtpMailServer() {
 
         final ErrorCollection errorCollection = new ErrorCollection();
 
         try {
             final SMTPMailServer smtpMailServer = mailServerManager.getDefaultSMTPMailServer();
-            final SmtpMailServerBean bean = SmtpMailServerBean.from(smtpMailServer);
+            final MailServerSmtpBean bean = MailServerSmtpBean.from(smtpMailServer);
             return Response.ok(bean).build();
         } catch (NoContentException e) {
             log.error(e.getMessage(), e);
@@ -71,10 +71,10 @@ public class MailServerResource {
     }
 
     @PUT
-    @Path(ConfAPI.MAIL_SMTP)
+    @Path(ConfAPI.MAIL_SERVER_SMTP)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putSmtpMailServer(
-            final SmtpMailServerBean bean) {
+            final MailServerSmtpBean bean) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -137,13 +137,13 @@ public class MailServerResource {
     }
 
     @GET
-    @Path(ConfAPI.MAIL_POP)
+    @Path(ConfAPI.MAIL_SERVER_POP)
     public Response getPopMailServer() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
         try {
             final PopMailServer popMailServer = mailServerManager.getDefaultPopMailServer();
-            final PopMailServerBean bean = PopMailServerBean.from(popMailServer);
+            final MailServerPopBean bean = MailServerPopBean.from(popMailServer);
             return Response.ok(bean).build();
         } catch (NoContentException e) {
             log.error(e.getMessage(), e);
@@ -154,10 +154,10 @@ public class MailServerResource {
     }
 
     @PUT
-    @Path(ConfAPI.MAIL_POP)
+    @Path(ConfAPI.MAIL_SERVER_POP)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putPopMailServer(
-            final PopMailServerBean bean) {
+            final MailServerPopBean bean) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
 
