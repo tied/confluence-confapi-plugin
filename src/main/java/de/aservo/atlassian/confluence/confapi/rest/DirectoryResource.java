@@ -2,8 +2,8 @@ package de.aservo.atlassian.confluence.confapi.rest;
 
 import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.model.DirectoryBean;
+import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.service.DirectoryService;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -45,6 +46,7 @@ public class DirectoryResource {
 
     @GET
     @Operation(
+            tags = { ConfAPI.DIRECTORIES },
             summary = "Get the list of user directories",
             responses = {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = DirectoryBean.class))),
@@ -66,6 +68,7 @@ public class DirectoryResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(
+            tags = { ConfAPI.DIRECTORIES },
             summary = "Add a new directory",
             description = "Any existing directory with the same name will be removed before adding the new one",
             responses = {
@@ -75,7 +78,7 @@ public class DirectoryResource {
     )
     public Response addDirectory(
             @QueryParam("testConnection") boolean testConnection,
-            final DirectoryBean directory) {
+            @NotNull final DirectoryBean directory) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
         try {

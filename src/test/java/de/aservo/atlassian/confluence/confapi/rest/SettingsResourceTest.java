@@ -59,7 +59,7 @@ public class SettingsResourceTest {
 
     @Test
     public void testPutSettingsPath() {
-        assertResourceMethodPutNoSubPath(settingsResource, "putSettings", SettingsBean.class);
+        assertResourceMethodPutNoSubPath(settingsResource, "setSettings", SettingsBean.class);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SettingsResourceTest {
         requestBean.setBaseUrl(updateSettings.getBaseUrl());
         requestBean.setTitle(updateSettings.getSiteTitle());
         
-        final Response response = resource.putSettings(requestBean);
+        final Response response = resource.setSettings(requestBean);
         final SettingsBean responseBean = (SettingsBean) response.getEntity();
 
         final ArgumentCaptor<Settings> settingsCaptor = ArgumentCaptor.forClass(Settings.class);

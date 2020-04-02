@@ -16,12 +16,17 @@ import de.aservo.atlassian.confapi.model.MailServerPopBean;
 import de.aservo.atlassian.confapi.model.MailServerSmtpBean;
 import de.aservo.atlassian.confapi.util.MailProtocolUtil;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -57,8 +62,15 @@ public class MailServerResource {
 
     @GET
     @Path(ConfAPI.MAIL_SERVER_SMTP)
-    public Response getSmtpMailServer() {
-
+    @Operation(
+            tags = { ConfAPI.MAIL_SERVER },
+            summary = "Get the default SMTP mail server",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerSmtpBean.class))),
+                    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+            }
+    )
+    public Response getMailServerSmtp() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
         try {
@@ -76,8 +88,16 @@ public class MailServerResource {
     @PUT
     @Path(ConfAPI.MAIL_SERVER_SMTP)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putSmtpMailServer(
-            final MailServerSmtpBean bean) {
+    @Operation(
+            tags = { ConfAPI.MAIL_SERVER },
+            summary = "Set the default SMTP mail server",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerSmtpBean.class))),
+                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+            }
+    )
+    public Response setMailServerSmtp(
+            @NotNull final MailServerSmtpBean bean) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -141,7 +161,15 @@ public class MailServerResource {
 
     @GET
     @Path(ConfAPI.MAIL_SERVER_POP)
-    public Response getPopMailServer() {
+    @Operation(
+            tags = { ConfAPI.MAIL_SERVER },
+            summary = "Get the default POP mail server",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerPopBean.class))),
+                    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+            }
+    )
+    public Response getMailServerPop() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
         try {
@@ -159,8 +187,16 @@ public class MailServerResource {
     @PUT
     @Path(ConfAPI.MAIL_SERVER_POP)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putPopMailServer(
-            final MailServerPopBean bean) {
+    @Operation(
+            tags = { ConfAPI.MAIL_SERVER },
+            summary = "Set the default POP mail server",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerPopBean.class))),
+                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
+            }
+    )
+    public Response setMailServerPop(
+            @NotNull final MailServerPopBean bean) {
 
         final ErrorCollection errorCollection = new ErrorCollection();
 
