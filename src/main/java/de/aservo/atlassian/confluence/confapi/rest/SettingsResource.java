@@ -3,8 +3,10 @@ package de.aservo.atlassian.confluence.confapi.rest;
 import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
+import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.SettingsBean;
+import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Response;
  */
 @Path(ConfAPI.SETTINGS)
 @Produces({MediaType.APPLICATION_JSON})
+@ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
 public class SettingsResource {
 

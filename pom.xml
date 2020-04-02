@@ -63,7 +63,6 @@
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
         <confapi-commons.version>0.0.1-SNAPSHOT</confapi-commons.version>
-        <confluence.data.version>6.14.0</confluence.data.version>
         <confluence.version>6.15.10</confluence.version>
         <gson.version>2.2.2-atlassian-1</gson.version>
         <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
@@ -294,7 +293,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <productVersion>${confluence.version}</productVersion>
-                    <productDataVersion>${confluence.data.version}</productDataVersion>
+                    <productDataVersion>${confluence.version}</productDataVersion>
                     <enableQuickReload>true</enableQuickReload>
                     <jvmArgs>-Xms1g -Xmx4g -XX:MaxPermSize=1g -XX:-UseGCOverheadLimit -server</jvmArgs>
                     <!-- See here for an explanation of default instructions: -->
