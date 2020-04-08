@@ -55,7 +55,7 @@
     </developers>
 
     <properties>
-        <ajp.port>8009</ajp.port>
+        <ajp.port>8109</ajp.port>
         <amps.version>8.0.2</amps.version>
         <atlassian-crowd.version>2.10.6</atlassian-crowd.version>
         <atlassian-rest-common.version>3.5.1</atlassian-rest-common.version>
@@ -294,6 +294,7 @@
                 <configuration>
                     <productVersion>${confluence.version}</productVersion>
                     <productDataVersion>${confluence.version}</productDataVersion>
+                    <ajpPort>${ajp.port}</ajpPort>
                     <enableQuickReload>true</enableQuickReload>
                     <jvmArgs>-Xms1g -Xmx4g -XX:MaxPermSize=1g -XX:-UseGCOverheadLimit -server</jvmArgs>
                     <!-- See here for an explanation of default instructions: -->
