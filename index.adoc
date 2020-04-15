@@ -713,6 +713,171 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Permissions]
+=== Permissions
+
+
+[.getPermissionAnonymousAccess]
+==== getPermissionAnonymousAccess
+    
+`GET /permissions/anonymous-access`
+
+Retrieve current anonymous access configuration
+
+===== Description 
+
+Gets the current global permissions for anonymous access to public pages and user profiles
+
+
+// markup not found, no include::{specDir}permissions/anonymous-access/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<PermissionAnonymousAccessBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<PermissionAnonymousAccessBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :permissions/anonymous-access/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}permissions/anonymous-access/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setPermissionAnonymousAccess]
+==== setPermissionAnonymousAccess
+    
+`PUT /permissions/anonymous-access`
+
+Set anonymous access configuration
+
+===== Description 
+
+Sets global permissions for anonymous access to public pages and user profiles
+
+
+// markup not found, no include::{specDir}permissions/anonymous-access/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| PermissionAnonymousAccessBean 
+|  <<PermissionAnonymousAccessBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<PermissionAnonymousAccessBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<PermissionAnonymousAccessBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :permissions/anonymous-access/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}permissions/anonymous-access/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.Ping]
 === Ping
 
@@ -1262,6 +1427,31 @@ endif::internal-generation[]
 |  
 
 | tls 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#PermissionAnonymousAccessBean]
+=== _PermissionAnonymousAccessBean_ 
+
+
+
+[.fields-PermissionAnonymousAccessBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| allowForPages 
+|  
+| Boolean  
+| 
+|  
+
+| allowForUserProfiles 
 |  
 | Boolean  
 | 
