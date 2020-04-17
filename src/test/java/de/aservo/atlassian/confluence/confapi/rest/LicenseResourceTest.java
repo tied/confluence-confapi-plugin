@@ -60,7 +60,7 @@ public class LicenseResourceTest {
 
         doReturn(view).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
 
-        final Response response = resource.setLicense(null, "ABCDEFG");
+        final Response response = resource.setLicense(false, "ABCDEFG");
         assertEquals(200, response.getStatus());
     }
 
@@ -68,7 +68,7 @@ public class LicenseResourceTest {
     public void testSetLicenseWithError() throws InvalidOperationException {
         doThrow(new RuntimeException()).when(licenseHandler).addProductLicense(any(String.class), any(String.class));
 
-        final Response response = resource.setLicense(null,"ABCDEFG");
+        final Response response = resource.setLicense(false,"ABCDEFG");
         assertEquals(400, response.getStatus());
 
         assertNotNull(response.getEntity());

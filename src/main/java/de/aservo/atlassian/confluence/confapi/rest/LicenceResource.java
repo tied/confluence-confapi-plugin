@@ -96,7 +96,7 @@ public class LicenceResource implements LicenseResourceInterface {
             })
     @Override
     public Response setLicense(
-            @QueryParam("clear") @Parameter(description="Clears license details before updating. This parameter is currently ignored.") Boolean clear,
+            @QueryParam("clear") @Parameter(description="Clears license details before updating. This parameter is currently ignored.") @DefaultValue("false") boolean clear,
             String licenseKey) {
         final ErrorCollection errorCollection = new ErrorCollection();
         try {

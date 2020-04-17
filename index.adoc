@@ -331,7 +331,7 @@ Existing license details are overwritten. Upon successful request, returns a `Li
 | clear 
 | Clears license details before updating. This parameter is currently ignored.  
 | - 
-| null 
+| false 
 |  
 
 |===         
