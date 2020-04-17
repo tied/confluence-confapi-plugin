@@ -15,10 +15,10 @@ jobs:
           key: confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Download Dependencies
-          command: mvn dependency:go-offline
+          command: ./mvnw dependency:go-offline -U
       - run:
           name: Compile and Package
-          command: mvn package -DskipTests
+          command: ./mvnw package -DskipTests
       - run:
           name: Copy Artifacts into separate Directory
           command: mkdir -p /tmp/artifacts && cp target/*.{jar,obr} /tmp/artifacts
@@ -41,7 +41,7 @@ jobs:
           key: confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Run Unit Tests and analyze on SonarCloud
-          command: mvn test sonar:sonar
+          command: ./mvnw test sonar:sonar
       - store_test_results:
           path: target/surefire-reports
       - save_cache:
@@ -57,7 +57,7 @@ jobs:
           key: confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Run Integration Tests
-          command: mvn integration-test -DskipUnitTests
+          command: ./mvnw integration-test -DskipUnitTests
       - save_cache:
           paths:
             - ~/.m2
@@ -77,7 +77,7 @@ jobs:
           command: gpg --no-tty --batch --import .circleci/sign.asc
       - run:
           name: Deploy to Maven Central
-          command: export GPG_TTY=$(tty) && mvn -s .circleci/settings.xml -DskipTests deploy
+          command: export GPG_TTY=$(tty) && ./mvnw deploy -DskipTests -s .circleci/settings.xml
       - save_cache:
           paths:
             - ~/.m2
