@@ -114,7 +114,7 @@ endif::internal-generation[]
     
 `PUT /directories`
 
-Add a new directory
+Set a new directory
 
 ===== Description 
 
@@ -150,7 +150,7 @@ Any existing directory with the same name will be removed before adding the new 
 |===         
 |Name| Description| Required| Default| Pattern
 
-| testConnection 
+| test-connection 
 |   
 | - 
 | false 
@@ -329,7 +329,7 @@ Existing license details are overwritten. Upon successful request, returns a `Li
 |Name| Description| Required| Default| Pattern
 
 | clear 
-| Clears license details before updating (Jira only).  
+| Clear license details before updating (Jira only).  
 | - 
 | false 
 |  
@@ -1139,9 +1139,9 @@ Upon successful request, returns a `UserBean` object containing user details
 |===         
 |Name| Description| Required| Default| Pattern
 
-| username 
+| userName 
 |   
-| - 
+| X 
 | null 
 |  
 
@@ -1174,6 +1174,11 @@ Upon successful request, returns a `UserBean` object containing user details
 | 
 |  <<ErrorCollection>>
 
+
+| 404
+| 
+|  <<ErrorCollection>>
+
 |===         
 
 ===== Samples
@@ -1198,95 +1203,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.updateUser]
-==== updateUser
-    
-`PUT /users`
-
-Updates user details
-
-===== Description 
-
-NOTE: Currently only the email address is updated from the provided `UserBean` property. Upon successful request, returns the updated `UserBean` object
-
-
-// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-
-===== Body Parameter
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| UserBean 
-|  <<UserBean>> 
-| - 
-|  
-|  
-
-|===         
-
-
-
-
-
-===== Return Type
-
-<<UserBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<UserBean>>
-
-
-| 400
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :users/PUT/PUT.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
-[.updateUserPassword]
-==== updateUserPassword
+[.setUserPassword]
+==== setUserPassword
     
 `PUT /users/password`
 
@@ -1310,9 +1228,9 @@ Upon successful request, returns the updated `UserBean` object.
 |===         
 |Name| Description| Required| Default| Pattern
 
-| UserBean 
-|  <<UserBean>> 
-| - 
+| body 
+|  <<string>> 
+| X 
 |  
 |  
 
@@ -1320,6 +1238,19 @@ Upon successful request, returns the updated `UserBean` object.
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -1348,6 +1279,11 @@ Upon successful request, returns the updated `UserBean` object.
 | 
 |  <<ErrorCollection>>
 
+
+| 404
+| 
+|  <<ErrorCollection>>
+
 |===         
 
 ===== Samples
@@ -1367,6 +1303,111 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}users/password/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateUser]
+==== updateUser
+    
+`PUT /users`
+
+Updates user details
+
+===== Description 
+
+Upon successful request, returns the updated `UserBean` object (user name cannot be updated)
+
+
+// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserBean 
+|  <<UserBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+
+| 404
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1786,7 +1827,7 @@ endif::internal-generation[]
 | Field Name| Required| Type| Description| Format
 
 | userName 
-| X 
+|  
 | String  
 | 
 |  
