@@ -914,7 +914,7 @@ Simple ping method for probing the REST api. Returns 'pong' upon success
 
 ===== Content Type
 
-* application/json
+* text/plain
 
 ===== Responses
 
