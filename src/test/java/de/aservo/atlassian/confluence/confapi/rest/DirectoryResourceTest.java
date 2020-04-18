@@ -4,9 +4,9 @@ import com.atlassian.crowd.embedded.api.Directory;
 import com.atlassian.crowd.embedded.api.DirectoryType;
 import com.atlassian.crowd.exception.DirectoryCurrentlySynchronisingException;
 import com.atlassian.crowd.model.directory.DirectoryImpl;
-import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.model.DirectoryBean;
-import de.aservo.atlassian.confapi.service.DirectoryService;
+import de.aservo.atlassian.confapi.model.ErrorCollection;
+import de.aservo.atlassian.confapi.service.api.DirectoryService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +27,7 @@ public class DirectoryResourceTest {
 
     @Mock
     private DirectoryService directoryService;
+
     private DirectoryResource resource;
 
     @Before

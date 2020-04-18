@@ -4,7 +4,7 @@ import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.DirectoryBean;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.service.DirectoryService;
+import de.aservo.atlassian.confapi.service.api.DirectoryService;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

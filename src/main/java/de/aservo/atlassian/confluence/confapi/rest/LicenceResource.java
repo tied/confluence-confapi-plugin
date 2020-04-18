@@ -8,7 +8,6 @@ import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.model.LicenseBean;
 import de.aservo.atlassian.confapi.model.LicensesBean;
-import de.aservo.atlassian.confapi.rest.LicenseResourceInterface;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,10 +19,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.Collections;
 
 import static com.atlassian.confluence.setup.ConfluenceBootstrapConstants.DEFAULT_LICENSE_REGISTRY_KEY;
@@ -35,7 +39,7 @@ import static com.atlassian.confluence.setup.ConfluenceBootstrapConstants.DEFAUL
 @Produces(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class LicenceResource implements LicenseResourceInterface {
+public class LicenceResource {
 
     private static final Logger log = LoggerFactory.getLogger(LicenceResource.class);
 
@@ -64,7 +68,6 @@ public class LicenceResource implements LicenseResourceInterface {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = LicensesBean.class))),
                     @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             })
-    @Override
     public Response getLicenses() {
         final ErrorCollection errorCollection = new ErrorCollection();
         try {
@@ -94,7 +97,6 @@ public class LicenceResource implements LicenseResourceInterface {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = LicensesBean.class))),
                     @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             })
-    @Override
     public Response setLicense(
             @QueryParam("clear") @Parameter(description="Clears license details before updating. This parameter is currently ignored.") @DefaultValue("false") boolean clear,
             String licenseKey) {
