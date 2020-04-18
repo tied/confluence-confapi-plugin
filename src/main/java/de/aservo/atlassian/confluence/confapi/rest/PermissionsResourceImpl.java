@@ -9,17 +9,13 @@ import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import de.aservo.atlassian.confluence.confapi.rest.api.PermissionsResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -37,9 +33,9 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 @Produces(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class PermissionsResource {
+public class PermissionsResourceImpl implements PermissionsResource {
 
-    private static final Logger log = LoggerFactory.getLogger(PermissionsResource.class);
+    private static final Logger log = LoggerFactory.getLogger(PermissionsResourceImpl.class);
 
     private final AnonymousUserPermissionsService anonymousUserPermissionsService;
     private final SpacePermissionManager spacePermissionManager;
@@ -50,7 +46,7 @@ public class PermissionsResource {
      * @param anonymousUserPermissionsService the anonymous user permissions service
      */
     @Inject
-    public PermissionsResource(@ComponentImport AnonymousUserPermissionsService anonymousUserPermissionsService,
+    public PermissionsResourceImpl(@ComponentImport AnonymousUserPermissionsService anonymousUserPermissionsService,
                                @ComponentImport SpacePermissionManager spacePermissionManager) {
         this.anonymousUserPermissionsService = anonymousUserPermissionsService;
         this.spacePermissionManager = spacePermissionManager;
@@ -61,15 +57,7 @@ public class PermissionsResource {
      *
      * @return the global access permissions
      */
-    @GET
-    @Path(ConfAPI.PERMISSION_ANONYMOUS_ACCESS)
-    @Operation(summary = "Retrieve current anonymous access configuration",
-            tags = { ConfAPI.PERMISSIONS },
-            description = "Gets the current global permissions for anonymous access to public pages and user profiles",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = PermissionAnonymousAccessBean.class))),
-                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            })
+    @Override
     public Response getPermissionAnonymousAccess() {
         final ErrorCollection errorCollection = new ErrorCollection();
         try {
@@ -91,16 +79,10 @@ public class PermissionsResource {
      * @param accessBean          bean describing the anonymous access
      * @return the global access permissions
      */
-    @PUT
-    @Path(ConfAPI.PERMISSION_ANONYMOUS_ACCESS)
-    @Operation(summary = "Set anonymous access configuration",
-            tags = { ConfAPI.PERMISSIONS },
-            description = "Sets global permissions for anonymous access to public pages and user profiles",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = PermissionAnonymousAccessBean.class))),
-                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            })
-    public Response setPermissionAnonymousAccess(PermissionAnonymousAccessBean accessBean) {
+    @Override
+    public Response setPermissionAnonymousAccess(
+            @NotNull final PermissionAnonymousAccessBean accessBean) {
+
         final ErrorCollection errorCollection = new ErrorCollection();
         try {
             if (accessBean.getAllowForPages() != null) {
@@ -125,4 +107,5 @@ public class PermissionsResource {
         }
         return false;
     }
+
 }

@@ -32,11 +32,11 @@ public class MailServerResourceTest {
     @Mock
     private MailServerManager mailServerManager;
 
-    private MailServerResource mailServerResource;
+    private MailServerResourceImpl mailServerResource;
 
     @Before
     public void setup() {
-        mailServerResource = new MailServerResource(mailServerManager);
+        mailServerResource = new MailServerResourceImpl(mailServerManager);
     }
 
     @Test

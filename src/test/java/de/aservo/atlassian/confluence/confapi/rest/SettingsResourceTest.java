@@ -26,11 +26,11 @@ public class SettingsResourceTest {
     @Mock
     private SettingsManager settingsManager;
 
-    private SettingsResource settingsResource;
+    private SettingsResourceImpl settingsResource;
 
     @Before
     public void setup() {
-        settingsResource = new SettingsResource(settingsManager);
+        settingsResource = new SettingsResourceImpl(settingsManager);
 
     }@Test
     public void testResourcePath() {
@@ -68,7 +68,7 @@ public class SettingsResourceTest {
         doReturn(defaultSettings).when(settingsManager).getGlobalSettings();
 
         final Settings updateSettings = new OtherTestSettings();
-        final SettingsResource resource = new SettingsResource(settingsManager);
+        final SettingsResourceImpl resource = new SettingsResourceImpl(settingsManager);
 
         final SettingsBean requestBean = new SettingsBean();
         requestBean.setBaseUrl(updateSettings.getBaseUrl());

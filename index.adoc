@@ -79,7 +79,7 @@ Any existing directory with the same name will be removed before adding the new 
 | testConnection 
 |   
 | - 
-| null 
+| false 
 |  
 
 |===         
@@ -218,7 +218,7 @@ endif::internal-generation[]
     
 `GET /license`
 
-Retrieves license information
+Get all licenses information
 
 ===== Description 
 
@@ -292,7 +292,7 @@ endif::internal-generation[]
     
 `PUT /license`
 
-Adds a new license
+Set a new license
 
 ===== Description 
 
@@ -314,7 +314,7 @@ Existing license details are overwritten. Upon successful request, returns a `Li
 
 | body 
 |  <<string>> 
-| - 
+| X 
 |  
 |  
 
@@ -329,7 +329,7 @@ Existing license details are overwritten. Upon successful request, returns a `Li
 |Name| Description| Required| Default| Pattern
 
 | clear 
-| Clears license details before updating. This parameter is currently ignored.  
+| Clears license details before updating (Jira only).  
 | - 
 | false 
 |  
@@ -818,7 +818,7 @@ Sets global permissions for anonymous access to public pages and user profiles
 
 | PermissionAnonymousAccessBean 
 |  <<PermissionAnonymousAccessBean>> 
-| - 
+| X 
 |  
 |  
 

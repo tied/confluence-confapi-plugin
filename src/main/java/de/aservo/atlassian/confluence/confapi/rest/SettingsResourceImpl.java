@@ -6,11 +6,8 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.SettingsBean;
+import de.aservo.atlassian.confapi.rest.api.SettingsResource;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -28,29 +25,24 @@ import javax.ws.rs.core.Response;
  * Resource to set general configuration.
  */
 @Path(ConfAPI.SETTINGS)
-@Produces({MediaType.APPLICATION_JSON})
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class SettingsResource {
+public class SettingsResourceImpl implements SettingsResource {
 
     @ComponentImport
     private final SettingsManager settingsManager;
 
     @Inject
-    public SettingsResource(
+    public SettingsResourceImpl(
             final SettingsManager settingsManager) {
 
         this.settingsManager = settingsManager;
     }
 
     @GET
-    @Operation(
-            tags = { ConfAPI.SETTINGS },
-            summary = "Get the application settings",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SettingsBean.class))),
-            }
-    )
+    @Override
     public Response getSettings() {
         final Settings settings = settingsManager.getGlobalSettings();
 
@@ -62,14 +54,7 @@ public class SettingsResource {
     }
 
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(
-            tags = { ConfAPI.SETTINGS },
-            summary = "Set the application settings",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = SettingsBean.class))),
-            }
-    )
+    @Override
     public Response setSettings(
             @NotNull final SettingsBean bean) {
 
