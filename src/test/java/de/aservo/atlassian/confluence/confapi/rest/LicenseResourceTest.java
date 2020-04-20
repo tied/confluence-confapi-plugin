@@ -22,12 +22,12 @@ import static org.mockito.Mockito.*;
 public class LicenseResourceTest {
 
     private LicenseHandler licenseHandler;
-    private LicenceResource resource;
+    private LicenceResourceImpl resource;
 
     @Before
     public void setup() {
         licenseHandler = mock(LicenseHandler.class);
-        resource = new LicenceResource(licenseHandler);
+        resource = new LicenceResourceImpl(licenseHandler);
     }
 
     @Test

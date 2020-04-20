@@ -28,11 +28,11 @@ public class DirectoryResourceTest {
     @Mock
     private DirectoryService directoryService;
 
-    private DirectoryResource resource;
+    private DirectoryResourceImpl resource;
 
     @Before
     public void setup() {
-        resource = new DirectoryResource(directoryService);
+        resource = new DirectoryResourceImpl(directoryService);
     }
 
     @Test

@@ -14,12 +14,9 @@ import de.aservo.atlassian.confapi.exception.NoContentException;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.model.MailServerPopBean;
 import de.aservo.atlassian.confapi.model.MailServerSmtpBean;
+import de.aservo.atlassian.confapi.rest.api.MailServerResource;
 import de.aservo.atlassian.confapi.util.MailProtocolUtil;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +31,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 /**
  * Resource to set mail server configuration.
  */
 @Path(ConfAPI.MAIL_SERVER)
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class MailServerResource {
+public class MailServerResourceImpl implements MailServerResource {
 
-    private static final Logger log = LoggerFactory.getLogger(MailServerResource.class);
+    private static final Logger log = LoggerFactory.getLogger(MailServerResourceImpl.class);
 
     @ComponentImport
     private final MailServerManager mailServerManager;
@@ -54,7 +53,7 @@ public class MailServerResource {
      * @param mailServerManager the injected {@link MailServerManager}
      */
     @Inject
-    public MailServerResource(
+    public MailServerResourceImpl(
             final MailServerManager mailServerManager) {
 
         this.mailServerManager = mailServerManager;
@@ -62,14 +61,7 @@ public class MailServerResource {
 
     @GET
     @Path(ConfAPI.MAIL_SERVER_SMTP)
-    @Operation(
-            tags = { ConfAPI.MAIL_SERVER },
-            summary = "Get the default SMTP mail server",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerSmtpBean.class))),
-                    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            }
-    )
+    @Override
     public Response getMailServerSmtp() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -87,15 +79,7 @@ public class MailServerResource {
 
     @PUT
     @Path(ConfAPI.MAIL_SERVER_SMTP)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(
-            tags = { ConfAPI.MAIL_SERVER },
-            summary = "Set the default SMTP mail server",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerSmtpBean.class))),
-                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            }
-    )
+    @Override
     public Response setMailServerSmtp(
             @NotNull final MailServerSmtpBean bean) {
 
@@ -161,14 +145,7 @@ public class MailServerResource {
 
     @GET
     @Path(ConfAPI.MAIL_SERVER_POP)
-    @Operation(
-            tags = { ConfAPI.MAIL_SERVER },
-            summary = "Get the default POP mail server",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerPopBean.class))),
-                    @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            }
-    )
+    @Override
     public Response getMailServerPop() {
         final ErrorCollection errorCollection = new ErrorCollection();
 
@@ -186,15 +163,7 @@ public class MailServerResource {
 
     @PUT
     @Path(ConfAPI.MAIL_SERVER_POP)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(
-            tags = { ConfAPI.MAIL_SERVER },
-            summary = "Set the default POP mail server",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MailServerPopBean.class))),
-                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
-            }
-    )
+    @Override
     public Response setMailServerPop(
             @NotNull final MailServerPopBean bean) {
 

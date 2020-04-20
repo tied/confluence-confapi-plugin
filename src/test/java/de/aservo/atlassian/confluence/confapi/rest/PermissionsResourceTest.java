@@ -23,7 +23,7 @@ import static org.mockito.Mockito.doThrow;
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionsResourceTest {
 
-    private PermissionsResource resource;
+    private PermissionsResourceImpl resource;
 
     @Mock
     private AnonymousUserPermissionsService anonymousUserPermissionsService;
@@ -33,7 +33,7 @@ public class PermissionsResourceTest {
 
     @Before
     public void setup() {
-        resource = new PermissionsResource(anonymousUserPermissionsService, spacePermissionManager);
+        resource = new PermissionsResourceImpl(anonymousUserPermissionsService, spacePermissionManager);
     }
 
     @Test
