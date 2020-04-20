@@ -8,7 +8,7 @@ import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confapi.model.LicenseBean;
 import de.aservo.atlassian.confapi.model.LicensesBean;
-import de.aservo.atlassian.confapi.rest.api.LicenseResource;
+import de.aservo.atlassian.confapi.rest.api.LicensesResource;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -36,9 +33,9 @@ import static com.atlassian.confluence.setup.ConfluenceBootstrapConstants.DEFAUL
 @Produces(MediaType.APPLICATION_JSON)
 @ResourceFilters(AdminOnlyResourceFilter.class)
 @Component
-public class LicenceResourceImpl implements LicenseResource {
+public class LicencesResourceImpl implements LicensesResource {
 
-    private static final Logger log = LoggerFactory.getLogger(LicenceResourceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(LicencesResourceImpl.class);
 
     private final LicenseHandler licenseHandler;
 
@@ -48,7 +45,7 @@ public class LicenceResourceImpl implements LicenseResource {
      * @param licenseHandler the license handler
      */
     @Inject
-    public LicenceResourceImpl(@ComponentImport LicenseHandler licenseHandler) {
+    public LicencesResourceImpl(@ComponentImport LicenseHandler licenseHandler) {
         this.licenseHandler = licenseHandler;
     }
 
@@ -57,7 +54,6 @@ public class LicenceResourceImpl implements LicenseResource {
      *
      * @return the license
      */
-    @GET
     @Override
     public Response getLicenses() {
         final ErrorCollection errorCollection = new ErrorCollection();
@@ -79,8 +75,6 @@ public class LicenceResourceImpl implements LicenseResource {
      * @param licenseKey the license key to add
      * @return
      */
-    @PUT
-    @Consumes({MediaType.TEXT_PLAIN})
     @Override
     public Response setLicense(
             @QueryParam("clear") @DefaultValue("false") final boolean clear,

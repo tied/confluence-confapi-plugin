@@ -38,11 +38,6 @@ public class SettingsResourceTest {
     }
 
     @Test
-    public void testGetSettingsPath() {
-        assertResourceMethodGetNoSubPath(settingsResource, "getSettings");
-    }
-
-    @Test
     public void testGetSettings() {
         final Settings settings = new DefaultTestSettings();
         doReturn(settings).when(settingsManager).getGlobalSettings();
@@ -55,11 +50,6 @@ public class SettingsResourceTest {
         settingsBean.setTitle(settings.getSiteTitle());
 
         assertEquals(settingsBean, responseBean);
-    }
-
-    @Test
-    public void testPutSettingsPath() {
-        assertResourceMethodPutNoSubPath(settingsResource, "setSettings", SettingsBean.class);
     }
 
     @Test

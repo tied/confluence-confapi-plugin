@@ -29,11 +29,6 @@ public class PingResourceTest {
     }
 
     @Test
-    public void testGetPingPath() {
-        assertResourceMethodGetNoSubPath(pingResource, "getPing");
-    }
-
-    @Test
     public void testGetPing() {
         final Response pingResponse = pingResource.getPing();
         assertEquals(PONG, pingResponse.getEntity().toString());

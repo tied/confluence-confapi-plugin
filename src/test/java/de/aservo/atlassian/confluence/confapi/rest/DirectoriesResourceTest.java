@@ -23,16 +23,16 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DirectoryResourceTest {
+public class DirectoriesResourceTest {
 
     @Mock
     private DirectoryService directoryService;
 
-    private DirectoryResourceImpl resource;
+    private DirectoriesResourceImpl resource;
 
     @Before
     public void setup() {
-        resource = new DirectoryResourceImpl(directoryService);
+        resource = new DirectoriesResourceImpl(directoryService);
     }
 
     @Test

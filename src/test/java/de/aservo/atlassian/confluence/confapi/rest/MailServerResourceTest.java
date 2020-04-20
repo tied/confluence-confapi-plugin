@@ -45,11 +45,6 @@ public class MailServerResourceTest {
     }
 
     @Test
-    public void testGetSmtpMailServerPath() {
-        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_SERVER_SMTP, "getMailServerSmtp");
-    }
-
-    @Test
     public void testGetSmtpMailServer() {
         final SMTPMailServer smtpMailServer = new DefaultTestSmtpMailServerImpl();
         doReturn(true).when(mailServerManager).isDefaultSMTPMailServerDefined();
@@ -81,11 +76,6 @@ public class MailServerResourceTest {
 
         assertEquals(response.getStatus(), Status.NO_CONTENT.getStatusCode());
         assertTrue(bean.hasAnyErrors());
-    }
-
-    @Test
-    public void testPutSmtpMailServerPath() {
-        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_SERVER_SMTP, "setMailServerSmtp", MailServerSmtpBean.class);
     }
 
     @Test
@@ -161,11 +151,6 @@ public class MailServerResourceTest {
     }
 
     @Test
-    public void testGetPopMailServerPath() {
-        assertResourceMethodGet(mailServerResource, ConfAPI.MAIL_SERVER_POP, "getMailServerPop");
-    }
-
-    @Test
     public void testGetPopMailServer() {
         final PopMailServer popMailServer = new DefaultTestPopMailServerImpl();
         doReturn(popMailServer).when(mailServerManager).getDefaultPopMailServer();
@@ -192,11 +177,6 @@ public class MailServerResourceTest {
 
         assertEquals(response.getStatus(), Status.NO_CONTENT.getStatusCode());
         assertTrue(responseErrorCollection.hasAnyErrors());
-    }
-
-    @Test
-    public void testPutPopMailServerPath() {
-        assertResourceMethodPut(mailServerResource, ConfAPI.MAIL_SERVER_POP, "setMailServerPop", MailServerPopBean.class);
     }
 
     @Test

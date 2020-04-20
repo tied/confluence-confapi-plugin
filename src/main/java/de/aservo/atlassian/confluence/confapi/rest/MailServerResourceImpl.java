@@ -25,8 +25,6 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -59,8 +57,6 @@ public class MailServerResourceImpl implements MailServerResource {
         this.mailServerManager = mailServerManager;
     }
 
-    @GET
-    @Path(ConfAPI.MAIL_SERVER_SMTP)
     @Override
     public Response getMailServerSmtp() {
         final ErrorCollection errorCollection = new ErrorCollection();
@@ -77,8 +73,6 @@ public class MailServerResourceImpl implements MailServerResource {
         return Response.status(Response.Status.NO_CONTENT).entity(errorCollection).build();
     }
 
-    @PUT
-    @Path(ConfAPI.MAIL_SERVER_SMTP)
     @Override
     public Response setMailServerSmtp(
             @NotNull final MailServerSmtpBean bean) {
@@ -143,8 +137,6 @@ public class MailServerResourceImpl implements MailServerResource {
         return Response.status(Response.Status.BAD_REQUEST).entity(errorCollection).build();
     }
 
-    @GET
-    @Path(ConfAPI.MAIL_SERVER_POP)
     @Override
     public Response getMailServerPop() {
         final ErrorCollection errorCollection = new ErrorCollection();
@@ -161,8 +153,6 @@ public class MailServerResourceImpl implements MailServerResource {
         return Response.status(Response.Status.NO_CONTENT).entity(errorCollection).build();
     }
 
-    @PUT
-    @Path(ConfAPI.MAIL_SERVER_POP)
     @Override
     public Response setMailServerPop(
             @NotNull final MailServerPopBean bean) {
