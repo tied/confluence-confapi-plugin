@@ -19,15 +19,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LicenseResourceTest {
+public class LicensesResourceTest {
 
     private LicenseHandler licenseHandler;
-    private LicenceResourceImpl resource;
+    private LicencesResourceImpl resource;
 
     @Before
     public void setup() {
         licenseHandler = mock(LicenseHandler.class);
-        resource = new LicenceResourceImpl(licenseHandler);
+        resource = new LicencesResourceImpl(licenseHandler);
     }
 
     @Test
