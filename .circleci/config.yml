@@ -4,6 +4,7 @@ executors:
   maven:
     docker:
       - image: circleci/openjdk:8-jdk
+    resource_class: large
     working_directory: /tmp/build
 
 jobs:
@@ -91,13 +92,13 @@ workflows:
           requires:
             - build
           context: global
-#     - integration-tests:
-#         requires:
-#           - build
+      - integration-tests:
+          requires:
+            - build
       - deploy:
           requires:
             - unit-tests
-#           - integration-tests
+            - integration-tests
           filters:
             branches:
               only: master
