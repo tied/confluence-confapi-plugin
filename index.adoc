@@ -35,8 +35,82 @@ This plugin provides methods for accessing configuration for Confluence.
 === Directories
 
 
-[.addDirectory]
-==== addDirectory
+[.getDirectories]
+==== getDirectories
+    
+`GET /directories`
+
+Get the list of user directories
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}directories/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<DirectoriesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<DirectoriesBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setDirectory]
+==== setDirectory
     
 `PUT /directories`
 
@@ -130,80 +204,6 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}directories/PUT/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
-[.getDirectories]
-==== getDirectories
-    
-`GET /directories`
-
-Get the list of user directories
-
-===== Description 
-
-
-
-
-// markup not found, no include::{specDir}directories/GET/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-
-
-
-
-
-
-===== Return Type
-
-<<DirectoryBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<DirectoryBean>>
-
-
-| 400
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}directories/GET/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}directories/GET/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :directories/GET/GET.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}directories/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1111,6 +1111,25 @@ endif::internal-generation[]
 == Models
 
 
+[#DirectoriesBean]
+=== _DirectoriesBean_ 
+
+
+
+[.fields-DirectoriesBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| directories 
+|  
+| List  of <<DirectoryBean>> 
+| 
+|  
+
+|===
+
+
 [#DirectoryBean]
 === _DirectoryBean_ 
 
@@ -1471,6 +1490,12 @@ endif::internal-generation[]
 | Field Name| Required| Type| Description| Format
 
 | baseUrl 
+|  
+| String  
+| 
+|  
+
+| mode 
 |  
 | String  
 | 
