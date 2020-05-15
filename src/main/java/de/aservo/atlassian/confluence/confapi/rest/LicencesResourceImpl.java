@@ -6,10 +6,10 @@ import com.atlassian.sal.api.license.SingleProductLicenseDetailsView;
 import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.model.LicenseBean;
 import de.aservo.atlassian.confapi.model.LicensesBean;
 import de.aservo.atlassian.confapi.rest.api.LicensesResource;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
+import de.aservo.atlassian.confluence.confapi.model.util.LicenseBeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -60,7 +60,7 @@ public class LicencesResourceImpl implements LicensesResource {
         try {
             SingleProductLicenseDetailsView conf = licenseHandler.getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
             LicensesBean licensesBean = new LicensesBean();
-            licensesBean.setLicenses(Collections.singletonList(new LicenseBean(conf)));
+            licensesBean.setLicenses(Collections.singletonList(LicenseBeanUtil.toLicenseBean(conf)));
             return Response.ok(licensesBean).build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

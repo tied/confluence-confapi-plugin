@@ -4,8 +4,8 @@ import com.atlassian.sal.api.i18n.InvalidOperationException;
 import com.atlassian.sal.api.license.LicenseHandler;
 import com.atlassian.sal.api.license.SingleProductLicenseDetailsView;
 import de.aservo.atlassian.confapi.model.ErrorCollection;
-import de.aservo.atlassian.confapi.model.LicenseBean;
 import de.aservo.atlassian.confapi.model.LicensesBean;
+import de.aservo.atlassian.confluence.confapi.model.util.LicenseBeanUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class LicensesResourceTest {
         assertEquals(200, response.getStatus());
         final LicensesBean licensesBean = (LicensesBean) response.getEntity();
 
-        assertEquals(licensesBean.getLicenses().iterator().next(), new LicenseBean(view));
+        assertEquals(licensesBean.getLicenses().iterator().next(), LicenseBeanUtil.toLicenseBean(view));
     }
 
     @Test

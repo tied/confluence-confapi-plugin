@@ -81,7 +81,7 @@ Get the list of user directories
 |  <<DirectoriesBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -181,7 +181,7 @@ Any existing directory with the same name will be removed before adding the new 
 |  <<DirectoryBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -259,7 +259,7 @@ Upon successful request, returns a `LicensesBean` object containing license deta
 |  <<LicensesBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -359,7 +359,7 @@ Existing license details are overwritten. Upon successful request, returns a `Li
 |  <<LicensesBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -441,6 +441,11 @@ Get the default POP mail server
 | 
 |  <<ErrorCollection>>
 
+
+| 0
+| 
+|  <<ErrorCollection>>
+
 |===         
 
 ===== Samples
@@ -512,6 +517,11 @@ Get the default SMTP mail server
 
 
 | 204
+| 
+|  <<ErrorCollection>>
+
+
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -598,7 +608,7 @@ Set the default POP mail server
 |  <<MailServerPopBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -685,7 +695,7 @@ Set the default SMTP mail server
 |  <<MailServerSmtpBean>>
 
 
-| 400
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -1001,6 +1011,11 @@ Get the application settings
 | 
 |  <<SettingsBean>>
 
+
+| 0
+| 
+|  <<ErrorCollection>>
+
 |===         
 
 ===== Samples
@@ -1082,6 +1097,11 @@ Set the application settings
 | 200
 | 
 |  <<SettingsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
 
 |===         
 
@@ -1170,12 +1190,7 @@ Upon successful request, returns a `UserBean` object containing user details
 |  <<UserBean>>
 
 
-| 400
-| 
-|  <<ErrorCollection>>
-
-
-| 404
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -1275,12 +1290,7 @@ Upon successful request, returns the updated `UserBean` object.
 |  <<UserBean>>
 
 
-| 400
-| 
-|  <<ErrorCollection>>
-
-
-| 404
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -1380,12 +1390,7 @@ Upon successful request, returns the updated `UserBean` object (user name cannot
 |  <<UserBean>>
 
 
-| 400
-| 
-|  <<ErrorCollection>>
-
-
-| 404
+| 0
 | 
 |  <<ErrorCollection>>
 
@@ -1468,7 +1473,7 @@ endif::internal-generation[]
 | X 
 | String  
 | 
-|  _Enum:_ UNKNOWN, INTERNAL, CONNECTOR, CUSTOM, DELEGATING, CROWD, 
+|  
 
 | description 
 |  
