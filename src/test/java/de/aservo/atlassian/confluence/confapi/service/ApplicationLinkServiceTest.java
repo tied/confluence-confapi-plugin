@@ -10,6 +10,7 @@ import com.atlassian.applinks.spi.util.TypeAccessor;
 import com.atlassian.confluence.settings.setup.DefaultApplicationLink;
 import com.atlassian.confluence.settings.setup.DefaultApplicationType;
 import de.aservo.atlassian.confapi.model.ApplicationLinkBean;
+import de.aservo.atlassian.confapi.model.ApplicationLinksBean;
 import de.aservo.atlassian.confapi.model.type.ApplicationLinkTypes;
 import de.aservo.atlassian.confluence.confapi.model.DefaultAuthenticationScenario;
 import de.aservo.atlassian.confluence.confapi.model.util.ApplicationLinkBeanUtil;
@@ -23,7 +24,6 @@ import javax.validation.ValidationException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -54,9 +54,28 @@ public class ApplicationLinkServiceTest {
         ApplicationLink applicationLink = createApplicationLink();
         doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
 
-        List<ApplicationLinkBean> applicationLinks = applicationLinkService.getApplicationLinks();
+        ApplicationLinksBean applicationLinks = applicationLinkService.getApplicationLinks();
 
-        assertEquals(applicationLinks.get(0), ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink));
+        assertEquals(applicationLinks.getApplicationLinks().iterator().next(), ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink));
+    }
+
+    @Test
+    public void testSetApplicationLinks()
+            throws URISyntaxException, ManifestNotFoundException {
+
+        ApplicationLink applicationLink = createApplicationLink();
+        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
+        ApplicationLinksBean applicationLinksBean = new ApplicationLinksBean(Collections.singletonList(createApplicationLinkBean()));
+
+        doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
+        doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
+                any(ApplicationType.class), any(ApplicationLinkDetails.class));
+        doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+
+        ApplicationLinksBean applicationLinkResponse = applicationLinkService.setApplicationLinks(applicationLinksBean);
+
+        assertEquals(applicationLinkResponse.getApplicationLinks().iterator().next().getName(), applicationLinkBean.getName());
+        assertNotEquals(applicationLinkResponse, applicationLinkBean);
     }
 
     @Test
@@ -66,13 +85,14 @@ public class ApplicationLinkServiceTest {
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
 
+        doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
         doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                 any(ApplicationType.class), any(ApplicationLinkDetails.class));
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
 
-        ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
+        ApplicationLinksBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
 
-        assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
+        assertEquals(applicationLinkResponse.getApplicationLinks().iterator().next().getName(), applicationLinkBean.getName());
         assertNotEquals(applicationLinkResponse, applicationLinkBean);
     }
 
@@ -81,14 +101,15 @@ public class ApplicationLinkServiceTest {
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
 
+        doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
         doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                 any(ApplicationType.class), any(ApplicationLinkDetails.class));
         doReturn(applicationLink).when(mutatingApplicationLinkService).getPrimaryApplicationLink(any());
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
 
-        ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
+        ApplicationLinksBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
 
-        assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
+        assertEquals(applicationLinkResponse.getApplicationLinks().iterator().next().getName(), applicationLinkBean.getName());
         assertNotEquals(applicationLinkResponse, applicationLinkBean);
     }
 
@@ -107,13 +128,14 @@ public class ApplicationLinkServiceTest {
             ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
             applicationLinkBean.setLinkType(linkType);
 
+            doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
             doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                     any(ApplicationType.class), any(ApplicationLinkDetails.class));
             doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
 
-            ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
+            ApplicationLinksBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean);
 
-            assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
+            assertEquals(applicationLinkResponse.getApplicationLinks().iterator().next().getName(), applicationLinkBean.getName());
             // TODO: assertEquals(applicationLinkResponse.getLinkType(), applicationLink.getType());
         }
     }
