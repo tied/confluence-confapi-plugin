@@ -17,8 +17,9 @@ import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confapi.exception.BadRequestException;
 import de.aservo.atlassian.confapi.model.ApplicationLinkBean;
+import de.aservo.atlassian.confapi.model.ApplicationLinksBean;
 import de.aservo.atlassian.confapi.model.type.ApplicationLinkTypes;
-import de.aservo.atlassian.confapi.service.api.ApplicationLinkService;
+import de.aservo.atlassian.confapi.service.api.ApplicationLinksService;
 import de.aservo.atlassian.confluence.confapi.model.DefaultAuthenticationScenario;
 import de.aservo.atlassian.confluence.confapi.model.util.ApplicationLinkBeanUtil;
 import org.apache.commons.lang3.NotImplementedException;
@@ -34,24 +35,15 @@ import java.util.stream.StreamSupport;
 
 import static de.aservo.atlassian.confapi.util.BeanValidationUtil.validate;
 
-/**
- * The type Application link service.
- */
 @Component
-@ExportAsService(ApplicationLinkService.class)
-public class ApplicationLinkServiceImpl implements ApplicationLinkService {
+@ExportAsService(ApplicationLinksService.class)
+public class ApplicationLinkServiceImpl implements ApplicationLinksService {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationLinkServiceImpl.class);
 
     private final MutatingApplicationLinkService mutatingApplicationLinkService;
     private final TypeAccessor typeAccessor;
 
-    /**
-     * Instantiates a new Application link service.
-     *
-     * @param mutatingApplicationLinkService the application link service
-     * @param typeAccessor           the type accessor
-     */
     @Inject
     public ApplicationLinkServiceImpl(@ComponentImport MutatingApplicationLinkService mutatingApplicationLinkService,
                                       @ComponentImport TypeAccessor typeAccessor) {
@@ -59,26 +51,23 @@ public class ApplicationLinkServiceImpl implements ApplicationLinkService {
         this.typeAccessor = typeAccessor;
     }
 
-    /**
-     * Gets application links.
-     *
-     * @return the application links
-     */
-    public List<ApplicationLinkBean> getApplicationLinks() {
+    @Override
+    public ApplicationLinksBean getApplicationLinks() {
         Iterable<ApplicationLink> applicationLinksIterable = mutatingApplicationLinkService.getApplicationLinks();
-        return StreamSupport.stream(applicationLinksIterable.spliterator(), false)
+        List<ApplicationLinkBean> applicationLinkBeans = StreamSupport.stream(applicationLinksIterable.spliterator(), false)
                 .map(ApplicationLinkBeanUtil::toApplicationLinkBean)
                 .collect(Collectors.toList());
+        return new ApplicationLinksBean(applicationLinkBeans);
     }
 
-    /**
-     * Adds a new application link. NOTE: existing application links with the same type, e.g. "JIRA" will be
-     * removed before adding the new configuration.
-     *
-     * @param linkBean the link bean
-     * @return the added application ,link
-     */
-    public ApplicationLinkBean addApplicationLink(ApplicationLinkBean linkBean) {
+    @Override
+    public ApplicationLinksBean setApplicationLinks(ApplicationLinksBean applicationLinksBean) {
+        applicationLinksBean.getApplicationLinks().forEach(this::addApplicationLink);
+        return getApplicationLinks();
+    }
+
+    @Override
+    public ApplicationLinksBean addApplicationLink(ApplicationLinkBean linkBean) {
         //preparations
         validate(linkBean);
 
@@ -110,7 +99,7 @@ public class ApplicationLinkServiceImpl implements ApplicationLinkService {
             throw new BadRequestException(e.getMessage());
         }
 
-        return ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink);
+        return getApplicationLinks();
     }
 
     private ApplicationType buildApplicationType(ApplicationLinkTypes linkType) {
