@@ -209,6 +209,258 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Licenses]
+=== Licenses
+
+
+[.addLicense]
+==== addLicense
+    
+`POST /licenses`
+
+Adds a single license
+
+===== Description 
+
+Upon successful request, returns a `LicensesBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| LicenseBean 
+|  <<LicenseBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<LicensesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicensesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getLicenses]
+==== getLicenses
+    
+`GET /licenses`
+
+Get all licenses information
+
+===== Description 
+
+Upon successful request, returns a `LicensesBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<LicensesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicensesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setLicenses]
+==== setLicenses
+    
+`PUT /licenses`
+
+Set a new set of license
+
+===== Description 
+
+Existing license details are always cleared before setting the new licenses. Upon successful request, returns a `LicensesBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| LicensesBean 
+|  <<LicensesBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<LicensesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicensesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.MailServer]
 === MailServer
 
@@ -1361,6 +1613,80 @@ endif::internal-generation[]
 | errorMessages 
 |  
 | List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#LicenseBean]
+=== _LicenseBean_ 
+
+
+
+[.fields-LicenseBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| licenseType 
+|  
+| String  
+| 
+|  
+
+| organization 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| expiryDate 
+|  
+| Date  
+| 
+| date-time 
+
+| numUsers 
+|  
+| Integer  
+| 
+| int32 
+
+| key 
+|  
+| String  
+| 
+|  
+
+| products 
+|  
+| List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#LicensesBean]
+=== _LicensesBean_ 
+
+
+
+[.fields-LicensesBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| licenses 
+|  
+| List  of <<LicenseBean>> 
 | 
 |  
 
