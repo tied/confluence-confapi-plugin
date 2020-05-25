@@ -39,16 +39,23 @@ public class LicensesServiceImpl implements LicensesService {
 
     @Override
     public LicensesBean setLicenses(LicensesBean licensesBean) {
-        //remove existing licenses
-        getLicenses().getLicenses().forEach(licenseBean -> licenseBean.getProducts().forEach(product -> {
-            try {
-                licenseHandler.removeProductLicense(product);
-            } catch (InvalidOperationException e) {
-                throw new InternalServerErrorException(String.format("The license for product %s cannot be removed", product));
-            }
-        }));
-        //set licenses
-        licensesBean.getLicenses().forEach(this::setLicense);
+        //remove existing licenses (only if hostAllowsMultipleLicenses == true, otherwise InvalidOperationException throws)
+        if (licenseHandler.hostAllowsMultipleLicenses()) {
+            getLicenses().getLicenses().forEach(licenseBean -> licenseBean.getProducts().forEach(product -> {
+                try {
+                    licenseHandler.removeProductLicense(product);
+                } catch (InvalidOperationException e) {
+                    throw new InternalServerErrorException(String.format("The license for product %s cannot be removed", product));
+                }
+            }));
+
+            //set licenses
+            licensesBean.getLicenses().forEach(this::setLicense);
+        } else {
+            //set first license from bean for non multi-license hosts
+            setLicense(licensesBean.getLicenses().iterator().next());
+        }
+
         return getLicenses();
     }
 
