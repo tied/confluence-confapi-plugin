@@ -461,6 +461,258 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Gadgets]
+=== Gadgets
+
+
+[.addGadget]
+==== addGadget
+    
+`POST /gadgets`
+
+Adds a single gadget
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| GadgetBean 
+|  <<GadgetBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<GadgetsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getGadgets]
+==== getGadgets
+    
+`GET /gadgets`
+
+Get all gadgets
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<GadgetsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setGadgets]
+==== setGadgets
+    
+`PUT /gadgets`
+
+Set a new list of gadgets
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| GadgetsBean 
+|  <<GadgetsBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<GadgetsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.Licenses]
 === Licenses
 
@@ -1951,6 +2203,44 @@ endif::internal-generation[]
 | errorMessages 
 |  
 | List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#GadgetBean]
+=== _GadgetBean_ 
+
+
+
+[.fields-GadgetBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| url 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#GadgetsBean]
+=== _GadgetsBean_ 
+
+
+
+[.fields-GadgetsBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| gadgets 
+|  
+| List  of <<GadgetBean>> 
 | 
 |  
 
