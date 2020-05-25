@@ -1,10 +1,9 @@
-package de.aservo.atlassian.confluence.confapi.rest;
+package de.aservo.atlassian.confluence.confapi.service;
 
 import com.atlassian.confluence.settings.setup.DefaultTestSettings;
 import com.atlassian.confluence.settings.setup.OtherTestSettings;
 import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
-import de.aservo.atlassian.confapi.constants.ConfAPI;
 import de.aservo.atlassian.confapi.model.SettingsBean;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,28 +12,21 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.ws.rs.core.Response;
-
-import static de.aservo.atlassian.confapi.junit.ResourceAssert.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SettingsResourceTest {
+public class SettingsServiceTest {
 
     @Mock
     private SettingsManager settingsManager;
 
-    private SettingsResourceImpl settingsResource;
+    private SettingsServiceImpl settingsService;
 
     @Before
     public void setup() {
-        settingsResource = new SettingsResourceImpl(settingsManager);
-
-    }@Test
-    public void testResourcePath() {
-        assertResourcePath(settingsResource, ConfAPI.SETTINGS);
+        settingsService = new SettingsServiceImpl(settingsManager);
     }
 
     @Test
@@ -42,14 +34,13 @@ public class SettingsResourceTest {
         final Settings settings = new DefaultTestSettings();
         doReturn(settings).when(settingsManager).getGlobalSettings();
 
-        final Response response = settingsResource.getSettings();
-        final SettingsBean responseBean = (SettingsBean) response.getEntity();
+        final SettingsBean settingsBean = settingsService.getSettings();
 
-        final SettingsBean settingsBean = new SettingsBean();
-        settingsBean.setBaseUrl(settings.getBaseUrl());
-        settingsBean.setTitle(settings.getSiteTitle());
+        final SettingsBean settingsBeanRef = new SettingsBean();
+        settingsBeanRef.setBaseUrl(settings.getBaseUrl());
+        settingsBeanRef.setTitle(settings.getSiteTitle());
 
-        assertEquals(settingsBean, responseBean);
+        assertEquals(settingsBeanRef, settingsBean);
     }
 
     @Test
@@ -58,14 +49,12 @@ public class SettingsResourceTest {
         doReturn(defaultSettings).when(settingsManager).getGlobalSettings();
 
         final Settings updateSettings = new OtherTestSettings();
-        final SettingsResourceImpl resource = new SettingsResourceImpl(settingsManager);
 
         final SettingsBean requestBean = new SettingsBean();
         requestBean.setBaseUrl(updateSettings.getBaseUrl());
         requestBean.setTitle(updateSettings.getSiteTitle());
-        
-        final Response response = resource.setSettings(requestBean);
-        final SettingsBean responseBean = (SettingsBean) response.getEntity();
+
+        final SettingsBean responseBean = settingsService.setSettings(requestBean);
 
         final ArgumentCaptor<Settings> settingsCaptor = ArgumentCaptor.forClass(Settings.class);
         verify(settingsManager).updateGlobalSettings(settingsCaptor.capture());
@@ -78,5 +67,4 @@ public class SettingsResourceTest {
         assertEquals(requestBean, settingsBean);
         assertEquals(requestBean, responseBean);
     }
-
 }
