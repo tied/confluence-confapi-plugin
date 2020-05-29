@@ -46,6 +46,7 @@ public class LicensesServiceTest {
     public void testSetLicensesWithError() throws InvalidOperationException {
         LicensesBean licensesBean = LicensesBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licensesBean.getLicenses().iterator().next());
+        doReturn(true).when(licenseHandler).hostAllowsMultipleLicenses();
         doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
         doThrow(new InvalidOperationException("", "")).when(licenseHandler).removeProductLicense(any(String.class));
 
@@ -56,6 +57,7 @@ public class LicensesServiceTest {
     public void testSetLicenses() {
         LicensesBean licensesBean = LicensesBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licensesBean.getLicenses().iterator().next());
+        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
         doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
 
         LicensesBean updatedLicensesBean = licenseService.setLicenses(licensesBean);
@@ -67,6 +69,7 @@ public class LicensesServiceTest {
     public void testSetLicense() {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
+        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
         doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
 
         LicensesBean updatedLicensesBean = licenseService.setLicense(licenseBean);
@@ -78,6 +81,7 @@ public class LicensesServiceTest {
     public void testSetLicenseWithError() throws InvalidOperationException {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
+        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
         doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
         doThrow(new InvalidOperationException("", "")).when(licenseHandler).addProductLicense(any(String.class), any(String.class));
 
