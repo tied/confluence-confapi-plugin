@@ -9,7 +9,7 @@
     <parent>
         <groupId>de.aservo</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>0.0.7</version>
+        <version>0.0.9</version>
     </parent>
 
     <groupId>de.aservo.atlassian</groupId>
@@ -63,17 +63,9 @@
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
         <confapi-commons.version>0.0.9-SNAPSHOT</confapi-commons.version>
-        <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
-        <javax.el-api.version>2.2.4</javax.el-api.version>
-        <junit.version>4.12</junit.version>
-        <lombok.version>1.18.10</lombok.version>
-        <mockito-all.version>1.8.5</mockito-all.version>
-        <mockito.version>1.8.5</mockito.version>
         <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
         <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
         <powermock-api-easymock.version>2.0.5</powermock-api-easymock.version>
-        <swagger.version>2.1.1</swagger.version>
-        <wink-client.version>1.4</wink-client.version>
     </properties>
 
     <dependencyManagement>
@@ -90,6 +82,13 @@
                 <groupId>com.atlassian.confluence</groupId>
                 <artifactId>confluence-bundled-plugins-library</artifactId>
                 <version>${confluence.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.aservo</groupId>
+                <artifactId>confapi-commons</artifactId>
+                <version>${confapi-commons.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -110,8 +109,15 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- behaves like a compile dependency -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- provided dependencies -->
@@ -203,13 +209,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- test dependencies -->
 
         <dependency>
@@ -221,23 +220,51 @@
         </dependency>
 
         <dependency>
-            <groupId>com.atlassian.plugins</groupId>
-            <artifactId>atlassian-plugins-osgi-testrunner</artifactId>
-            <version>${plugin.testrunner.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>${mockito-all.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.wink</groupId>
+            <artifactId>wink-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator-annotation-processor</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-osgi-testrunner</artifactId>
+            <version>${plugin.testrunner.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -252,41 +279,6 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
             <version>${powermock-api-easymock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.wink</groupId>
-            <artifactId>wink-client</artifactId>
-            <version>${wink-client.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>${hibernate-validator.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>${javax.el-api.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>${javax.el-api.version}</version>
             <scope>test</scope>
         </dependency>
 
