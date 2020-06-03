@@ -2,7 +2,7 @@ package de.aservo.atlassian.confluence.confapi.model.util;
 
 import com.atlassian.mail.server.DefaultTestPopMailServerImpl;
 import com.atlassian.mail.server.PopMailServer;
-import de.aservo.atlassian.confapi.model.MailServerPopBean;
+import de.aservo.confapi.commons.model.MailServerPopBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

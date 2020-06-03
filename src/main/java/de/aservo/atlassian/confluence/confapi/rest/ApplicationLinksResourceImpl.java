@@ -1,10 +1,10 @@
 package de.aservo.atlassian.confluence.confapi.rest;
 
 import com.sun.jersey.spi.container.ResourceFilters;
-import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confapi.rest.AbstractApplicationLinksResourceImpl;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
-import de.aservo.atlassian.confluence.confapi.service.ApplicationLinkServiceImpl;
+import de.aservo.confapi.commons.constants.ConfAPI;
+import de.aservo.confapi.commons.rest.AbstractApplicationLinksResourceImpl;
+import de.aservo.confapi.commons.service.api.ApplicationLinksService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import javax.ws.rs.Path;
 public class ApplicationLinksResourceImpl extends AbstractApplicationLinksResourceImpl {
 
     @Inject
-    public ApplicationLinksResourceImpl(ApplicationLinkServiceImpl applicationLinkService) {
+    public ApplicationLinksResourceImpl(ApplicationLinksService applicationLinkService) {
         super(applicationLinkService);
     }
 }

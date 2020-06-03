@@ -10,10 +10,10 @@ import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecStore;
 import com.atlassian.gadgets.spec.GadgetSpec;
 import com.atlassian.gadgets.spec.GadgetSpecFactory;
 import com.atlassian.sal.api.user.UserKey;
-import de.aservo.atlassian.confapi.exception.BadRequestException;
-import de.aservo.atlassian.confapi.model.GadgetBean;
-import de.aservo.atlassian.confapi.model.GadgetsBean;
-import de.aservo.atlassian.confapi.service.api.GadgetsService;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.model.GadgetBean;
+import de.aservo.confapi.commons.model.GadgetsBean;
+import de.aservo.confapi.commons.service.api.GadgetsService;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import java.util.UUID;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 //power mockito required here for mocking static methods of AuthenticatedUserThreadLocal

@@ -9,13 +9,13 @@ import com.atlassian.mail.server.impl.PopMailServerImpl;
 import com.atlassian.mail.server.impl.SMTPMailServerImpl;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.atlassian.confapi.exception.BadRequestException;
-import de.aservo.atlassian.confapi.model.MailServerPopBean;
-import de.aservo.atlassian.confapi.model.MailServerSmtpBean;
-import de.aservo.atlassian.confapi.service.api.MailServerService;
 import de.aservo.atlassian.confluence.confapi.model.util.MailServerPopBeanUtil;
 import de.aservo.atlassian.confluence.confapi.model.util.MailServerSmtpBeanUtil;
 import de.aservo.atlassian.confluence.confapi.util.MailProtocolUtil;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.model.MailServerPopBean;
+import de.aservo.confapi.commons.model.MailServerSmtpBean;
+import de.aservo.confapi.commons.service.api.MailServerService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

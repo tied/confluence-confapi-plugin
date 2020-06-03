@@ -1,7 +1,7 @@
 package com.atlassian.confluence.settings.setup;
 
 import com.atlassian.sal.api.license.SingleProductLicenseDetailsView;
-import de.aservo.atlassian.confapi.model.LicenseBean;
+import de.aservo.confapi.commons.model.LicenseBean;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

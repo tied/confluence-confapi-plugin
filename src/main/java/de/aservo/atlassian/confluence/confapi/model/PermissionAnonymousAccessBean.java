@@ -1,6 +1,6 @@
 package de.aservo.atlassian.confluence.confapi.model;
 
-import de.aservo.atlassian.confapi.constants.ConfAPI;
+import de.aservo.confapi.commons.constants.ConfAPI;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

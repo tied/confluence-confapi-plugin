@@ -1,7 +1,7 @@
 package de.aservo.atlassian.confluence.confapi.model.util;
 
 import com.atlassian.sal.api.license.SingleProductLicenseDetailsView;
-import de.aservo.atlassian.confapi.model.LicenseBean;
+import de.aservo.confapi.commons.model.LicenseBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

@@ -3,7 +3,7 @@ package de.aservo.atlassian.confluence.confapi.model.util;
 import com.atlassian.confluence.user.ConfluenceUser;
 import com.atlassian.confluence.user.ConfluenceUserImpl;
 import com.atlassian.user.User;
-import de.aservo.atlassian.confapi.model.UserBean;
+import de.aservo.confapi.commons.model.UserBean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

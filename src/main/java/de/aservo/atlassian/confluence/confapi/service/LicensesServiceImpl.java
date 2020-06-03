@@ -5,12 +5,12 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.sal.api.i18n.InvalidOperationException;
 import com.atlassian.sal.api.license.LicenseHandler;
 import com.atlassian.sal.api.license.SingleProductLicenseDetailsView;
-import de.aservo.atlassian.confapi.exception.BadRequestException;
-import de.aservo.atlassian.confapi.exception.InternalServerErrorException;
-import de.aservo.atlassian.confapi.model.LicenseBean;
-import de.aservo.atlassian.confapi.model.LicensesBean;
-import de.aservo.atlassian.confapi.service.api.LicensesService;
 import de.aservo.atlassian.confluence.confapi.model.util.LicenseBeanUtil;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.exception.InternalServerErrorException;
+import de.aservo.confapi.commons.model.LicenseBean;
+import de.aservo.confapi.commons.model.LicensesBean;
+import de.aservo.confapi.commons.service.api.LicensesService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;

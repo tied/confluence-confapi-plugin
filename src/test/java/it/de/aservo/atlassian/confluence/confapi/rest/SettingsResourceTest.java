@@ -1,7 +1,7 @@
 package it.de.aservo.atlassian.confluence.confapi.rest;
 
-import de.aservo.atlassian.confapi.model.SettingsBean;
-import it.de.aservo.atlassian.confapi.rest.AbstractSettingsResourceFuncTest;
+import de.aservo.confapi.commons.model.SettingsBean;
+import it.de.aservo.confapi.commons.rest.AbstractSettingsResourceFuncTest;
 
 public class SettingsResourceTest extends AbstractSettingsResourceFuncTest {
 

@@ -5,11 +5,10 @@ import com.atlassian.crowd.embedded.api.Directory;
 import com.atlassian.crowd.exception.DirectoryCurrentlySynchronisingException;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.atlassian.confapi.exception.InternalServerErrorException;
-import de.aservo.atlassian.confapi.model.DirectoryBean;
-import de.aservo.atlassian.confapi.service.api.DirectoryService;
-import de.aservo.atlassian.confapi.util.BeanValidationUtil;
 import de.aservo.atlassian.confluence.confapi.model.util.DirectoryBeanUtil;
+import de.aservo.confapi.commons.exception.InternalServerErrorException;
+import de.aservo.confapi.commons.model.DirectoryBean;
+import de.aservo.confapi.commons.service.api.DirectoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
 
 @Component
 @ExportAsService(DirectoryService.class)
@@ -41,7 +41,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     public DirectoryBean setDirectory(DirectoryBean directoryBean, boolean testConnection) {
 
         //preps and validation
-        BeanValidationUtil.validate(directoryBean);
+        validate(directoryBean);
         Directory directory = DirectoryBeanUtil.toDirectory(directoryBean);
         String directoryName = directoryBean.getName();
         if (testConnection) {
