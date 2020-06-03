@@ -22,4 +22,12 @@ public class PermissionAnonymousAccessBean {
 
     @XmlElement
     private Boolean allowForUserProfiles;
+
+    public static final PermissionAnonymousAccessBean EXAMPLE_1;
+
+    static {
+        EXAMPLE_1 = new PermissionAnonymousAccessBean();
+        EXAMPLE_1.setAllowForPages(true);
+        EXAMPLE_1.setAllowForUserProfiles(true);
+    }
 }
