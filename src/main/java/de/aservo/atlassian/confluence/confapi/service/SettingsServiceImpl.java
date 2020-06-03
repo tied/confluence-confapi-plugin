@@ -4,8 +4,8 @@ import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.atlassian.confapi.model.SettingsBean;
-import de.aservo.atlassian.confapi.service.api.SettingsService;
+import de.aservo.confapi.commons.model.SettingsBean;
+import de.aservo.confapi.commons.service.api.SettingsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

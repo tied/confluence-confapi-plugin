@@ -4,7 +4,7 @@ import com.atlassian.confluence.settings.setup.DefaultTestSettings;
 import com.atlassian.confluence.settings.setup.OtherTestSettings;
 import com.atlassian.confluence.setup.settings.Settings;
 import com.atlassian.confluence.setup.settings.SettingsManager;
-import de.aservo.atlassian.confapi.model.SettingsBean;
+import de.aservo.confapi.commons.model.SettingsBean;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

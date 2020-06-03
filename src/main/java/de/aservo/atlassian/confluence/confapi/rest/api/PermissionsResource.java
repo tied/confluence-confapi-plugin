@@ -1,8 +1,8 @@
 package de.aservo.atlassian.confluence.confapi.rest.api;
 
-import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confapi.model.ErrorCollection;
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
+import de.aservo.confapi.commons.constants.ConfAPI;
+import de.aservo.confapi.commons.model.ErrorCollection;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

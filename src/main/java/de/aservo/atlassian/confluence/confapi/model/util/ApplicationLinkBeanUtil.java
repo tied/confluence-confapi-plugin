@@ -9,8 +9,8 @@ import com.atlassian.applinks.api.application.crowd.CrowdApplicationType;
 import com.atlassian.applinks.api.application.fecru.FishEyeCrucibleApplicationType;
 import com.atlassian.applinks.api.application.jira.JiraApplicationType;
 import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
-import de.aservo.atlassian.confapi.model.ApplicationLinkBean;
-import de.aservo.atlassian.confapi.model.type.ApplicationLinkTypes;
+import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
 import org.apache.commons.lang3.NotImplementedException;
 
 import javax.validation.constraints.NotNull;

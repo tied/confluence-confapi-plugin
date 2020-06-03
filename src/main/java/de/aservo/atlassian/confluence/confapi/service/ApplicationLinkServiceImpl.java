@@ -15,13 +15,13 @@ import com.atlassian.applinks.spi.manifest.ManifestNotFoundException;
 import com.atlassian.applinks.spi.util.TypeAccessor;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.atlassian.confapi.exception.BadRequestException;
-import de.aservo.atlassian.confapi.model.ApplicationLinkBean;
-import de.aservo.atlassian.confapi.model.ApplicationLinksBean;
-import de.aservo.atlassian.confapi.model.type.ApplicationLinkTypes;
-import de.aservo.atlassian.confapi.service.api.ApplicationLinksService;
 import de.aservo.atlassian.confluence.confapi.model.DefaultAuthenticationScenario;
 import de.aservo.atlassian.confluence.confapi.model.util.ApplicationLinkBeanUtil;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.ApplicationLinksBean;
+import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
+import de.aservo.confapi.commons.service.api.ApplicationLinksService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static de.aservo.atlassian.confapi.util.BeanValidationUtil.validate;
+import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
 
 @Component
 @ExportAsService(ApplicationLinksService.class)

@@ -1,10 +1,10 @@
 package de.aservo.atlassian.confluence.confapi.rest;
 
 import com.sun.jersey.spi.container.ResourceFilters;
-import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confapi.rest.AbstractSettingsResourceImpl;
-import de.aservo.atlassian.confapi.service.api.SettingsService;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
+import de.aservo.confapi.commons.constants.ConfAPI;
+import de.aservo.confapi.commons.rest.AbstractSettingsResourceImpl;
+import de.aservo.confapi.commons.service.api.SettingsService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;

@@ -1,8 +1,8 @@
 package de.aservo.atlassian.confluence.confapi.rest;
 
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
-import de.aservo.atlassian.confapi.constants.ConfAPI;
-import de.aservo.atlassian.confapi.rest.AbstractPingResourceImpl;
+import de.aservo.confapi.commons.constants.ConfAPI;
+import de.aservo.confapi.commons.rest.AbstractPingResourceImpl;
 
 import javax.ws.rs.Path;
 

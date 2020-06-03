@@ -3,7 +3,7 @@ package de.aservo.atlassian.confluence.confapi.model.util;
 import com.atlassian.crowd.embedded.api.Directory;
 import com.atlassian.crowd.embedded.api.DirectoryType;
 import com.atlassian.crowd.model.directory.ImmutableDirectory;
-import de.aservo.atlassian.confapi.model.DirectoryBean;
+import de.aservo.confapi.commons.model.DirectoryBean;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;

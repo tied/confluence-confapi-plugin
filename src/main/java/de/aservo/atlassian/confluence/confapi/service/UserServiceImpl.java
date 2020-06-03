@@ -7,18 +7,18 @@ import com.atlassian.user.EntityException;
 import com.atlassian.user.User;
 import com.atlassian.user.UserManager;
 import com.atlassian.user.impl.DefaultUser;
-import de.aservo.atlassian.confapi.exception.BadRequestException;
-import de.aservo.atlassian.confapi.exception.NotFoundException;
-import de.aservo.atlassian.confapi.model.UserBean;
-import de.aservo.atlassian.confapi.service.api.UserService;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.exception.NotFoundException;
+import de.aservo.confapi.commons.model.UserBean;
+import de.aservo.confapi.commons.service.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
-import static de.aservo.atlassian.confapi.util.BeanValidationUtil.validate;
 import static de.aservo.atlassian.confluence.confapi.model.util.UserBeanUtil.toUserBean;
+import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 @Component
