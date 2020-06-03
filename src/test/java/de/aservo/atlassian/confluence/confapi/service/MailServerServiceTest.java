@@ -41,7 +41,6 @@ public class MailServerServiceTest {
     @Test
     public void testGetSmtpMailServer() {
         final SMTPMailServer smtpMailServer = new DefaultTestSmtpMailServerImpl();
-        doReturn(true).when(mailServerManager).isDefaultSMTPMailServerDefined();
         doReturn(smtpMailServer).when(mailServerManager).getDefaultSMTPMailServer();
 
         final MailServerSmtpBean bean = mailServerService.getMailServerSmtp();
@@ -114,7 +113,6 @@ public class MailServerServiceTest {
     @Test (expected = BadRequestException.class)
     public void testPutSmtpMaiLServerException() throws Exception {
         doReturn(false).when(mailServerManager).isDefaultSMTPMailServerDefined();
-        doReturn(null).when(mailServerManager).getDefaultSMTPMailServer();
         doThrow(new MailException("SMTP test exception")).when(mailServerManager).create(any());
 
         final SMTPMailServer createSmtpMailServer = new DefaultTestSmtpMailServerImpl();

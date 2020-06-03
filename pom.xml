@@ -63,9 +63,11 @@
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
         <confapi-commons.version>0.0.9-SNAPSHOT</confapi-commons.version>
+        <log4j.version>2.8.2</log4j.version>
         <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
         <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
         <powermock-api-easymock.version>2.0.5</powermock-api-easymock.version>
+        <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -279,6 +281,20 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
             <version>${powermock-api-easymock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
 

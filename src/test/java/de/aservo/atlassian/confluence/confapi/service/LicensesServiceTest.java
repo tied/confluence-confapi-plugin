@@ -69,7 +69,6 @@ public class LicensesServiceTest {
     public void testSetLicense() {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
-        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
         doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
 
         LicensesBean updatedLicensesBean = licenseService.setLicense(licenseBean);
@@ -80,10 +79,7 @@ public class LicensesServiceTest {
     @Test(expected = BadRequestException.class)
     public void testSetLicenseWithError() throws InvalidOperationException {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
-        DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
-        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
-        doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
-        doThrow(new InvalidOperationException("", "")).when(licenseHandler).addProductLicense(any(String.class), any(String.class));
+        doThrow(new InvalidOperationException("", "")).when(licenseHandler).addProductLicense(any(), any());
 
         licenseService.setLicense(licenseBean);
     }

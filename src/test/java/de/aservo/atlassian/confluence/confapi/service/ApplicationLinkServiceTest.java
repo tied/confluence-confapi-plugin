@@ -14,9 +14,9 @@ import de.aservo.atlassian.confluence.confapi.model.util.ApplicationLinkBeanUtil
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
 import de.aservo.confapi.commons.model.ApplicationLinksBean;
 import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -39,8 +39,12 @@ public class ApplicationLinkServiceTest {
     @Mock
     private TypeAccessor typeAccessor;
 
-    @InjectMocks
     private ApplicationLinkServiceImpl applicationLinkService;
+
+    @Before
+    public void setup() {
+        applicationLinkService = new ApplicationLinkServiceImpl(mutatingApplicationLinkService, typeAccessor);
+    }
 
     @Test
     public void testDefaultDefaultAuthenticationScenarioImpl() {

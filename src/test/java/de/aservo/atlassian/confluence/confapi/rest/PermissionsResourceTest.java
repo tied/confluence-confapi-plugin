@@ -40,7 +40,6 @@ public class PermissionsResourceTest {
 
     @Test
     public void testSetAnonymousPermissions() {
-        doReturn(PermissionAnonymousAccessBean.EXAMPLE_1).when(permissionsService).getPermissionAnonymousAccess();
         Response response = resource.setPermissionAnonymousAccess(PermissionAnonymousAccessBean.EXAMPLE_1);
         assertEquals(200, response.getStatus());
     }
