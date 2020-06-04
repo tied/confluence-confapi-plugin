@@ -77,7 +77,7 @@ public class DefaultSingleProductLicenseDetailsView implements SingleProductLice
     @Nonnull
     @Override
     public String getProductKey() {
-        return licenseBean.getProducts().iterator().next();
+        return null;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class DefaultSingleProductLicenseDetailsView implements SingleProductLice
     @Nonnull
     @Override
     public String getProductDisplayName() {
-        return null;
+        return licenseBean.getProducts().iterator().next();
     }
 
     @Nullable
