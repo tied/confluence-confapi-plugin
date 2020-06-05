@@ -3,7 +3,7 @@ package de.aservo.atlassian.confluence.confapi.model.type;
 import de.aservo.atlassian.confluence.confapi.model.DefaultAuthenticationScenario;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertTrue;
 

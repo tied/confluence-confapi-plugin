@@ -8,11 +8,11 @@ import com.atlassian.crowd.model.directory.ImmutableDirectory;
 import de.aservo.atlassian.confluence.confapi.model.util.DirectoryBeanUtil;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.model.DirectoryBean;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.validation.ValidationException;
 import java.util.Collections;
@@ -35,15 +35,19 @@ public class DirectoryServiceTest {
     @Mock
     private CrowdDirectoryService crowdDirectoryService;
 
-    @InjectMocks
-    private DirectoryServiceImpl userDirectoryService;
+    private DirectoryServiceImpl directoryService;
+
+    @Before
+    public void setup() {
+        directoryService = new DirectoryServiceImpl(crowdDirectoryService);
+    }
 
     @Test
     public void testGetDirectories() {
         Directory directory = createDirectory();
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
 
-        List<DirectoryBean> directories = userDirectoryService.getDirectories();
+        List<DirectoryBean> directories = directoryService.getDirectories();
 
         assertEquals(directories.get(0), DirectoryBeanUtil.toDirectoryBean(directory));
     }
@@ -55,7 +59,7 @@ public class DirectoryServiceTest {
 
         DirectoryBean directoryBean = DirectoryBeanUtil.toDirectoryBean(directory);
         directoryBean.setAppPassword("test");
-        DirectoryBean directoryAdded = userDirectoryService.setDirectory(directoryBean, false);
+        DirectoryBean directoryAdded = directoryService.setDirectory(directoryBean, false);
 
         assertEquals(directoryAdded.getName(), directoryBean.getName());
     }
@@ -68,7 +72,7 @@ public class DirectoryServiceTest {
 
         DirectoryBean directoryBean = DirectoryBeanUtil.toDirectoryBean(directory);
         directoryBean.setAppPassword("test");
-        DirectoryBean directoryAdded = userDirectoryService.setDirectory(directoryBean, false);
+        DirectoryBean directoryAdded = directoryService.setDirectory(directoryBean, false);
 
         assertEquals(directoryAdded.getName(), directoryBean.getName());
     }
@@ -80,7 +84,7 @@ public class DirectoryServiceTest {
 
         DirectoryBean directoryBean = DirectoryBeanUtil.toDirectoryBean(directory);
         directoryBean.setAppPassword("test");
-        DirectoryBean directoryAdded = userDirectoryService.setDirectory(directoryBean, true);
+        DirectoryBean directoryAdded = directoryService.setDirectory(directoryBean, true);
 
         assertEquals(directoryAdded.getName(), directoryBean.getName());
     }
@@ -92,7 +96,7 @@ public class DirectoryServiceTest {
         directoryBean.setAppPassword("test");
         directoryBean.setClientName(null);
 
-        userDirectoryService.setDirectory(directoryBean, false);
+        directoryService.setDirectory(directoryBean, false);
     }
 
     @Test(expected = InternalServerErrorException.class)
@@ -103,7 +107,7 @@ public class DirectoryServiceTest {
 
         DirectoryBean directoryBean = DirectoryBeanUtil.toDirectoryBean(directory);
         directoryBean.setAppPassword("test");
-        DirectoryBean directoryAdded = userDirectoryService.setDirectory(directoryBean, false);
+        DirectoryBean directoryAdded = directoryService.setDirectory(directoryBean, false);
     }
 
     private Directory createDirectory() {

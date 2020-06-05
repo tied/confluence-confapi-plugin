@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
@@ -40,7 +40,6 @@ public class PermissionsResourceTest {
 
     @Test
     public void testSetAnonymousPermissions() {
-        doReturn(PermissionAnonymousAccessBean.EXAMPLE_1).when(permissionsService).getPermissionAnonymousAccess();
         Response response = resource.setPermissionAnonymousAccess(PermissionAnonymousAccessBean.EXAMPLE_1);
         assertEquals(200, response.getStatus());
     }

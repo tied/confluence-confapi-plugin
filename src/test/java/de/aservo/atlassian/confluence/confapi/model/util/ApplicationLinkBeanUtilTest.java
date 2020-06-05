@@ -18,7 +18,7 @@ import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.net.URI;
 import java.net.URISyntaxException;

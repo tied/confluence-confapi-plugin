@@ -3,7 +3,7 @@ version: 2.1
 executors:
   maven:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-jdk
     resource_class: large
     working_directory: /tmp/build
 
@@ -16,7 +16,7 @@ jobs:
           key: confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Download Dependencies
-          command: ./mvnw dependency:go-offline -U
+          command: ./mvnw dependency:go-offline -U -B
       - run:
           name: Compile and Package
           command: ./mvnw package -DskipTests
@@ -58,7 +58,7 @@ jobs:
           key: confapi-plugin-{{ checksum "pom.xml" }}
       - run:
           name: Run Integration Tests
-          command: ./mvnw integration-test -DskipUnitTests
+          command: ./mvnw integration-test -DskipUnitTests -B
       - save_cache:
           paths:
             - ~/.m2
@@ -78,7 +78,7 @@ jobs:
           command: gpg --no-tty --batch --import .circleci/sign.asc
       - run:
           name: Deploy to Maven Central
-          command: export GPG_TTY=$(tty) && ./mvnw deploy -DskipTests -s .circleci/settings.xml
+          command: export GPG_TTY=$(tty) && ./mvnw deploy -DskipTests -s .circleci/settings.xml -B
       - save_cache:
           paths:
             - ~/.m2
