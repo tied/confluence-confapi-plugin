@@ -4,7 +4,7 @@ import com.sun.jersey.spi.container.ResourceFilters;
 import de.aservo.atlassian.confluence.confapi.filter.AdminOnlyResourceFilter;
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
 import de.aservo.atlassian.confluence.confapi.rest.api.PermissionsResource;
-import de.aservo.atlassian.confluence.confapi.rest.api.PermissionsService;
+import de.aservo.atlassian.confluence.confapi.service.api.PermissionsService;
 import de.aservo.confapi.commons.constants.ConfAPI;
 import org.springframework.stereotype.Component;
 
