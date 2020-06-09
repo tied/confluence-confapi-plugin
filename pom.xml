@@ -62,7 +62,7 @@
         <atlassian.gadgets.version>4.3.2.1</atlassian.gadgets.version>
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
-        <confapi-commons.version>0.0.9-SNAPSHOT</confapi-commons.version>
+        <confapi-commons.version>0.0.10-SNAPSHOT</confapi-commons.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
         <log4j.version>2.8.2</log4j.version>
         <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
@@ -313,9 +313,13 @@
                 <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <ajpPort>${ajp.port}</ajpPort>
                     <productVersion>${confluence.version}</productVersion>
                     <productDataVersion>${confluence.version}</productDataVersion>
-                    <ajpPort>${ajp.port}</ajpPort>
+                    <!-- the following version may only be adjusted, when a new home zip has been generated -->
+                    <productDataVersion>7.5.0</productDataVersion>
+                    <!-- in case new home zip should be generated, please add your executed steps to generated-test-resources.md -->
+                    <productDataPath>${project.basedir}/src/test/resources/generated-test-resources.zip</productDataPath>
                     <enableQuickReload>true</enableQuickReload>
                     <jvmArgs>-Xms1g -Xmx4g -XX:MaxPermSize=1g -XX:-UseGCOverheadLimit -server</jvmArgs>
                     <!-- See here for an explanation of default instructions: -->
