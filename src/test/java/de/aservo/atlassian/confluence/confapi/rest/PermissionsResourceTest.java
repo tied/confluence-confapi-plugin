@@ -1,7 +1,7 @@
 package de.aservo.atlassian.confluence.confapi.rest;
 
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
-import de.aservo.atlassian.confluence.confapi.rest.api.PermissionsService;
+import de.aservo.atlassian.confluence.confapi.service.api.PermissionsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

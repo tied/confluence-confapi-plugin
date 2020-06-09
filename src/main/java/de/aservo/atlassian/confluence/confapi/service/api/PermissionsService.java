@@ -1,4 +1,4 @@
-package de.aservo.atlassian.confluence.confapi.rest.api;
+package de.aservo.atlassian.confluence.confapi.service.api;
 
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
 

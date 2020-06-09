@@ -6,7 +6,7 @@ import com.atlassian.confluence.security.service.AnonymousUserPermissionsService
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confluence.confapi.model.PermissionAnonymousAccessBean;
-import de.aservo.atlassian.confluence.confapi.rest.api.PermissionsService;
+import de.aservo.atlassian.confluence.confapi.service.api.PermissionsService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
