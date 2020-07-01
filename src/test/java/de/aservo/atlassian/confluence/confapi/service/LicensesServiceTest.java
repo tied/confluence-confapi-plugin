@@ -69,11 +69,10 @@ public class LicensesServiceTest {
     public void testSetLicense() {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
-        doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
 
-        LicensesBean updatedLicensesBean = licenseService.setLicense(licenseBean);
+        LicenseBean updatedLicenseBean = licenseService.addLicense(licenseBean);
 
-        assertEquals(testLicense.getDescription(), updatedLicensesBean.getLicenses().iterator().next().getDescription());
+        assertEquals(testLicense.getDescription(), updatedLicenseBean.getDescription());
     }
 
     @Test(expected = BadRequestException.class)
@@ -81,6 +80,6 @@ public class LicensesServiceTest {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         doThrow(new InvalidOperationException("", "")).when(licenseHandler).addProductLicense(any(), any());
 
-        licenseService.setLicense(licenseBean);
+        licenseService.addLicense(licenseBean);
     }
 }

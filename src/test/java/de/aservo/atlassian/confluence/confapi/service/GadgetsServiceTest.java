@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -78,6 +79,7 @@ public class GadgetsServiceTest {
     public void testAddGadget() throws URISyntaxException, IllegalAccessException {
         ExternalGadgetSpec externalGadgetSpec = createExternalGadgetSpec();
         doReturn(Collections.singletonList(externalGadgetSpec)).when(externalGadgetSpecStore).entries();
+        doReturn(externalGadgetSpec).when(externalGadgetSpecStore).add(any());
 
         ConfluenceUser user = createConfluenceUser();
         String gadgetUrlToSet = externalGadgetSpec.getSpecUri().toString();
@@ -93,14 +95,15 @@ public class GadgetsServiceTest {
         doReturn(Locale.GERMAN).when(localeManager).getLocale(user);
         doReturn(gadgetSpec).when(gadgetSpecFactory).getGadgetSpec(externalGadgetSpec.getSpecUri(), null);
 
-        GadgetsBean gadgetsBean = gadgetsService.addGadget(gadgetBean);
-        assertEquals(gadgetUrlToSet, gadgetsBean.getGadgets().iterator().next().getUrl());
+        GadgetBean gadgetsBean = gadgetsService.addGadget(gadgetBean);
+        assertEquals(gadgetUrlToSet, gadgetsBean.getUrl());
     }
 
     @Test
     public void testSetGadgets() throws URISyntaxException, IllegalAccessException {
         ExternalGadgetSpec externalGadgetSpec = createExternalGadgetSpec();
         doReturn(Collections.singletonList(externalGadgetSpec)).when(externalGadgetSpecStore).entries();
+        doReturn(externalGadgetSpec).when(externalGadgetSpecStore).add(any());
 
         ConfluenceUser user = createConfluenceUser();
         String gadgetUrlToSet = externalGadgetSpec.getSpecUri().toString();

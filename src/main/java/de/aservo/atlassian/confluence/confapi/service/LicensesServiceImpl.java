@@ -50,22 +50,22 @@ public class LicensesServiceImpl implements LicensesService {
             }));
 
             //set licenses
-            licensesBean.getLicenses().forEach(this::setLicense);
+            licensesBean.getLicenses().forEach(this::addLicense);
         } else {
             //set first license from bean for non multi-license hosts
-            setLicense(licensesBean.getLicenses().iterator().next());
+            addLicense(licensesBean.getLicenses().iterator().next());
         }
 
         return getLicenses();
     }
 
     @Override
-    public LicensesBean setLicense(LicenseBean licenseBean) {
+    public LicenseBean addLicense(LicenseBean licenseBean) {
         try {
             licenseHandler.addProductLicense(DEFAULT_LICENSE_REGISTRY_KEY, licenseBean.getKey());
         } catch (InvalidOperationException e) {
             throw new BadRequestException("The new license cannot be set");
         }
-        return getLicenses();
+        return licenseBean;
     }
 }

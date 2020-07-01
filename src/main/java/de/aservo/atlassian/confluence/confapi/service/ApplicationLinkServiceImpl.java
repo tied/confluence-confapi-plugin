@@ -67,7 +67,7 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
     }
 
     @Override
-    public ApplicationLinksBean addApplicationLink(ApplicationLinkBean linkBean) {
+    public ApplicationLinkBean addApplicationLink(ApplicationLinkBean linkBean) {
         //preparations
         validate(linkBean);
 
@@ -95,11 +95,10 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
             applicationLink = mutatingApplicationLinkService.createApplicationLink(applicationType, linkDetails);
             mutatingApplicationLinkService.configureAuthenticationForApplicationLink(applicationLink,
                     new DefaultAuthenticationScenario(), linkBean.getUsername(), linkBean.getPassword());
+            return ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink);
         } catch (ManifestNotFoundException | AuthenticationConfigurationException e) {
             throw new BadRequestException(e.getMessage());
         }
-
-        return getApplicationLinks();
     }
 
     private ApplicationType buildApplicationType(ApplicationLinkTypes linkType) {
