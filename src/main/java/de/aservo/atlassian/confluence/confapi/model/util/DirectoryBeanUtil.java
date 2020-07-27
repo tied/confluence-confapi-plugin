@@ -15,7 +15,6 @@ import de.aservo.confapi.commons.model.DirectoryLdapBean;
 
 import javax.validation.constraints.NotNull;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +70,7 @@ public class DirectoryBeanUtil {
      */
     @NotNull
     public static AbstractDirectoryBean toDirectoryBean(
-            @NotNull final Directory directory) throws URISyntaxException {
+            @NotNull final Directory directory) {
 
         final Map<String, String> attributes = directory.getAttributes();
         final AbstractDirectoryBean directoryBean;
@@ -79,7 +78,7 @@ public class DirectoryBeanUtil {
         if (DirectoryType.CROWD.equals(directory.getType())) {
 
             DirectoryCrowdServer serverBean = new DirectoryCrowdServer();
-            serverBean.setUri(new URI(attributes.get(CROWD_SERVER_URL)));
+            serverBean.setUri(URI.create(attributes.get(CROWD_SERVER_URL)));
             if (attributes.containsKey(CROWD_HTTP_PROXY_HOST)) {
                 DirectoryCrowdServerProxy proxy = new DirectoryCrowdServerProxy();
                 proxy.setUsername(attributes.get(CROWD_HTTP_PROXY_USERNAME));

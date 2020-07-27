@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +42,8 @@ public class DirectoryServiceImpl implements DirectoryService {
         List<AbstractDirectoryBean> beans = new ArrayList<>();
         for (Directory directory : crowdDirectoryService.findAllDirectories()) {
             AbstractDirectoryBean crowdBean;
-            try {
-                crowdBean = DirectoryBeanUtil.toDirectoryBean(directory);
-                beans.add(crowdBean);
-            } catch (URISyntaxException e) {
-                throw new InternalServerErrorException(e);
-            }
+            crowdBean = DirectoryBeanUtil.toDirectoryBean(directory);
+            beans.add(crowdBean);
         }
         return new DirectoriesBean(beans);
     }
@@ -90,11 +85,7 @@ public class DirectoryServiceImpl implements DirectoryService {
             DirectoryCrowdBean crowdBean = (DirectoryCrowdBean)abstractDirectoryBean;
             Directory directory = validateAndCreateDirectoryConfig(crowdBean, testConnection);
             Directory addedDirectory = crowdDirectoryService.addDirectory(directory);
-            try {
-                return DirectoryBeanUtil.toDirectoryBean(addedDirectory);
-            } catch (URISyntaxException e) {
-                throw new InternalServerErrorException(e);
-            }
+            return DirectoryBeanUtil.toDirectoryBean(addedDirectory);
         } else {
             throw new InternalServerErrorException(format("Adding directory type '%s' is not supported (yet)", abstractDirectoryBean.getClass()));
         }

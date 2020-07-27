@@ -54,16 +54,15 @@ public class DirectoryServiceTest {
         assertEquals(directories.getDirectories().iterator().next(), DirectoryBeanUtil.toDirectoryBean(directory));
     }
 
-    @Test(expected = InternalServerErrorException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testGetDirectoriesUriException() {
         Directory directory = createDirectory("öäöää://uhveuehvde");
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
-
         directoryService.getDirectories();
     }
 
     @Test
-    public void testSetDirectoriesWithoutExistingDirectory() throws URISyntaxException {
+    public void testSetDirectoriesWithoutExistingDirectory() {
         Directory directory = createDirectory();
         doReturn(directory).when(crowdDirectoryService).addDirectory(any(Directory.class));
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
@@ -76,7 +75,7 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void testSetDirectoryWithExistingDirectory() throws URISyntaxException {
+    public void testSetDirectoryWithExistingDirectory() {
         Directory directory = createDirectory();
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
         doReturn(directory).when(crowdDirectoryService).addDirectory(any(Directory.class));
@@ -89,7 +88,7 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void testSetDirectoryWithConnectionTest() throws URISyntaxException {
+    public void testSetDirectoryWithConnectionTest() {
         Directory directory = createDirectory();
         doReturn(directory).when(crowdDirectoryService).addDirectory(any(Directory.class));
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
@@ -101,8 +100,8 @@ public class DirectoryServiceTest {
         assertEquals(directoryAdded.getDirectories().iterator().next().getName(), directoryBean.getName());
     }
 
-    @Test(expected = InternalServerErrorException.class)
-    public void testAddDirectoryUriException() throws URISyntaxException {
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddDirectoryUriException() {
         Directory responseDirectory = createDirectory("öäöää://uhveuehvde");
         doReturn(responseDirectory).when(crowdDirectoryService).addDirectory(any());
 
@@ -113,7 +112,7 @@ public class DirectoryServiceTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void testAddDirectoryInvalidBean() throws URISyntaxException {
+    public void testAddDirectoryInvalidBean() {
         Directory directory = createDirectory();
         DirectoryCrowdBean directoryBean = (DirectoryCrowdBean)DirectoryBeanUtil.toDirectoryBean(directory);
         directoryBean.setName(null);
@@ -122,7 +121,7 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void testAddDirectory() throws URISyntaxException {
+    public void testAddDirectory() {
         Directory directory = createDirectory();
         doReturn(directory).when(crowdDirectoryService).addDirectory(any(Directory.class));
 
@@ -135,7 +134,7 @@ public class DirectoryServiceTest {
 
 
     @Test(expected = InternalServerErrorException.class)
-    public void testSetDirectoryDirectoryCurrentlySynchronisingException() throws DirectoryCurrentlySynchronisingException, URISyntaxException {
+    public void testSetDirectoryDirectoryCurrentlySynchronisingException() throws DirectoryCurrentlySynchronisingException {
         Directory directory = createDirectory();
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
         doThrow(new DirectoryCurrentlySynchronisingException(1L)).when(crowdDirectoryService).removeDirectory(1L);
