@@ -61,13 +61,19 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
     }
 
     @Override
-    public ApplicationLinksBean setApplicationLinks(ApplicationLinksBean applicationLinksBean) {
-        applicationLinksBean.getApplicationLinks().forEach(this::addApplicationLink);
+    public ApplicationLinksBean setApplicationLinks(
+            final ApplicationLinksBean applicationLinksBean,
+            final boolean ignoreSetupErrors) {
+
+        applicationLinksBean.getApplicationLinks().forEach(link -> addApplicationLink(link, ignoreSetupErrors));
         return getApplicationLinks();
     }
 
     @Override
-    public ApplicationLinkBean addApplicationLink(ApplicationLinkBean linkBean) {
+    public ApplicationLinkBean addApplicationLink(
+            final ApplicationLinkBean linkBean,
+            final boolean ignoreSetupErrors) {
+
         //preparations
         validate(linkBean);
 

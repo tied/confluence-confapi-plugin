@@ -43,8 +43,9 @@ public class DirectoryBeanUtilTest {
         final Map<String, String> attributes = directory.getAttributes();
         assertEquals(bean.getServer().getUri().toString(), attributes.get(CROWD_SERVER_URL));
         assertEquals(bean.getServer().getAppPassword(), attributes.get(APPLICATION_PASSWORD));
-        assertEquals(bean.getServer().getProxy().getUri().getHost(), attributes.get(CROWD_HTTP_PROXY_HOST));
-        assertEquals(String.valueOf(bean.getServer().getProxy().getUri().getPort()), attributes.get(CROWD_HTTP_PROXY_PORT));
+        assertEquals(bean.getServer().getProxy().getHost(), attributes.get(CROWD_HTTP_PROXY_HOST));
+        assertNull(bean.getServer().getProxy().getPort());
+        assertNull(attributes.get(CROWD_HTTP_PROXY_PORT));
         assertEquals(bean.getServer().getProxy().getUsername(), attributes.get(CROWD_HTTP_PROXY_USERNAME));
         assertEquals(bean.getServer().getProxy().getPassword(), attributes.get(CROWD_HTTP_PROXY_PASSWORD));
     }
@@ -76,7 +77,8 @@ public class DirectoryBeanUtilTest {
         final Map<String, String> attributes = directory.getAttributes();
         assertEquals(attributes.get(CROWD_SERVER_URL), directoryBean.getServer().getUri().toString());
         assertNull(directoryBean.getServer().getAppPassword());
-        assertEquals(attributes.get(CROWD_HTTP_PROXY_HOST) + ":" + attributes.get(CROWD_HTTP_PROXY_PORT), directoryBean.getServer().getProxy().getUri().toString());
+        assertEquals(attributes.get(CROWD_HTTP_PROXY_HOST), directoryBean.getServer().getProxy().getHost());
+        assertEquals(attributes.get(CROWD_HTTP_PROXY_PORT), directoryBean.getServer().getProxy().getPort().toString());
         assertEquals(attributes.get(CROWD_HTTP_PROXY_USERNAME), directoryBean.getServer().getProxy().getUsername());
         assertNull(directoryBean.getServer().getProxy().getPassword());
     }

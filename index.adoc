@@ -70,6 +70,19 @@ Upon successful request, returns the added `ApplicationLinkBean` object
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -231,6 +244,19 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -2448,6 +2474,18 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
 | username 
 |  
 | String  
@@ -2459,12 +2497,6 @@ endif::internal-generation[]
 | String  
 | 
 |  
-
-| uri 
-|  
-| URI  
-| 
-| uri 
 
 |===
 

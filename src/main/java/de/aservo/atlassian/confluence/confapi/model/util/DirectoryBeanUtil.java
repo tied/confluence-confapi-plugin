@@ -41,8 +41,10 @@ public class DirectoryBeanUtil {
             attributes.put(APPLICATION_NAME, directoryBean.getServer().getAppUsername());
             attributes.put(APPLICATION_PASSWORD, directoryBean.getServer().getAppPassword());
             if (directoryBean.getServer().getProxy() != null) {
-                attributes.put(CROWD_HTTP_PROXY_HOST, directoryBean.getServer().getProxy().getUri().getHost());
-                attributes.put(CROWD_HTTP_PROXY_PORT, String.valueOf(directoryBean.getServer().getProxy().getUri().getPort()));
+                attributes.put(CROWD_HTTP_PROXY_HOST, directoryBean.getServer().getProxy().getHost());
+                if (directoryBean.getServer().getProxy().getPort() != null) {
+                    attributes.put(CROWD_HTTP_PROXY_PORT, directoryBean.getServer().getProxy().getPort().toString());
+                }
                 attributes.put(CROWD_HTTP_PROXY_USERNAME, directoryBean.getServer().getProxy().getUsername());
                 attributes.put(CROWD_HTTP_PROXY_PASSWORD, directoryBean.getServer().getProxy().getPassword());
             }
@@ -81,9 +83,10 @@ public class DirectoryBeanUtil {
             if (attributes.containsKey(CROWD_HTTP_PROXY_HOST)) {
                 DirectoryCrowdServerProxy proxy = new DirectoryCrowdServerProxy();
                 proxy.setUsername(attributes.get(CROWD_HTTP_PROXY_USERNAME));
-                String proxyUrl = attributes.get(CROWD_HTTP_PROXY_HOST) +
-                        (attributes.get(CROWD_HTTP_PROXY_PORT) == null ? "" : ":" + attributes.get(CROWD_HTTP_PROXY_PORT));
-                proxy.setUri(new URI(proxyUrl));
+                proxy.setHost(attributes.get(CROWD_HTTP_PROXY_HOST));
+                if (attributes.get(CROWD_HTTP_PROXY_PORT) != null) {
+                    proxy.setPort(Integer.valueOf(attributes.get(CROWD_HTTP_PROXY_PORT)));
+                }
                 serverBean.setProxy(proxy);
             }
             serverBean.setConnectionTimeoutInMillis(toLong(attributes.get(CROWD_HTTP_TIMEOUT)));
