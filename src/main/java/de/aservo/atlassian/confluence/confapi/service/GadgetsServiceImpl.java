@@ -69,7 +69,7 @@ public class GadgetsServiceImpl implements GadgetsService {
     }
 
     @Override
-    public GadgetsBean addGadget(GadgetBean gadgetBean) {
+    public GadgetBean addGadget(GadgetBean gadgetBean) {
         //initial checks
         String url = gadgetBean.getUrl();
         if (StringUtils.isBlank(url)) {
@@ -94,8 +94,10 @@ public class GadgetsServiceImpl implements GadgetsService {
         gadgetSpecFactory.getGadgetSpec(uri, requestContext);
 
         //add gadget url to store
-        externalGadgetSpecStore.add(uri);
+        ExternalGadgetSpec addedGadget = externalGadgetSpecStore.add(uri);
 
-        return getGadgets();
+        GadgetBean addedGadgetBean = new GadgetBean();
+        addedGadgetBean.setUrl(addedGadget.getSpecUri().toString());
+        return addedGadgetBean;
     }
 }

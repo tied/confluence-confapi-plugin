@@ -44,7 +44,7 @@ Add a single application link
 
 ===== Description 
 
-Upon successful request, returns a `ApplicationLinksBean` object containing all application links
+Upon successful request, returns the added `ApplicationLinkBean` object
 
 
 // markup not found, no include::{specDir}application-links/POST/spec.adoc[opts=optional]
@@ -70,11 +70,24 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
 
-<<ApplicationLinksBean>>
+<<ApplicationLinkBean>>
 
 
 ===== Content Type
@@ -91,7 +104,7 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 | 200
 | 
-|  <<ApplicationLinksBean>>
+|  <<ApplicationLinkBean>>
 
 
 | 0
@@ -231,6 +244,19 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -285,6 +311,106 @@ endif::internal-generation[]
 
 [.Directories]
 === Directories
+
+
+[.addDirectory]
+==== addDirectory
+    
+`POST /directories`
+
+Adds a new directory
+
+===== Description 
+
+Adds a new user directory to the existing list of directories
+
+
+// markup not found, no include::{specDir}directories/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AbstractDirectoryBean 
+|  <<AbstractDirectoryBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| test-connection 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AbstractDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<AbstractDirectoryBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
 
 
 [.getDirectories]
@@ -361,16 +487,16 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.setDirectory]
-==== setDirectory
+[.setDirectories]
+==== setDirectories
     
 `PUT /directories`
 
-Set a new directory
+Set a new list of directories
 
 ===== Description 
 
-Any existing directory with the same name will be removed before adding the new one
+Any existing directories with the same names will be removed before adding the new ones
 
 
 // markup not found, no include::{specDir}directories/PUT/spec.adoc[opts=optional]
@@ -386,8 +512,8 @@ Any existing directory with the same name will be removed before adding the new 
 |===         
 |Name| Description| Required| Default| Pattern
 
-| DirectoryBean 
-|  <<DirectoryBean>> 
+| DirectoriesBean 
+|  <<DirectoriesBean>> 
 | X 
 |  
 |  
@@ -413,7 +539,7 @@ Any existing directory with the same name will be removed before adding the new 
 
 ===== Return Type
 
-<<DirectoryBean>>
+<<DirectoriesBean>>
 
 
 ===== Content Type
@@ -430,7 +556,7 @@ Any existing directory with the same name will be removed before adding the new 
 
 | 200
 | 
-|  <<DirectoryBean>>
+|  <<DirectoriesBean>>
 
 
 | 0
@@ -474,7 +600,7 @@ Adds a single gadget
 
 ===== Description 
 
-Upon successful request, returns a `GadgetsBean` object containing gadgets details
+Upon successful request, returns the added `GadgetBean` object containing gadget details
 
 
 // markup not found, no include::{specDir}gadgets/POST/spec.adoc[opts=optional]
@@ -504,7 +630,7 @@ Upon successful request, returns a `GadgetsBean` object containing gadgets detai
 
 ===== Return Type
 
-<<GadgetsBean>>
+<<GadgetBean>>
 
 
 ===== Content Type
@@ -521,7 +647,7 @@ Upon successful request, returns a `GadgetsBean` object containing gadgets detai
 
 | 200
 | 
-|  <<GadgetsBean>>
+|  <<GadgetBean>>
 
 
 | 0
@@ -726,7 +852,7 @@ Adds a single license
 
 ===== Description 
 
-Upon successful request, returns a `LicensesBean` object containing license details
+Upon successful request, returns the added `LicenseBean` object containing license details
 
 
 // markup not found, no include::{specDir}licenses/POST/spec.adoc[opts=optional]
@@ -756,7 +882,7 @@ Upon successful request, returns a `LicensesBean` object containing license deta
 
 ===== Return Type
 
-<<LicensesBean>>
+<<LicenseBean>>
 
 
 ===== Content Type
@@ -773,7 +899,7 @@ Upon successful request, returns a `LicensesBean` object containing license deta
 
 | 200
 | 
-|  <<LicensesBean>>
+|  <<LicenseBean>>
 
 
 | 0
@@ -813,7 +939,7 @@ Get all licenses information
 
 ===== Description 
 
-Upon successful request, returns a `LicensesBean` object containing license details
+Upon successful request, returns a `LicensesBean` object containing license details. Be aware that `products` collection of the `LicenseBean` contains the product display names, not the product key names
 
 
 // markup not found, no include::{specDir}licenses/GET/spec.adoc[opts=optional]
@@ -1796,6 +1922,106 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.setUser]
+==== setUser
+    
+`PUT /users`
+
+Updates user details
+
+===== Description 
+
+Upon successful request, returns the updated `UserBean` object (user name cannot be updated)
+
+
+// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserBean 
+|  <<UserBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.setUserPassword]
 ==== setUserPassword
     
@@ -1896,108 +2122,75 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.updateUser]
-==== updateUser
-    
-`PUT /users`
-
-Updates user details
-
-===== Description 
-
-Upon successful request, returns the updated `UserBean` object (user name cannot be updated)
-
-
-// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-
-===== Body Parameter
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| UserBean 
-|  <<UserBean>> 
-| X 
-|  
-|  
-
-|===         
-
-
-
-====== Query Parameters
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| userName 
-|   
-| X 
-| null 
-|  
-
-|===         
-
-
-===== Return Type
-
-<<UserBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<UserBean>>
-
-
-| 0
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :users/PUT/PUT.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
 [#models]
 == Models
+
+
+[#AbstractDirectoryBean]
+=== _AbstractDirectoryBean_ 
+
+
+
+[.fields-AbstractDirectoryBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
+|===
 
 
 [#ApplicationLinkBean]
@@ -2098,42 +2291,67 @@ endif::internal-generation[]
 
 | directories 
 |  
-| List  of <<DirectoryBean>> 
+| List  of <<AbstractDirectoryBean>> 
 | 
 |  
 
 |===
 
 
-[#DirectoryBean]
-=== _DirectoryBean_ 
+[#DirectoryCrowdAdvanced]
+=== _DirectoryCrowdAdvanced_ 
 
 
 
-[.fields-DirectoryBean]
+[.fields-DirectoryCrowdAdvanced]
 [cols="2,1,2,4,1"]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| active 
+| enableNestedGroups 
 |  
 | Boolean  
 | 
 |  
 
+| enableIncrementalSync 
+|  
+| Boolean  
+| 
+|  
+
+| updateGroupMembershipMethod 
+|  
+| String  
+| 
+|  
+
+| updateSyncIntervalInMinutes 
+|  
+| Integer  
+| 
+| int32 
+
+|===
+
+
+[#DirectoryCrowdBean]
+=== _DirectoryCrowdBean_ 
+
+
+
+[.fields-DirectoryCrowdBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
 | name 
-| X 
-| String  
-| 
-|  
-
-| clientName 
-| X 
-| String  
-| 
-|  
-
-| type 
 | X 
 | String  
 | 
@@ -2145,7 +2363,81 @@ endif::internal-generation[]
 | 
 |  
 
-| crowdUrl 
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryCrowdServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryCrowdPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryCrowdAdvanced  
+| 
+|  
+
+|===
+
+
+[#DirectoryCrowdPermissions]
+=== _DirectoryCrowdPermissions_ 
+
+
+
+[.fields-DirectoryCrowdPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| readonly 
+|  
+| Boolean  
+| 
+|  
+
+| fullAccess 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryCrowdServer]
+=== _DirectoryCrowdServer_ 
+
+
+
+[.fields-DirectoryCrowdServer]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| uri 
+| X 
+| URI  
+| 
+| uri 
+
+| proxy 
+|  
+| DirectoryCrowdServerProxy  
+| 
+|  
+
+| appUsername 
 | X 
 | String  
 | 
@@ -2157,31 +2449,437 @@ endif::internal-generation[]
 | 
 |  
 
-| implClass 
+| connectionTimeoutInMillis 
+|  
+| Long  
+| 
+| int64 
+
+| maxConnections 
+|  
+| Integer  
+| 
+| int32 
+
+|===
+
+
+[#DirectoryCrowdServerProxy]
+=== _DirectoryCrowdServerProxy_ 
+
+
+
+[.fields-DirectoryCrowdServerProxy]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryGenericBean]
+=== _DirectoryGenericBean_ 
+
+
+
+[.fields-DirectoryGenericBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
 | X 
 | String  
 | 
 |  
 
-| proxyHost 
+| description 
 |  
 | String  
 | 
 |  
 
-| proxyPort 
+| active 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalAdvanced]
+=== _DirectoryInternalAdvanced_ 
+
+
+
+[.fields-DirectoryInternalAdvanced]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| enableNestedGroups 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalBean]
+=== _DirectoryInternalBean_ 
+
+
+
+[.fields-DirectoryInternalBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
 |  
 | String  
 | 
 |  
 
-| proxyUsername 
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryInternalPermissions  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalCredentialPolicy]
+=== _DirectoryInternalCredentialPolicy_ 
+
+
+
+[.fields-DirectoryInternalCredentialPolicy]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| passwordRegex 
 |  
 | String  
 | 
 |  
 
-| proxyPassword 
+| passwordComplexityMessage 
+|  
+| String  
+| 
+|  
+
+| passwordMaxAttempts 
+|  
+| Long  
+| 
+| int64 
+
+| passwordHistoryCount 
+|  
+| Long  
+| 
+| int64 
+
+| passwordMaxChangeTime 
+|  
+| Long  
+| 
+| int64 
+
+| passwordExpiryNotificationDays 
+|  
+| List  of <<integer>> 
+| 
+| int32 
+
+| passwordEncryptionMethod 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalPermissions]
+=== _DirectoryInternalPermissions_ 
+
+
+
+[.fields-DirectoryInternalPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| addGroup 
+|  
+| Boolean  
+| 
+|  
+
+| addUser 
+|  
+| Boolean  
+| 
+|  
+
+| modifyGroup 
+|  
+| Boolean  
+| 
+|  
+
+| modifyUser 
+|  
+| Boolean  
+| 
+|  
+
+| modifyGroupAttributes 
+|  
+| Boolean  
+| 
+|  
+
+| modifyUserAttributes 
+|  
+| Boolean  
+| 
+|  
+
+| removeGroup 
+|  
+| Boolean  
+| 
+|  
+
+| removeUser 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapBean]
+=== _DirectoryLdapBean_ 
+
+
+
+[.fields-DirectoryLdapBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapPermissions]
+=== _DirectoryLdapPermissions_ 
+
+
+
+[.fields-DirectoryLdapPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| readonly 
+|  
+| Boolean  
+| 
+|  
+
+| readonlyForLocalGroups 
+|  
+| Boolean  
+| 
+|  
+
+| fullAccess 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapSchema]
+=== _DirectoryLdapSchema_ 
+
+
+
+[.fields-DirectoryLdapSchema]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| baseDn 
+|  
+| String  
+| 
+|  
+
+| userDn 
+|  
+| String  
+| 
+|  
+
+| groupDn 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapServer]
+=== _DirectoryLdapServer_ 
+
+
+
+[.fields-DirectoryLdapServer]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| hostName 
+| X 
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| useSsl 
+|  
+| Boolean  
+| 
+|  
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
 |  
 | String  
 | 

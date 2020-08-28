@@ -7,19 +7,22 @@ import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.atlassian.confluence.confapi.model.util.DirectoryBeanUtil;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
-import de.aservo.confapi.commons.model.DirectoryBean;
+import de.aservo.confapi.commons.model.AbstractDirectoryBean;
+import de.aservo.confapi.commons.model.DirectoriesBean;
+import de.aservo.confapi.commons.model.DirectoryCrowdBean;
 import de.aservo.confapi.commons.service.api.DirectoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
+import static java.lang.String.format;
 
 @Component
 @ExportAsService(DirectoryService.class)
@@ -34,35 +37,69 @@ public class DirectoryServiceImpl implements DirectoryService {
         this.crowdDirectoryService = checkNotNull(crowdDirectoryService);
     }
 
-    public List<DirectoryBean> getDirectories() {
-        return crowdDirectoryService.findAllDirectories().stream().map(DirectoryBeanUtil::toDirectoryBean).collect(Collectors.toList());
+    @Override
+    public DirectoriesBean getDirectories() {
+        List<AbstractDirectoryBean> beans = new ArrayList<>();
+        for (Directory directory : crowdDirectoryService.findAllDirectories()) {
+            AbstractDirectoryBean crowdBean;
+            crowdBean = DirectoryBeanUtil.toDirectoryBean(directory);
+            beans.add(crowdBean);
+        }
+        return new DirectoriesBean(beans);
     }
 
-    public DirectoryBean setDirectory(DirectoryBean directoryBean, boolean testConnection) {
+    @Override
+    public DirectoriesBean setDirectories(DirectoriesBean directoriesBean, boolean testConnection) {
+        directoriesBean.getDirectories().forEach(directoryBaseBean -> {
+            if (directoryBaseBean instanceof DirectoryCrowdBean) {
 
-        //preps and validation
-        validate(directoryBean);
-        Directory directory = DirectoryBeanUtil.toDirectory(directoryBean);
-        String directoryName = directoryBean.getName();
+                //preps and validation
+                DirectoryCrowdBean crowdBean = (DirectoryCrowdBean)directoryBaseBean;
+                Directory directory = validateAndCreateDirectoryConfig(crowdBean, testConnection);
+
+                //check if directory exists already and if yes, remove it
+                Optional<Directory> presentDirectory = crowdDirectoryService.findAllDirectories().stream()
+                        .filter(dir -> dir.getName().equals(directory.getName())).findFirst();
+                if (presentDirectory.isPresent()) {
+                    Directory presentDir = presentDirectory.get();
+                    log.info("removing existing user directory configuration '{}' before adding new configuration '{}'", presentDir.getName(), directory.getName());
+                    try {
+                        crowdDirectoryService.removeDirectory(presentDir.getId());
+                    } catch (DirectoryCurrentlySynchronisingException e) {
+                        throw new InternalServerErrorException(e.getMessage());
+                    }
+                }
+
+                //add new directory
+                crowdDirectoryService.addDirectory(directory);
+            } else {
+                throw new InternalServerErrorException(format("Setting directory type '%s' is not supported (yet)", directoryBaseBean.getClass()));
+            }
+        });
+        return getDirectories();
+    }
+
+    @Override
+    public AbstractDirectoryBean addDirectory(AbstractDirectoryBean abstractDirectoryBean, boolean testConnection) {
+        if (abstractDirectoryBean instanceof DirectoryCrowdBean) {
+            DirectoryCrowdBean crowdBean = (DirectoryCrowdBean)abstractDirectoryBean;
+            Directory directory = validateAndCreateDirectoryConfig(crowdBean, testConnection);
+            Directory addedDirectory = crowdDirectoryService.addDirectory(directory);
+            return DirectoryBeanUtil.toDirectoryBean(addedDirectory);
+        } else {
+            throw new InternalServerErrorException(format("Adding directory type '%s' is not supported (yet)", abstractDirectoryBean.getClass()));
+        }
+    }
+
+    private Directory validateAndCreateDirectoryConfig(DirectoryCrowdBean crowdBean, boolean testConnection) {
+        validate(crowdBean);
+        Directory directory = DirectoryBeanUtil.toDirectory(crowdBean);
+        String directoryName = crowdBean.getName();
         if (testConnection) {
             log.debug("testing user directory connection for {}", directoryName);
             crowdDirectoryService.testConnection(directory);
         }
-
-        //check if directory exists already and if yes, remove it
-        Optional<Directory> presentDirectory = crowdDirectoryService.findAllDirectories().stream().filter(dir -> dir.getName().equals(directory.getName())).findFirst();
-        if (presentDirectory.isPresent()) {
-            Directory presentDir = presentDirectory.get();
-            log.info("removing existing user directory configuration '{}' before adding new configuration '{}'", presentDir.getName(), directory.getName());
-            try {
-                crowdDirectoryService.removeDirectory(presentDir.getId());
-            } catch (DirectoryCurrentlySynchronisingException e) {
-                throw new InternalServerErrorException(e.getMessage());
-            }
-        }
-
-        //add new directory
-        return DirectoryBeanUtil.toDirectoryBean(crowdDirectoryService.addDirectory(directory));
+        return directory;
     }
 
 }
