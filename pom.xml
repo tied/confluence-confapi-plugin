@@ -9,12 +9,11 @@
     <parent>
         <groupId>de.aservo</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>0.0.9</version>
+        <version>0.0.10</version>
     </parent>
 
-    <groupId>de.aservo.atlassian</groupId>
-    <artifactId>confluence-confapi-plugin</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <artifactId>confapi-confluence-plugin</artifactId>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>ConfAPI for Confluence</name>
@@ -30,13 +29,13 @@
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/aservo/confluence-confapi-plugin/issues</url>
+        <url>https://github.com/aservo/confapi-confluence-plugin/issues</url>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/aservo/confluence-confapi-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:aservo/confluence-confapi-plugin.git</developerConnection>
-        <url>https://github.com/aservo/confluence-confapi-plugin</url>
+        <connection>scm:git:git://github.com/aservo/confapi-confluence-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:aservo/confapi-confluence-plugin.git</developerConnection>
+        <url>https://github.com/aservo/confapi-confluence-plugin</url>
     </scm>
 
     <developers>

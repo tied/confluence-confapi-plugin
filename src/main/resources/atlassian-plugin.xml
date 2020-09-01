@@ -7,12 +7,12 @@
         <param name="plugin-logo">images/aservo.png</param>
     </plugin-info>
 
-    <resource type="i18n" name="i18n" location="aservo-confluence-confapi-plugin"/>
+    <resource type="i18n" name="i18n" location="aservo-confapi-confluence-plugin"/>
 
     <web-resource key="aservo-confapi-confluence-web-resource" name="ConfAPI Web Resource">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
         <resource type="download" name="images/" location="/images"/>
-        <context>confluence-confapi-plugin</context>
+        <context>confapi-confluence-plugin</context>
     </web-resource>
 
     <rest key="aservo-confapi-rest" name="ConfAPI REST" path="/confapi" version="1"/>
