@@ -1,7 +1,7 @@
 package de.aservo.confapi.confluence.rest;
 
 import com.sun.jersey.spi.container.ResourceFilters;
-import de.aservo.confapi.confluence.filter.AdminOnlyResourceFilter;
+import de.aservo.confapi.confluence.filter.SysAdminOnlyResourceFilter;
 import de.aservo.confapi.commons.constants.ConfAPI;
 import de.aservo.confapi.commons.rest.AbstractUsersResourceImpl;
 import de.aservo.confapi.commons.service.api.UserService;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 
 @Path(ConfAPI.USERS)
-@ResourceFilters(AdminOnlyResourceFilter.class)
+@ResourceFilters(SysAdminOnlyResourceFilter.class)
 @Component
 public class UsersResourceImpl extends AbstractUsersResourceImpl {
 

@@ -22,17 +22,17 @@ import static org.mockito.Mockito.when;
 //power mockito required here for mocking static methods of AuthenticatedUserThreadLocal
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(AuthenticatedUserThreadLocal.class)
-public class AdminOnlyResourceFilterTest {
+public class SysAdminOnlyResourceFilterTest {
 
     private ConfluenceUserImpl user;
     private PermissionManager permissionManager;
-    private AdminOnlyResourceFilter filter;
+    private SysAdminOnlyResourceFilter filter;
 
     @Before
     public void setup() {
         user  = new ConfluenceUserImpl("test", "test test", "test@test.de");
         permissionManager = mock(PermissionManager.class);
-        filter = new AdminOnlyResourceFilter(permissionManager);
+        filter = new SysAdminOnlyResourceFilter(permissionManager);
     }
 
     @Test
@@ -47,24 +47,24 @@ public class AdminOnlyResourceFilterTest {
     }
 
     @Test
-    public void testAdminAccess() {
+    public void testSysAdminAccess() {
         PowerMock.mockStatic(AuthenticatedUserThreadLocal.class);
         expect(AuthenticatedUserThreadLocal.get()).andReturn(user);
         PowerMock.replay(AuthenticatedUserThreadLocal.class);
 
-        when(permissionManager.isConfluenceAdministrator(user)).thenReturn(Boolean.TRUE);
+        when(permissionManager.isSystemAdministrator(user)).thenReturn(Boolean.TRUE);
 
         ContainerRequest filterResponse = filter.filter(null);
         assertNull(filterResponse);
     }
 
     @Test(expected = AuthorisationException.class)
-    public void testNonAdminAccess() {
+    public void testNonSysAdminAccess() {
         PowerMock.mockStatic(AuthenticatedUserThreadLocal.class);
         expect(AuthenticatedUserThreadLocal.get()).andReturn(user);
         PowerMock.replay(AuthenticatedUserThreadLocal.class);
 
-        when(permissionManager.isConfluenceAdministrator(user)).thenReturn(Boolean.FALSE);
+        when(permissionManager.isSystemAdministrator(user)).thenReturn(Boolean.FALSE);
 
         filter.filter(any(ContainerRequest.class));
     }

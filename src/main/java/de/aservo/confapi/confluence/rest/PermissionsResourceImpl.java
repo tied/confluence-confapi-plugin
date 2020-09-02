@@ -1,7 +1,7 @@
 package de.aservo.confapi.confluence.rest;
 
 import com.sun.jersey.spi.container.ResourceFilters;
-import de.aservo.confapi.confluence.filter.AdminOnlyResourceFilter;
+import de.aservo.confapi.confluence.filter.SysAdminOnlyResourceFilter;
 import de.aservo.confapi.confluence.model.PermissionAnonymousAccessBean;
 import de.aservo.confapi.confluence.rest.api.PermissionsResource;
 import de.aservo.confapi.confluence.service.api.PermissionsService;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 
 @Path(ConfAPI.PERMISSIONS)
 @Produces(MediaType.APPLICATION_JSON)
-@ResourceFilters(AdminOnlyResourceFilter.class)
+@ResourceFilters(SysAdminOnlyResourceFilter.class)
 @Component
 public class PermissionsResourceImpl implements PermissionsResource {
 
