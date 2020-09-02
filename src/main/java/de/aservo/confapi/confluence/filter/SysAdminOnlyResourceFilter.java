@@ -20,7 +20,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Component
-public class AdminOnlyResourceFilter implements ResourceFilter, ContainerRequestFilter {
+public class SysAdminOnlyResourceFilter implements ResourceFilter, ContainerRequestFilter {
     private final PermissionManager permissionManager;
 
     /**
@@ -29,7 +29,7 @@ public class AdminOnlyResourceFilter implements ResourceFilter, ContainerRequest
      * @param permissionManager the permission manager
      */
     @Inject
-    public AdminOnlyResourceFilter(@ComponentImport PermissionManager permissionManager) {
+    public SysAdminOnlyResourceFilter(@ComponentImport PermissionManager permissionManager) {
         this.permissionManager = permissionManager;
     }
 
@@ -45,8 +45,8 @@ public class AdminOnlyResourceFilter implements ResourceFilter, ContainerRequest
         User loggedInUser = AuthenticatedUserThreadLocal.get();
         if (loggedInUser == null) {
             throw new AuthenticationRequiredException();
-        } else if (!permissionManager.isConfluenceAdministrator(loggedInUser)) {
-            throw new AuthorisationException("Client must be authenticated as an administrator to access this resource.");
+        } else if (!permissionManager.isSystemAdministrator(loggedInUser)) {
+            throw new AuthorisationException("Client must be authenticated as an system administrator to access this resource.");
         }
         return containerRequest;
     }
