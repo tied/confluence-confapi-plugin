@@ -31,7 +31,3236 @@ This plugin provides methods for accessing configuration for Confluence.
 == Endpoints
 
 
+[.ApplicationLinks]
+=== ApplicationLinks
+
+
+[.addApplicationLink]
+==== addApplicationLink
+    
+`POST /application-links`
+
+Add a single application link
+
+===== Description 
+
+Upon successful request, returns the added `ApplicationLinkBean` object
+
+
+// markup not found, no include::{specDir}application-links/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ApplicationLinkBean 
+|  <<ApplicationLinkBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ApplicationLinkBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<ApplicationLinkBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getApplicationLinks]
+==== getApplicationLinks
+    
+`GET /application-links`
+
+Get all application links
+
+===== Description 
+
+Upon successful request, returns a `ApplicationLinksBean` object containing all application links
+
+
+// markup not found, no include::{specDir}application-links/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<ApplicationLinksBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<ApplicationLinksBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setApplicationLinks]
+==== setApplicationLinks
+    
+`PUT /application-links`
+
+Set a new set of application links
+
+===== Description 
+
+Upon successful request, returns a `ApplicationLinksBean` object containing all application links
+
+
+// markup not found, no include::{specDir}application-links/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ApplicationLinksBean 
+|  <<ApplicationLinksBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ApplicationLinksBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<ApplicationLinksBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Directories]
+=== Directories
+
+
+[.addDirectory]
+==== addDirectory
+    
+`POST /directories`
+
+Adds a new directory
+
+===== Description 
+
+Adds a new user directory to the existing list of directories
+
+
+// markup not found, no include::{specDir}directories/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AbstractDirectoryBean 
+|  <<AbstractDirectoryBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| test-connection 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AbstractDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<AbstractDirectoryBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getDirectories]
+==== getDirectories
+    
+`GET /directories`
+
+Get the list of user directories
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}directories/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<DirectoriesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<DirectoriesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setDirectories]
+==== setDirectories
+    
+`PUT /directories`
+
+Set a new list of directories
+
+===== Description 
+
+Any existing directories with the same names will be removed before adding the new ones
+
+
+// markup not found, no include::{specDir}directories/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| DirectoriesBean 
+|  <<DirectoriesBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| test-connection 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<DirectoriesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<DirectoriesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Gadgets]
+=== Gadgets
+
+
+[.addGadget]
+==== addGadget
+    
+`POST /gadgets`
+
+Adds a single gadget
+
+===== Description 
+
+Upon successful request, returns the added `GadgetBean` object containing gadget details
+
+
+// markup not found, no include::{specDir}gadgets/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| GadgetBean 
+|  <<GadgetBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<GadgetBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getGadgets]
+==== getGadgets
+    
+`GET /gadgets`
+
+Get all gadgets
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<GadgetsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setGadgets]
+==== setGadgets
+    
+`PUT /gadgets`
+
+Set a new list of gadgets
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| GadgetsBean 
+|  <<GadgetsBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<GadgetsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Licenses]
+=== Licenses
+
+
+[.addLicense]
+==== addLicense
+    
+`POST /licenses`
+
+Adds a single license
+
+===== Description 
+
+Upon successful request, returns the added `LicenseBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| LicenseBean 
+|  <<LicenseBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<LicenseBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicenseBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getLicenses]
+==== getLicenses
+    
+`GET /licenses`
+
+Get all licenses information
+
+===== Description 
+
+Upon successful request, returns a `LicensesBean` object containing license details. Be aware that `products` collection of the `LicenseBean` contains the product display names, not the product key names
+
+
+// markup not found, no include::{specDir}licenses/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<LicensesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicensesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setLicenses]
+==== setLicenses
+    
+`PUT /licenses`
+
+Set a new set of license
+
+===== Description 
+
+Existing license details are always cleared before setting the new licenses. Upon successful request, returns a `LicensesBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| LicensesBean 
+|  <<LicensesBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<LicensesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicensesBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.MailServer]
+=== MailServer
+
+
+[.getMailServerPop]
+==== getMailServerPop
+    
+`GET /mail-server/pop`
+
+Get the default POP mail server
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail-server/pop/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<MailServerPopBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<MailServerPopBean>>
+
+
+| 204
+| 
+|  <<ErrorCollection>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail-server/pop/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail-server/pop/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail-server/pop/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail-server/pop/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getMailServerSmtp]
+==== getMailServerSmtp
+    
+`GET /mail-server/smtp`
+
+Get the default SMTP mail server
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail-server/smtp/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<MailServerSmtpBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<MailServerSmtpBean>>
+
+
+| 204
+| 
+|  <<ErrorCollection>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail-server/smtp/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail-server/smtp/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail-server/smtp/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail-server/smtp/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setMailServerPop]
+==== setMailServerPop
+    
+`PUT /mail-server/pop`
+
+Set the default POP mail server
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail-server/pop/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| MailServerPopBean 
+|  <<MailServerPopBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<MailServerPopBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<MailServerPopBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail-server/pop/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail-server/pop/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail-server/pop/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail-server/pop/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setMailServerSmtp]
+==== setMailServerSmtp
+    
+`PUT /mail-server/smtp`
+
+Set the default SMTP mail server
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}mail-server/smtp/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| MailServerSmtpBean 
+|  <<MailServerSmtpBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<MailServerSmtpBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<MailServerSmtpBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}mail-server/smtp/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}mail-server/smtp/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :mail-server/smtp/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}mail-server/smtp/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Permissions]
+=== Permissions
+
+
+[.getPermissionAnonymousAccess]
+==== getPermissionAnonymousAccess
+    
+`GET /permissions/anonymous-access`
+
+Retrieve current anonymous access configuration
+
+===== Description 
+
+Gets the current global permissions for anonymous access to public pages and user profiles
+
+
+// markup not found, no include::{specDir}permissions/anonymous-access/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<PermissionAnonymousAccessBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<PermissionAnonymousAccessBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :permissions/anonymous-access/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}permissions/anonymous-access/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setPermissionAnonymousAccess]
+==== setPermissionAnonymousAccess
+    
+`PUT /permissions/anonymous-access`
+
+Set anonymous access configuration
+
+===== Description 
+
+Sets global permissions for anonymous access to public pages and user profiles
+
+
+// markup not found, no include::{specDir}permissions/anonymous-access/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| PermissionAnonymousAccessBean 
+|  <<PermissionAnonymousAccessBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<PermissionAnonymousAccessBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<PermissionAnonymousAccessBean>>
+
+
+| 400
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}permissions/anonymous-access/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :permissions/anonymous-access/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}permissions/anonymous-access/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Ping]
+=== Ping
+
+
+[.getPing]
+==== getPing
+    
+`GET /ping`
+
+Simple ping method for probing the REST api. Returns 'pong' upon success
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}ping/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* text/plain
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| default response
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}ping/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}ping/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ping/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}ping/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Settings]
+=== Settings
+
+
+[.getSettings]
+==== getSettings
+    
+`GET /settings`
+
+Get the application settings
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}settings/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<SettingsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<SettingsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}settings/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}settings/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :settings/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}settings/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setSettings]
+==== setSettings
+    
+`PUT /settings`
+
+Set the application settings
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}settings/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| SettingsBean 
+|  <<SettingsBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<SettingsBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<SettingsBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}settings/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}settings/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :settings/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}settings/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Users]
+=== Users
+
+
+[.getUser]
+==== getUser
+    
+`GET /users`
+
+Retrieves user information
+
+===== Description 
+
+Upon successful request, returns a `UserBean` object containing user details
+
+
+// markup not found, no include::{specDir}users/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setUser]
+==== setUser
+    
+`PUT /users`
+
+Updates user details
+
+===== Description 
+
+Upon successful request, returns the updated `UserBean` object (user name cannot be updated)
+
+
+// markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| UserBean 
+|  <<UserBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setUserPassword]
+==== setUserPassword
+    
+`PUT /users/password`
+
+Updates the user password
+
+===== Description 
+
+Upon successful request, returns the updated `UserBean` object.
+
+
+// markup not found, no include::{specDir}users/password/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+|  <<string>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| userName 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<UserBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<UserBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/password/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/password/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/password/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/password/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [#models]
 == Models
+
+
+[#AbstractDirectoryBean]
+=== _AbstractDirectoryBean_ 
+
+
+
+[.fields-AbstractDirectoryBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
+|===
+
+
+[#ApplicationLinkBean]
+=== _ApplicationLinkBean_ 
+
+
+
+[.fields-ApplicationLinkBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| serverId 
+|  
+| String  
+| 
+|  
+
+| appType 
+|  
+| String  
+| 
+|  
+
+| linkType 
+| X 
+| String  
+| 
+|  _Enum:_ BAMBOO, JIRA, BITBUCKET, CONFLUENCE, FISHEYE, CROWD, 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| displayUrl 
+| X 
+| String  
+| 
+|  
+
+| rpcUrl 
+| X 
+| String  
+| 
+|  
+
+| primary 
+|  
+| Boolean  
+| 
+|  
+
+| status 
+|  
+| String  
+| 
+|  _Enum:_ AVAILABLE, UNAVAILABLE, CONFIGURATION_ERROR, 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#ApplicationLinksBean]
+=== _ApplicationLinksBean_ 
+
+
+
+[.fields-ApplicationLinksBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| applicationLinks 
+|  
+| List  of <<ApplicationLinkBean>> 
+| 
+|  
+
+|===
+
+
+[#DirectoriesBean]
+=== _DirectoriesBean_ 
+
+
+
+[.fields-DirectoriesBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| directories 
+|  
+| List  of <<AbstractDirectoryBean>> 
+| 
+|  
+
+|===
+
+
+[#DirectoryCrowdAdvanced]
+=== _DirectoryCrowdAdvanced_ 
+
+
+
+[.fields-DirectoryCrowdAdvanced]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| enableNestedGroups 
+|  
+| Boolean  
+| 
+|  
+
+| enableIncrementalSync 
+|  
+| Boolean  
+| 
+|  
+
+| updateGroupMembershipMethod 
+|  
+| String  
+| 
+|  
+
+| updateSyncIntervalInMinutes 
+|  
+| Integer  
+| 
+| int32 
+
+|===
+
+
+[#DirectoryCrowdBean]
+=== _DirectoryCrowdBean_ 
+
+
+
+[.fields-DirectoryCrowdBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryCrowdServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryCrowdPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryCrowdAdvanced  
+| 
+|  
+
+|===
+
+
+[#DirectoryCrowdPermissions]
+=== _DirectoryCrowdPermissions_ 
+
+
+
+[.fields-DirectoryCrowdPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| readonly 
+|  
+| Boolean  
+| 
+|  
+
+| fullAccess 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryCrowdServer]
+=== _DirectoryCrowdServer_ 
+
+
+
+[.fields-DirectoryCrowdServer]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| uri 
+| X 
+| URI  
+| 
+| uri 
+
+| proxy 
+|  
+| DirectoryCrowdServerProxy  
+| 
+|  
+
+| appUsername 
+| X 
+| String  
+| 
+|  
+
+| appPassword 
+| X 
+| String  
+| 
+|  
+
+| connectionTimeoutInMillis 
+|  
+| Long  
+| 
+| int64 
+
+| maxConnections 
+|  
+| Integer  
+| 
+| int32 
+
+|===
+
+
+[#DirectoryCrowdServerProxy]
+=== _DirectoryCrowdServerProxy_ 
+
+
+
+[.fields-DirectoryCrowdServerProxy]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryGenericBean]
+=== _DirectoryGenericBean_ 
+
+
+
+[.fields-DirectoryGenericBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalAdvanced]
+=== _DirectoryInternalAdvanced_ 
+
+
+
+[.fields-DirectoryInternalAdvanced]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| enableNestedGroups 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalBean]
+=== _DirectoryInternalBean_ 
+
+
+
+[.fields-DirectoryInternalBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryInternalPermissions  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalCredentialPolicy]
+=== _DirectoryInternalCredentialPolicy_ 
+
+
+
+[.fields-DirectoryInternalCredentialPolicy]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| passwordRegex 
+|  
+| String  
+| 
+|  
+
+| passwordComplexityMessage 
+|  
+| String  
+| 
+|  
+
+| passwordMaxAttempts 
+|  
+| Long  
+| 
+| int64 
+
+| passwordHistoryCount 
+|  
+| Long  
+| 
+| int64 
+
+| passwordMaxChangeTime 
+|  
+| Long  
+| 
+| int64 
+
+| passwordExpiryNotificationDays 
+|  
+| List  of <<integer>> 
+| 
+| int32 
+
+| passwordEncryptionMethod 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryInternalPermissions]
+=== _DirectoryInternalPermissions_ 
+
+
+
+[.fields-DirectoryInternalPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| addGroup 
+|  
+| Boolean  
+| 
+|  
+
+| addUser 
+|  
+| Boolean  
+| 
+|  
+
+| modifyGroup 
+|  
+| Boolean  
+| 
+|  
+
+| modifyUser 
+|  
+| Boolean  
+| 
+|  
+
+| modifyGroupAttributes 
+|  
+| Boolean  
+| 
+|  
+
+| modifyUserAttributes 
+|  
+| Boolean  
+| 
+|  
+
+| removeGroup 
+|  
+| Boolean  
+| 
+|  
+
+| removeUser 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapBean]
+=== _DirectoryLdapBean_ 
+
+
+
+[.fields-DirectoryLdapBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| active 
+|  
+| Boolean  
+| 
+|  
+
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapPermissions]
+=== _DirectoryLdapPermissions_ 
+
+
+
+[.fields-DirectoryLdapPermissions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| readonly 
+|  
+| Boolean  
+| 
+|  
+
+| readonlyForLocalGroups 
+|  
+| Boolean  
+| 
+|  
+
+| fullAccess 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapSchema]
+=== _DirectoryLdapSchema_ 
+
+
+
+[.fields-DirectoryLdapSchema]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| baseDn 
+|  
+| String  
+| 
+|  
+
+| userDn 
+|  
+| String  
+| 
+|  
+
+| groupDn 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#DirectoryLdapServer]
+=== _DirectoryLdapServer_ 
+
+
+
+[.fields-DirectoryLdapServer]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| hostName 
+| X 
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| useSsl 
+|  
+| Boolean  
+| 
+|  
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#ErrorCollection]
+=== _ErrorCollection_ 
+
+
+
+[.fields-ErrorCollection]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| errorMessages 
+|  
+| List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#GadgetBean]
+=== _GadgetBean_ 
+
+
+
+[.fields-GadgetBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| url 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#GadgetsBean]
+=== _GadgetsBean_ 
+
+
+
+[.fields-GadgetsBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| gadgets 
+|  
+| List  of <<GadgetBean>> 
+| 
+|  
+
+|===
+
+
+[#LicenseBean]
+=== _LicenseBean_ 
+
+
+
+[.fields-LicenseBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| licenseType 
+|  
+| String  
+| 
+|  
+
+| organization 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| expiryDate 
+|  
+| Date  
+| 
+| date-time 
+
+| numUsers 
+|  
+| Integer  
+| 
+| int32 
+
+| key 
+|  
+| String  
+| 
+|  
+
+| products 
+|  
+| List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#LicensesBean]
+=== _LicensesBean_ 
+
+
+
+[.fields-LicensesBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| licenses 
+|  
+| List  of <<LicenseBean>> 
+| 
+|  
+
+|===
+
+
+[#MailServerPopBean]
+=== _MailServerPopBean_ 
+
+
+
+[.fields-MailServerPopBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#MailServerSmtpBean]
+=== _MailServerSmtpBean_ 
+
+
+
+[.fields-MailServerSmtpBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| 
+|  
+
+| description 
+|  
+| String  
+| 
+|  
+
+| host 
+|  
+| String  
+| 
+|  
+
+| port 
+|  
+| Integer  
+| 
+| int32 
+
+| protocol 
+|  
+| String  
+| 
+|  
+
+| timeout 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+| adminContact 
+|  
+| String  
+| 
+|  
+
+| from 
+|  
+| String  
+| 
+|  
+
+| prefix 
+|  
+| String  
+| 
+|  
+
+| tls 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#PermissionAnonymousAccessBean]
+=== _PermissionAnonymousAccessBean_ 
+
+
+
+[.fields-PermissionAnonymousAccessBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| allowForPages 
+|  
+| Boolean  
+| 
+|  
+
+| allowForUserProfiles 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#SettingsBean]
+=== _SettingsBean_ 
+
+
+
+[.fields-SettingsBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| baseUrl 
+|  
+| String  
+| 
+|  
+
+| mode 
+|  
+| String  
+| 
+|  
+
+| title 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#UserBean]
+=== _UserBean_ 
+
+
+
+[.fields-UserBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| userName 
+|  
+| String  
+| 
+|  
+
+| fullName 
+|  
+| String  
+| 
+|  
+
+| email 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+|===
 
 
