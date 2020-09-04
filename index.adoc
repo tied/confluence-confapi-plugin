@@ -309,6 +309,293 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Backup]
+=== Backup
+
+
+[.getExport]
+==== getExport
+    
+`GET /backup/export`
+
+Export based on given configuration
+
+===== Description 
+
+Initiates an asynchronous export if enabled by server, synchronous otherwise
+
+
+// markup not found, no include::{specDir}backup/export/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| BackupBean 
+|  <<BackupBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 201
+| Synchronous export, the download URL will be returned in the location header
+|  <<>>
+
+
+| 202
+| Asynchronous export, the queue URL will be returned in the location header
+|  <<>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}backup/export/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}backup/export/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :backup/export/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}backup/export/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getExportBySpaceKey]
+==== getExportBySpaceKey
+    
+`GET /backup/export/{key}`
+
+Export based on given key
+
+===== Description 
+
+Same as export but especially for the most common case: Single space export with attachments and comments
+
+
+// markup not found, no include::{specDir}backup/export/\{key\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| key 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 201
+| Synchronous export, the download URL will be returned in the location header
+|  <<>>
+
+
+| 202
+| Asynchronous export, the queue URL will be returned in the location header
+|  <<>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}backup/export/\{key\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}backup/export/\{key\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :backup/export/{key}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}backup/export/\{key\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getQueue]
+==== getQueue
+    
+`GET /backup/queue/{uuid}`
+
+Information about an initiated export / import task
+
+===== Description 
+
+Returns information like ETA if task is still running or information about the created object if completed
+
+
+// markup not found, no include::{specDir}backup/queue/\{uuid\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| uuid 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<BackupQueueBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Task is still running, return information like ETA
+|  <<BackupQueueBean>>
+
+
+| 201
+| Task completed, return download URL in the location header (export only)
+|  <<BackupQueueBean>>
+
+
+| 404
+| No task found for the given UUID
+|  <<>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}backup/queue/\{uuid\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}backup/queue/\{uuid\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :backup/queue/{uuid}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}backup/queue/\{uuid\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.Directories]
 === Directories
 
@@ -2281,6 +2568,80 @@ endif::internal-generation[]
 | List  of <<ApplicationLinkBean>> 
 | 
 |  
+
+|===
+
+
+[#BackupBean]
+=== _BackupBean_ 
+
+
+
+[.fields-BackupBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| key 
+| X 
+| String  
+| 
+|  
+
+| type 
+|  
+| String  
+| 
+|  
+
+| backupAttachments 
+|  
+| Boolean  
+| 
+|  
+
+| backupComments 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#BackupQueueBean]
+=== _BackupQueueBean_ 
+
+
+
+[.fields-BackupQueueBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| percentageComplete 
+|  
+| Integer  
+| 
+| int32 
+
+| elapsedTimeInMillis 
+|  
+| Long  
+| 
+| int64 
+
+| estimatedTimeRemainingInMillis 
+|  
+| Long  
+| 
+| int64 
+
+| entityUri 
+|  
+| URI  
+| 
+| uri 
 
 |===
 
