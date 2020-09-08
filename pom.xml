@@ -131,6 +131,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.atlassian.applinks</groupId>
+            <artifactId>applinks-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.atlassian.confluence</groupId>
             <artifactId>confluence-rest-api</artifactId>
             <scope>provided</scope>

@@ -3,17 +3,27 @@ package de.aservo.confapi.confluence.service;
 import com.atlassian.applinks.api.ApplicationId;
 import com.atlassian.applinks.api.ApplicationLink;
 import com.atlassian.applinks.api.ApplicationType;
+import com.atlassian.applinks.core.ApplinkStatus;
+import com.atlassian.applinks.core.ApplinkStatusService;
+import com.atlassian.applinks.core.DefaultApplinkStatus;
+import com.atlassian.applinks.internal.common.exception.NoAccessException;
+import com.atlassian.applinks.internal.common.exception.NoSuchApplinkException;
+import com.atlassian.applinks.internal.status.error.SimpleApplinkError;
+import com.atlassian.applinks.internal.status.oauth.ApplinkOAuthStatus;
+import com.atlassian.applinks.spi.auth.AuthenticationConfigurationException;
 import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
 import com.atlassian.applinks.spi.link.MutatingApplicationLinkService;
 import com.atlassian.applinks.spi.manifest.ManifestNotFoundException;
 import com.atlassian.applinks.spi.util.TypeAccessor;
 import com.atlassian.confluence.settings.setup.DefaultApplicationLink;
 import com.atlassian.confluence.settings.setup.DefaultApplicationType;
-import de.aservo.confapi.confluence.model.DefaultAuthenticationScenario;
-import de.aservo.confapi.confluence.model.util.ApplicationLinkBeanUtil;
+import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus;
 import de.aservo.confapi.commons.model.ApplicationLinksBean;
 import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
+import de.aservo.confapi.confluence.model.DefaultAuthenticationScenario;
+import de.aservo.confapi.confluence.model.util.ApplicationLinkBeanUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +36,15 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.UUID;
 
+import static com.atlassian.applinks.internal.common.status.oauth.OAuthConfig.createDefaultOAuthConfig;
+import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.AUTH_LEVEL_MISMATCH;
+import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.CONNECTION_REFUSED;
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.AVAILABLE;
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.CONFIGURATION_ERROR;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationLinkServiceTest {
@@ -39,11 +55,14 @@ public class ApplicationLinkServiceTest {
     @Mock
     private TypeAccessor typeAccessor;
 
+    @Mock
+    private ApplinkStatusService applinkStatusService;
+
     private ApplicationLinkServiceImpl applicationLinkService;
 
     @Before
     public void setup() {
-        applicationLinkService = new ApplicationLinkServiceImpl(mutatingApplicationLinkService, typeAccessor);
+        applicationLinkService = new ApplicationLinkServiceImpl(mutatingApplicationLinkService, typeAccessor, applinkStatusService);
     }
 
     @Test
@@ -54,18 +73,21 @@ public class ApplicationLinkServiceTest {
     }
 
     @Test
-    public void testGetApplicationLinks() throws URISyntaxException {
+    public void testGetApplicationLinks() throws URISyntaxException, NoAccessException, NoSuchApplinkException {
         ApplicationLink applicationLink = createApplicationLink();
         doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
         ApplicationLinksBean applicationLinks = applicationLinkService.getApplicationLinks();
 
-        assertEquals(applicationLinks.getApplicationLinks().iterator().next(), ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink));
+        ApplicationLinkBean applicationLinkBean = ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink);
+        applicationLinkBean.setStatus(AVAILABLE);
+        assertEquals(applicationLinks.getApplicationLinks().iterator().next(), applicationLinkBean);
     }
 
     @Test
     public void testSetApplicationLinks()
-            throws URISyntaxException, ManifestNotFoundException {
+            throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
 
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
@@ -75,6 +97,7 @@ public class ApplicationLinkServiceTest {
         doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                 any(ApplicationType.class), any(ApplicationLinkDetails.class));
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
         ApplicationLinksBean applicationLinkResponse = applicationLinkService.setApplicationLinks(applicationLinksBean, true);
 
@@ -84,7 +107,7 @@ public class ApplicationLinkServiceTest {
 
     @Test
     public void testAddApplicationLinkWithoutExistingTargetLink()
-            throws URISyntaxException, ManifestNotFoundException {
+            throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
 
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
@@ -92,6 +115,7 @@ public class ApplicationLinkServiceTest {
         doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                 any(ApplicationType.class), any(ApplicationLinkDetails.class));
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
         ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, true);
 
@@ -100,7 +124,7 @@ public class ApplicationLinkServiceTest {
     }
 
     @Test
-    public void testAddApplicationLinkWithExistingTargetLink() throws URISyntaxException, ManifestNotFoundException {
+    public void testAddApplicationLinkWithExistingTargetLink() throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
 
@@ -108,11 +132,44 @@ public class ApplicationLinkServiceTest {
                 any(ApplicationType.class), any(ApplicationLinkDetails.class));
         doReturn(applicationLink).when(mutatingApplicationLinkService).getPrimaryApplicationLink(any());
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
         ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, true);
 
         assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
         assertNotEquals(applicationLinkResponse, applicationLinkBean);
+    }
+
+    @Test
+    public void testAddApplicationLinkWithAuthenticatorErrorIgnored() throws URISyntaxException, ManifestNotFoundException, AuthenticationConfigurationException, NoAccessException, NoSuchApplinkException {
+        ApplicationLink applicationLink = createApplicationLink();
+        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
+
+        doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
+                any(ApplicationType.class), any(ApplicationLinkDetails.class));
+        doReturn(applicationLink).when(mutatingApplicationLinkService).getPrimaryApplicationLink(any());
+        doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doThrow(new AuthenticationConfigurationException("")).when(mutatingApplicationLinkService).configureAuthenticationForApplicationLink(any(), any(), any(), any());
+        doReturn(createApplinkStatus(applicationLink, CONFIGURATION_ERROR)).when(applinkStatusService).getApplinkStatus(any());
+
+        ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, true);
+
+        assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
+        assertNotEquals(applicationLinkResponse, applicationLinkBean);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testAddApplicationLinkWithAuthenticatorErrorNOTIgnored() throws URISyntaxException, ManifestNotFoundException, AuthenticationConfigurationException {
+        ApplicationLink applicationLink = createApplicationLink();
+        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
+
+        doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
+                any(ApplicationType.class), any(ApplicationLinkDetails.class));
+        doReturn(applicationLink).when(mutatingApplicationLinkService).getPrimaryApplicationLink(any());
+        doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doThrow(new AuthenticationConfigurationException("")).when(mutatingApplicationLinkService).configureAuthenticationForApplicationLink(any(), any(), any(), any());
+
+        ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, false);
     }
 
     @Test(expected = ValidationException.class)
@@ -123,8 +180,16 @@ public class ApplicationLinkServiceTest {
         applicationLinkService.addApplicationLink(applicationLinkBean, true);
     }
 
+    @Test(expected = BadRequestException.class)
+    public void testAddApplicationLinkInvalidUri() throws URISyntaxException {
+        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
+        applicationLinkBean.setRpcUrl("1234://666");
+
+        applicationLinkService.addApplicationLink(applicationLinkBean, true);
+    }
+
     @Test
-    public void testApplicationLinkTypeConverter() throws URISyntaxException, ManifestNotFoundException {
+    public void testApplicationLinkTypeConverter() throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
         for (ApplicationLinkTypes linkType : ApplicationLinkTypes.values()) {
             ApplicationLink applicationLink = createApplicationLink();
             ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
@@ -133,6 +198,7 @@ public class ApplicationLinkServiceTest {
             doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                     any(ApplicationType.class), any(ApplicationLinkDetails.class));
             doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+            doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
             ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, true);
 
@@ -154,4 +220,16 @@ public class ApplicationLinkServiceTest {
         return new DefaultApplicationLink(applicationId, new DefaultApplicationType(), "test", uri, uri, false, false);
     }
 
+    private ApplinkStatus createApplinkStatus(ApplicationLink link, ApplicationLinkStatus linkStatus) {
+        ApplinkOAuthStatus oAuthStatus = new ApplinkOAuthStatus(createDefaultOAuthConfig(), createDefaultOAuthConfig());
+        switch (linkStatus) {
+            case AVAILABLE:
+                return DefaultApplinkStatus.working (link, oAuthStatus, oAuthStatus);
+            case UNAVAILABLE:
+                return DefaultApplinkStatus.disabled (link, new SimpleApplinkError(CONNECTION_REFUSED));
+            case CONFIGURATION_ERROR:
+            default:
+                return DefaultApplinkStatus.configError (link, oAuthStatus, oAuthStatus, new SimpleApplinkError(AUTH_LEVEL_MISMATCH));
+        }
+    }
 }
