@@ -308,7 +308,6 @@
                 <configuration>
                     <ajpPort>${ajp.port}</ajpPort>
                     <productVersion>${confluence.version}</productVersion>
-                    <productDataVersion>${confluence.version}</productDataVersion>
                     <!-- the following version may only be adjusted, when a new home zip has been generated -->
                     <productDataVersion>7.5.0</productDataVersion>
                     <!-- in case new home zip should be generated, please add your executed steps to generated-test-resources.md -->

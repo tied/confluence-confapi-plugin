@@ -5,7 +5,7 @@ The whole steps don't have to be repeated when 'upgrading' the home zip,
 they are just documented for replicability.
 
 1. Start Confluence 7.5.0 with `./mvnw clean package confluence:run` and login with 'admin:admin'
-2. Close baseurl health check
+2. Change baseurl to localhost if necessary
 3. Close license health check
 4. Create user:
    ```
