@@ -47,7 +47,7 @@ public class BackupResourceImpl implements BackupResource {
     }
 
     @Override
-    public Response getExportBySpaceKey(
+    public Response getExportByKey(
             @Nonnull final String key) {
 
         final BackupBean backupBean = new BackupBean();

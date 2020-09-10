@@ -50,7 +50,7 @@ public class BackupResourceTest {
 
         doReturn(BACKUP_QUEUE_URI).when(backupService).getExportAsynchronously(any(BackupBean.class));
 
-        final Response response = backupResource.getExportBySpaceKey("space");
+        final Response response = backupResource.getExportByKey("space");
         assertEquals(ACCEPTED.getStatusCode(), response.getStatus());
         assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }
@@ -63,7 +63,7 @@ public class BackupResourceTest {
 
         doReturn(BACKUP_QUEUE_URI).when(backupService).getExportSynchronously(any(BackupBean.class));
 
-        final Response response = backupResource.getExportBySpaceKey("space");
+        final Response response = backupResource.getExportByKey("space");
         assertEquals(CREATED.getStatusCode(), response.getStatus());
         assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }

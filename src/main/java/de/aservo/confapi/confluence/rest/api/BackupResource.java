@@ -50,7 +50,7 @@ public interface BackupResource {
                     @ApiResponse(responseCode = "default", content = @Content(schema = @Schema(implementation = ErrorCollection.class)))
             }
     )
-    Response getExportBySpaceKey(
+    Response getExportByKey(
             @Nonnull @PathParam("key") String key);
 
     @GET
