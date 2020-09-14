@@ -2,16 +2,21 @@ package de.aservo.confapi.confluence.service;
 
 import com.atlassian.confluence.api.model.content.Space;
 import com.atlassian.confluence.api.service.content.SpaceService;
+import com.atlassian.confluence.event.events.cluster.ClusterReindexRequiredEvent;
 import com.atlassian.confluence.importexport.ExportContext;
+import com.atlassian.confluence.importexport.ImportContext;
 import com.atlassian.confluence.importexport.ImportExportManager;
 import com.atlassian.confluence.importexport.actions.ExportSpaceLongRunningTask;
+import com.atlassian.confluence.importexport.actions.ImportLongRunningTask;
 import com.atlassian.confluence.importexport.impl.ExportScope;
+import com.atlassian.confluence.search.IndexManager;
 import com.atlassian.confluence.security.PermissionManager;
 import com.atlassian.confluence.spaces.SpaceManager;
 import com.atlassian.confluence.user.ConfluenceUser;
 import com.atlassian.confluence.util.longrunning.LongRunningTaskId;
 import com.atlassian.confluence.util.longrunning.LongRunningTaskManager;
 import com.atlassian.core.task.longrunning.LongRunningTask;
+import com.atlassian.event.api.EventPublisher;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.confluence.model.BackupBean;
@@ -27,6 +32,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.ws.rs.core.UriBuilder;
+import java.io.File;
 import java.net.URI;
 import java.util.Optional;
 
@@ -43,14 +49,20 @@ public class BackupServiceTest {
     private static final String BASE_URL = "http://localhost:1990/confluence";
     private static final String SPACE_KEY = "space";
 
-    private static final String BACKUP_ZIP_PATH = "space-export.zip";
-    private static final URI BACKUP_ZIP_URI = URI.create(BASE_URL + "/" + BACKUP_ZIP_PATH);
+    private static final String EXPORT_ZIP_PATH = "space-export.zip";
+    private static final URI EXPORT_ZIP_URI = URI.create(BASE_URL + "/" + EXPORT_ZIP_PATH);
 
     private static final String BACKUP_QUEUE_UUID = "a0b1cdef-0a12-3bcd-45e6-0a1bcd2345ef";
     private static final URI BACKUP_QUEUE_URI = URI.create(BASE_URL + "/rest/confapi/1/backup/queue/" + BACKUP_QUEUE_UUID);
 
     @Mock
+    private EventPublisher eventPublisher;
+
+    @Mock
     private ImportExportManager importExportManager;
+
+    @Mock
+    private IndexManager indexManager;
 
     @Mock
     private LongRunningTaskManager longRunningTaskManager;
@@ -71,7 +83,9 @@ public class BackupServiceTest {
         MockitoAnnotations.initMocks(this);
 
         backupService = new BackupServiceImpl(
+                eventPublisher,
                 importExportManager,
+                indexManager,
                 longRunningTaskManager,
                 permissionManager,
                 spaceManager,
@@ -79,21 +93,23 @@ public class BackupServiceTest {
         );
     }
 
+    // export methods
+
     @Test
     public void testGetExportSynchronously() {
         final BackupServiceImpl spy = spy(backupService);
-        final URI downloadUri = UriBuilder.fromUri(BASE_URL).path(BACKUP_ZIP_PATH).build();
+        final URI downloadUri = UriBuilder.fromUri(BASE_URL).path(EXPORT_ZIP_PATH).build();
 
         final Space space = Space.builder().key(SPACE_KEY).build();
         doReturn(space).when(spy).getSpace(anyString());
         final ExportContext exportContext = mock(ExportContext.class);
         doReturn(exportContext).when(spy).createExportContext(any(BackupBean.class));
         final ExportSpaceLongRunningTask task = mock(ExportSpaceLongRunningTask.class);
-        doReturn(BACKUP_ZIP_PATH).when(task).getDownloadPath();
+        doReturn(EXPORT_ZIP_PATH).when(task).getDownloadPath();
         doReturn(task).when(spy).createExportSpaceLongRunningTask(any(ExportContext.class));
 
         PowerMock.mockStatic(HttpUtil.class);
-        expect(HttpUtil.createUri(BACKUP_ZIP_PATH)).andReturn(downloadUri);
+        expect(HttpUtil.createUri(EXPORT_ZIP_PATH)).andReturn(downloadUri);
         PowerMock.replay(HttpUtil.class);
 
         final BackupBean backupBean = new BackupBean();
@@ -112,8 +128,8 @@ public class BackupServiceTest {
         final ExportSpaceLongRunningTask task = mock(ExportSpaceLongRunningTask.class);
         doReturn(task).when(spy).createExportSpaceLongRunningTask(any(ExportContext.class));
 
-        final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         final ConfluenceUser user = mock(ConfluenceUser.class);
+        final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         doReturn(longRunningTaskId).when(longRunningTaskManager).startLongRunningTask(user, task);
 
         PowerMock.mockStatic(HttpUtil.class);
@@ -127,9 +143,49 @@ public class BackupServiceTest {
         assertEquals(BACKUP_QUEUE_URI, spy.getExportAsynchronously(backupBean));
     }
 
+    // import methods
+
     @Test
-    public void testGetQueueIncomplete() {
+    public void testDoImportSynchronously() {
         final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final ImportContext importContext = mock(ImportContext.class);
+        doReturn(importContext).when(spy).createImportContext(file);
+        final ImportLongRunningTask task = mock(ImportLongRunningTask.class);
+        doReturn(task).when(spy).createImportLongRunningTask(importContext);
+
+        spy.doImportSynchronously(file);
+
+        verify(task).run();
+    }
+
+    @Test
+    public void testDoImportAsynchronously() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final ImportContext importContext = mock(ImportContext.class);
+        doReturn(importContext).when(spy).createImportContext(file);
+        final ImportLongRunningTask task = mock(ImportLongRunningTask.class);
+        doReturn(task).when(spy).createImportLongRunningTask(importContext);
+
+        final ConfluenceUser user = mock(ConfluenceUser.class);
+        final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
+        doReturn(longRunningTaskId).when(longRunningTaskManager).startLongRunningTask(user, task);
+
+        PowerMock.mockStatic(HttpUtil.class);
+        expect(HttpUtil.getUser()).andReturn(user);
+        expect(HttpUtil.createRestUri(BACKUP, BACKUP_QUEUE, BACKUP_QUEUE_UUID)).andReturn(BACKUP_QUEUE_URI);
+        PowerMock.replay(HttpUtil.class);
+
+        assertEquals(BACKUP_QUEUE_URI, spy.doImportAsynchronously(file));
+    }
+
+    // queue methods
+
+    @Test
+    public void testGetQueueExportIncomplete() {
         final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         final ConfluenceUser user = mock(ConfluenceUser.class);
 
@@ -146,8 +202,7 @@ public class BackupServiceTest {
     }
 
     @Test
-    public void testGetQueueCompleteAndSuccessfulForExport() {
-        final BackupServiceImpl spy = spy(backupService);
+    public void testGetQueueExportCompleteAndSuccessful() {
         final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         final ConfluenceUser user = mock(ConfluenceUser.class);
 
@@ -156,17 +211,58 @@ public class BackupServiceTest {
         doReturn(true).when(task).isSuccessful();
         doReturn(100).when(task).getPercentageComplete();
         doReturn(2000L).when(task).getElapsedTime();
-        doReturn(BACKUP_ZIP_PATH).when(task).getDownloadPath();
+        doReturn(EXPORT_ZIP_PATH).when(task).getDownloadPath();
         doReturn(task).when(longRunningTaskManager).getLongRunningTask(user, longRunningTaskId);
 
         PowerMock.mockStatic(HttpUtil.class);
         expect(HttpUtil.getUser()).andReturn(user);
-        expect(HttpUtil.createUri(task.getDownloadPath())).andReturn(BACKUP_ZIP_URI);
+        expect(HttpUtil.createUri(task.getDownloadPath())).andReturn(EXPORT_ZIP_URI);
         PowerMock.replay(HttpUtil.class);
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
         assertNotNull(backupQueueBean);
         assertNotNull(backupQueueBean.getEntityUri());
+    }
+
+    @Test
+    public void testGetQueueImportIncomplete() {
+        final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
+        final ConfluenceUser user = mock(ConfluenceUser.class);
+
+        final ImportLongRunningTask task = mock(ImportLongRunningTask.class);
+        doReturn(task).when(longRunningTaskManager).getLongRunningTask(user, longRunningTaskId);
+
+        PowerMock.mockStatic(HttpUtil.class);
+        expect(HttpUtil.getUser()).andReturn(user);
+        PowerMock.replay(HttpUtil.class);
+
+        final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
+        assertNotNull(backupQueueBean);
+        assertNull(backupQueueBean.getEntityUri());
+    }
+
+    @Test
+    public void testGetQueueImportCompleteAndSuccessful() {
+        final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
+        final ConfluenceUser user = mock(ConfluenceUser.class);
+
+        final ImportLongRunningTask task = mock(ImportLongRunningTask.class);
+        doReturn(true).when(task).isComplete();
+        doReturn(true).when(task).isSuccessful();
+        doReturn(100).when(task).getPercentageComplete();
+        doReturn(2000L).when(task).getElapsedTime();
+        doReturn(task).when(longRunningTaskManager).getLongRunningTask(user, longRunningTaskId);
+
+        PowerMock.mockStatic(HttpUtil.class);
+        expect(HttpUtil.getUser()).andReturn(user);
+        PowerMock.replay(HttpUtil.class);
+
+        final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
+        assertNotNull(backupQueueBean);
+        assertNull(backupQueueBean.getEntityUri());
+
+        verify(eventPublisher).publish(any(ClusterReindexRequiredEvent.class));
+        verify(indexManager).reIndex();
     }
 
     @Test
@@ -182,7 +278,6 @@ public class BackupServiceTest {
 
     @Test(expected = BadRequestException.class)
     public void testGetQueueNotExportOrImportTask() {
-        final BackupServiceImpl spy = spy(backupService);
         final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         final ConfluenceUser user = mock(ConfluenceUser.class);
 
@@ -198,7 +293,6 @@ public class BackupServiceTest {
 
     @Test(expected = InternalServerErrorException.class)
     public void testGetQueueCompleteButUnsuccessful() {
-        final BackupServiceImpl spy = spy(backupService);
         final LongRunningTaskId longRunningTaskId = LongRunningTaskId.valueOf(BACKUP_QUEUE_UUID);
         final ConfluenceUser user = mock(ConfluenceUser.class);
 
@@ -212,6 +306,8 @@ public class BackupServiceTest {
 
         backupService.getQueue(BACKUP_QUEUE_UUID);
     }
+
+    // export helper methods
 
     @Test
     public void testGetSpace() {
@@ -266,6 +362,26 @@ public class BackupServiceTest {
         assertEquals(backupBean.getType(), exportContext.getType());
         assertEquals(backupBean.getBackupAttachments(), exportContext.isExportAttachments());
         assertEquals(backupBean.getBackupComments(), exportContext.isExportComments());
+    }
+
+    // import helper methods
+
+    @Test
+    public void testCreateImportContext() {
+        final String filePath = "/path/to/File";
+        final File file = mock(File.class);
+        doReturn(filePath).when(file).getAbsolutePath();
+
+        final ConfluenceUser user = mock(ConfluenceUser.class);
+
+        PowerMock.mockStatic(HttpUtil.class);
+        expect(HttpUtil.getUser()).andReturn(user);
+        PowerMock.replay(HttpUtil.class);
+
+        final ImportContext importContext = backupService.createImportContext(file);
+
+        assertEquals(user, importContext.getUser());
+        assertEquals(filePath, importContext.getWorkingFile());
     }
 
 }

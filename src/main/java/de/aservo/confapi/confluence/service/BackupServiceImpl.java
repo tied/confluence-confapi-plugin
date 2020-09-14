@@ -2,18 +2,23 @@ package de.aservo.confapi.confluence.service;
 
 import com.atlassian.confluence.api.model.content.Space;
 import com.atlassian.confluence.api.service.content.SpaceService;
+import com.atlassian.confluence.event.events.cluster.ClusterReindexRequiredEvent;
 import com.atlassian.confluence.importexport.DefaultExportContext;
+import com.atlassian.confluence.importexport.DefaultImportContext;
 import com.atlassian.confluence.importexport.ExportContext;
+import com.atlassian.confluence.importexport.ImportContext;
 import com.atlassian.confluence.importexport.ImportExportManager;
 import com.atlassian.confluence.importexport.actions.ExportSpaceLongRunningTask;
 import com.atlassian.confluence.importexport.actions.ImportLongRunningTask;
 import com.atlassian.confluence.importexport.impl.ExportScope;
+import com.atlassian.confluence.search.IndexManager;
 import com.atlassian.confluence.security.DownloadGateKeeper;
 import com.atlassian.confluence.security.PermissionManager;
 import com.atlassian.confluence.spaces.SpaceManager;
 import com.atlassian.confluence.util.longrunning.LongRunningTaskId;
 import com.atlassian.confluence.util.longrunning.LongRunningTaskManager;
 import com.atlassian.core.task.longrunning.LongRunningTask;
+import com.atlassian.event.api.EventPublisher;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.spring.container.ContainerManager;
@@ -22,7 +27,6 @@ import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.confluence.model.BackupBean;
 import de.aservo.confapi.confluence.model.BackupQueueBean;
 import de.aservo.confapi.confluence.service.api.BackupService;
-import de.aservo.confapi.confluence.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +35,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.io.File;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Optional;
 
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP;
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP_QUEUE;
+import static de.aservo.confapi.confluence.util.HttpUtil.*;
 
 @Component
 @ExportAsService(BackupService.class)
@@ -46,7 +52,9 @@ public class BackupServiceImpl implements BackupService {
 
     private static final String COMPONENT_GATE_KEEPER = "gateKeeper";
 
+    private final EventPublisher eventPublisher;
     private final ImportExportManager importExportManager;
+    private final IndexManager indexManager;
     private final LongRunningTaskManager longRunningTaskManager;
     private final PermissionManager permissionManager;
     private final SpaceManager spaceManager;
@@ -54,13 +62,17 @@ public class BackupServiceImpl implements BackupService {
 
     @Inject
     public BackupServiceImpl(
+            @ComponentImport final EventPublisher eventPublisher,
             @ComponentImport final ImportExportManager importExportManager,
+            @ComponentImport final IndexManager indexManager,
             @ComponentImport final LongRunningTaskManager longRunningTaskManager,
             @ComponentImport final PermissionManager permissionManager,
             @ComponentImport final SpaceManager spaceManager,
             @ComponentImport final SpaceService spaceService) {
 
+        this.eventPublisher = eventPublisher;
         this.importExportManager = importExportManager;
+        this.indexManager = indexManager;
         this.longRunningTaskManager = longRunningTaskManager;
         this.permissionManager = permissionManager;
         this.spaceManager = spaceManager;
@@ -78,7 +90,7 @@ public class BackupServiceImpl implements BackupService {
         log.info("Starting synchronous export of space '{}'", space.getKey());
         task.run();
 
-        return HttpUtil.createUri(task.getDownloadPath());
+        return createUri(task.getDownloadPath());
     }
 
     @Override
@@ -89,11 +101,37 @@ public class BackupServiceImpl implements BackupService {
         final ExportContext exportContext = createExportContext(backupBean);
         final ExportSpaceLongRunningTask task = createExportSpaceLongRunningTask(exportContext);
 
-        final LongRunningTaskId taskId = longRunningTaskManager.startLongRunningTask(HttpUtil.getUser(), task);
+        final LongRunningTaskId taskId = longRunningTaskManager.startLongRunningTask(getUser(), task);
         final String taskUuid = taskId.toString();
         log.info("Started asynchronous task '{}' for export of space '{}'", taskUuid, space.getKey());
 
-        return HttpUtil.createRestUri(BACKUP, BACKUP_QUEUE, taskUuid);
+        return createRestUri(BACKUP, BACKUP_QUEUE, taskUuid);
+    }
+
+    @Override
+    public void doImportSynchronously(
+            final File file) {
+
+        final ImportContext importContext = createImportContext(file);
+        final ImportLongRunningTask task = createImportLongRunningTask(importContext);
+
+        log.info("Starting synchronous import; long-running tasks not enabled");
+        // run with call runInternal which executes reindex as well
+        task.run();
+    }
+
+    @Override
+    public URI doImportAsynchronously(
+            final File file) {
+
+        final ImportContext importContext = createImportContext(file);
+        final ImportLongRunningTask task = createImportLongRunningTask(importContext);
+
+        final LongRunningTaskId taskId = longRunningTaskManager.startLongRunningTask(getUser(), task);
+        final String taskUuid = taskId.toString();
+        log.info("Started asynchronous task {} for import", taskUuid);
+
+        return createRestUri(BACKUP, BACKUP_QUEUE, taskUuid);
     }
 
     @Override
@@ -101,7 +139,7 @@ public class BackupServiceImpl implements BackupService {
             final String uuid) {
 
         final LongRunningTaskId taskId = LongRunningTaskId.valueOf(uuid);
-        final LongRunningTask task = longRunningTaskManager.getLongRunningTask(HttpUtil.getUser(), taskId);
+        final LongRunningTask task = longRunningTaskManager.getLongRunningTask(getUser(), taskId);
         log.info("Trying to get queue information for task with uuid '{}'", uuid);
 
         if (task == null) {
@@ -114,21 +152,23 @@ public class BackupServiceImpl implements BackupService {
         backupQueueBean.setEstimatedTimeRemainingInMillis(task.getEstimatedTimeRemaining());
 
         if (!(task instanceof ExportSpaceLongRunningTask || task instanceof ImportLongRunningTask)) {
-            final String message = String.format("Given task uuid '%s' does not belong to an space export or import task", uuid);
-            log.error(message);
-            throw new BadRequestException(message);
+            throw new BadRequestException(String.format(
+                    "Given task uuid '%s' does not belong to an space export or import task", uuid));
         }
 
         if (task.isComplete()) {
             if (!task.isSuccessful()) {
-                final String message = String.format("Given task with uuid '%s' completed unsuccessfully", uuid);
-                log.error(message);
-                throw new InternalServerErrorException(message);
+                throw new InternalServerErrorException(String.format(
+                        "Given task with uuid '%s' completed unsuccessfully", uuid));
             }
 
             if (task instanceof ExportSpaceLongRunningTask) {
                 final ExportSpaceLongRunningTask exportTask = (ExportSpaceLongRunningTask) task;
-                backupQueueBean.setEntityUri(HttpUtil.createUri(exportTask.getDownloadPath()));
+                backupQueueBean.setEntityUri(createUri(exportTask.getDownloadPath()));
+            } else { // ImportLongRunningTask
+                // reason 'global import' coming from Confluence sources
+                eventPublisher.publish(new ClusterReindexRequiredEvent("global import"));
+                indexManager.reIndex();
             }
         }
 
@@ -163,7 +203,7 @@ public class BackupServiceImpl implements BackupService {
 
         final DefaultExportContext exportContext = new DefaultExportContext();
 
-        exportContext.setUser(HttpUtil.getUser());
+        exportContext.setUser(getUser());
         exportContext.setExportScope(ExportScope.SPACE);
         exportContext.setSpaceKey(backupBean.getKey());
         exportContext.setType(backupBean.getType());
@@ -176,14 +216,11 @@ public class BackupServiceImpl implements BackupService {
     ExportSpaceLongRunningTask createExportSpaceLongRunningTask(
             final ExportContext exportContext) {
 
-        final DownloadGateKeeper gateKeeper = (DownloadGateKeeper) ContainerManager.getInstance()
-                .getContainerContext().getComponent(COMPONENT_GATE_KEEPER);
-
-        // configure gateKeeper to make export only accessible by creating user (soon)
+        final DownloadGateKeeper gateKeeper = createDownloadGateKeeper();
 
         return new ExportSpaceLongRunningTask(
-                HttpUtil.getUser(),
-                HttpUtil.getServletRequest().getContextPath(),
+                getUser(),
+                getServletRequest().getContextPath(),
                 exportContext,
                 Collections.emptySet(),
                 Collections.emptySet(),
@@ -194,6 +231,31 @@ public class BackupServiceImpl implements BackupService {
                 exportContext.getSpaceKeyOfSpaceExport(),
                 exportContext.getType(),
                 null);
+    }
+
+    private DownloadGateKeeper createDownloadGateKeeper() {
+        return (DownloadGateKeeper) ContainerManager.getInstance()
+                .getContainerContext().getComponent(COMPONENT_GATE_KEEPER);
+        // configure gateKeeper to make export only accessible by creating user (soon)
+    }
+
+    // import helper methods
+
+    ImportContext createImportContext(
+            @Nonnull final File file) {
+
+        return new DefaultImportContext(file.getAbsolutePath(), getUser());
+    }
+
+    ImportLongRunningTask createImportLongRunningTask(
+            @Nonnull final ImportContext importContext) {
+
+        return new ImportLongRunningTask(
+                eventPublisher,
+                indexManager,
+                importExportManager,
+                importContext
+        );
     }
 
 }

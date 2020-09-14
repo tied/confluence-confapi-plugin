@@ -313,6 +313,129 @@ endif::internal-generation[]
 === Backup
 
 
+[.doImportByFileUpload]
+==== doImportByFileUpload
+    
+`PUT /backup/import`
+
+Import based on an export file upload
+
+===== Description 
+
+Initiates an asynchronous import if enabled by server, synchronous otherwise
+
+
+// markup not found, no include::{specDir}backup/import/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| contentType 
+|  <<string>> 
+| - 
+| null 
+|  
+
+| formField 
+|  <<boolean>> 
+| - 
+| null 
+|  
+
+| name 
+|  <<string>> 
+| - 
+| null 
+|  
+
+| value 
+|  <<string>> 
+| - 
+| null 
+|  
+
+| size 
+|  <<long>> 
+| - 
+| null 
+|  
+
+| inputStream 
+|  <<object>> 
+| - 
+| null 
+|  
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 201
+| Synchronous import
+|  <<>>
+
+
+| 202
+| Asynchronous import, the queue URL will be returned in the location header
+|  <<>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}backup/import/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}backup/import/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :backup/import/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}backup/import/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getExport]
 ==== getExport
     
@@ -406,8 +529,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.getExportBySpaceKey]
-==== getExportBySpaceKey
+[.getExportByKey]
+==== getExportByKey
     
 `GET /backup/export/{key}`
 
@@ -3268,6 +3391,55 @@ endif::internal-generation[]
 | errorMessages 
 |  
 | List  of <<string>> 
+| 
+|  
+
+|===
+
+
+[#FilePart]
+=== _FilePart_ 
+
+
+
+[.fields-FilePart]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| contentType 
+|  
+| String  
+| 
+|  
+
+| formField 
+|  
+| Boolean  
+| 
+|  
+
+| name 
+|  
+| String  
+| 
+|  
+
+| value 
+|  
+| String  
+| 
+|  
+
+| size 
+|  
+| Long  
+| 
+| int64 
+
+| inputStream 
+|  
+| Object  
 | 
 |  
 
