@@ -28,7 +28,7 @@ public class DirectoryBeanUtilTest {
         assertEquals(directory.getName(), bean.getName());
 
         final Map<String, String> attributes = directory.getAttributes();
-        assertEquals(attributes.get(CROWD_SERVER_URL), bean.getServer().getUri().toString());
+        assertEquals(attributes.get(CROWD_SERVER_URL), bean.getServer().getUrl().toString());
         assertEquals(attributes.get(APPLICATION_PASSWORD), bean.getServer().getAppPassword());
     }
 
@@ -41,7 +41,7 @@ public class DirectoryBeanUtilTest {
         assertEquals(directory.getName(), bean.getName());
 
         final Map<String, String> attributes = directory.getAttributes();
-        assertEquals(bean.getServer().getUri().toString(), attributes.get(CROWD_SERVER_URL));
+        assertEquals(bean.getServer().getUrl().toString(), attributes.get(CROWD_SERVER_URL));
         assertEquals(bean.getServer().getAppPassword(), attributes.get(APPLICATION_PASSWORD));
         assertEquals(bean.getServer().getProxy().getHost(), attributes.get(CROWD_HTTP_PROXY_HOST));
         assertNull(bean.getServer().getProxy().getPort());
@@ -75,7 +75,7 @@ public class DirectoryBeanUtilTest {
         assertEquals(directory.getName(), directoryBean.getName());
 
         final Map<String, String> attributes = directory.getAttributes();
-        assertEquals(attributes.get(CROWD_SERVER_URL), directoryBean.getServer().getUri().toString());
+        assertEquals(attributes.get(CROWD_SERVER_URL), directoryBean.getServer().getUrl().toString());
         assertNull(directoryBean.getServer().getAppPassword());
         assertEquals(attributes.get(CROWD_HTTP_PROXY_HOST), directoryBean.getServer().getProxy().getHost());
         assertEquals(attributes.get(CROWD_HTTP_PROXY_PORT), directoryBean.getServer().getProxy().getPort().toString());

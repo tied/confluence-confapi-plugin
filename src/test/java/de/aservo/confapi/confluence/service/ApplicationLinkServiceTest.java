@@ -21,7 +21,6 @@ import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
 import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus;
 import de.aservo.confapi.commons.model.ApplicationLinksBean;
-import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
 import de.aservo.confapi.confluence.model.DefaultAuthenticationScenario;
 import de.aservo.confapi.confluence.model.util.ApplicationLinkBeanUtil;
 import org.junit.Before;
@@ -41,6 +40,7 @@ import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.AUTH
 import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.CONNECTION_REFUSED;
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.AVAILABLE;
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.CONFIGURATION_ERROR;
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkTypes.CROWD;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -175,25 +175,17 @@ public class ApplicationLinkServiceTest {
     @Test(expected = ValidationException.class)
     public void testAddApplicationLinkMissingLinkType() throws URISyntaxException {
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
-        applicationLinkBean.setLinkType(null);
-
-        applicationLinkService.addApplicationLink(applicationLinkBean, true);
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void testAddApplicationLinkInvalidUri() throws URISyntaxException {
-        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
-        applicationLinkBean.setRpcUrl("1234://666");
+        applicationLinkBean.setType(null);
 
         applicationLinkService.addApplicationLink(applicationLinkBean, true);
     }
 
     @Test
     public void testApplicationLinkTypeConverter() throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
-        for (ApplicationLinkTypes linkType : ApplicationLinkTypes.values()) {
+        for (ApplicationLinkBean.ApplicationLinkTypes linkType : ApplicationLinkBean.ApplicationLinkTypes.values()) {
             ApplicationLink applicationLink = createApplicationLink();
             ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
-            applicationLinkBean.setLinkType(linkType);
+            applicationLinkBean.setType(linkType);
 
             doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
                     any(ApplicationType.class), any(ApplicationLinkDetails.class));
@@ -208,7 +200,7 @@ public class ApplicationLinkServiceTest {
 
     private ApplicationLinkBean createApplicationLinkBean() throws URISyntaxException {
         ApplicationLinkBean bean = ApplicationLinkBeanUtil.toApplicationLinkBean(createApplicationLink());
-        bean.setLinkType(ApplicationLinkTypes.CROWD);
+        bean.setType(CROWD);
         bean.setUsername("test");
         bean.setPassword("test");
         return bean;

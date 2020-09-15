@@ -21,10 +21,10 @@ public class LicenseBeanUtilTest {
         assertNotNull(bean);
         assertEquals(bean.getProducts().iterator().next(), license.getProductDisplayName());
         assertEquals(bean.getOrganization(), license.getOrganisationName());
-        assertEquals(bean.getLicenseType(), license.getLicenseTypeName());
+        assertEquals(bean.getType(), license.getLicenseTypeName());
         assertEquals(bean.getDescription(), license.getDescription());
         assertEquals(bean.getExpiryDate(), license.getMaintenanceExpiryDate());
-        assertEquals(bean.getNumUsers(), license.getNumberOfUsers());
+        assertEquals(bean.getMaxUsers(), license.getNumberOfUsers());
     }
 
 }

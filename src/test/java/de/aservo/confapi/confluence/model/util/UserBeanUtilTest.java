@@ -15,7 +15,7 @@ public class UserBeanUtilTest {
         final ConfluenceUser user = new ConfluenceUserImpl("user", "User Name", "user@localhost");
         final UserBean userBean = UserBeanUtil.toUserBean(user);
 
-        assertEquals(user.getName(), userBean.getUserName());
+        assertEquals(user.getName(), userBean.getUsername());
         assertEquals(user.getFullName(), userBean.getFullName());
         assertEquals(user.getEmail(), userBean.getEmail());
     }
@@ -25,7 +25,7 @@ public class UserBeanUtilTest {
         final UserBean userBean = UserBean.EXAMPLE_1;
         final User user = UserBeanUtil.toUser(userBean);
 
-        assertEquals(userBean.getUserName(), user.getName());
+        assertEquals(userBean.getUsername(), user.getName());
         assertEquals(userBean.getFullName(), user.getFullName());
         assertEquals(userBean.getEmail(), user.getEmail());
     }

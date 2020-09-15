@@ -74,7 +74,7 @@ public class MailServerServiceImpl implements MailServerService {
             smtpMailServer.setPort(smtpMailServer.getMailProtocol().getDefaultPort());
         }
 
-        smtpMailServer.setTlsRequired(mailServerSmtpBean.isTls());
+        smtpMailServer.setTlsRequired(mailServerSmtpBean.getUseTls());
 
         if (StringUtils.isNotBlank(mailServerSmtpBean.getUsername())) {
             smtpMailServer.setUsername(mailServerSmtpBean.getUsername());

@@ -5,12 +5,12 @@ import com.atlassian.crowd.embedded.api.Directory;
 import com.atlassian.crowd.exception.DirectoryCurrentlySynchronisingException;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.confapi.confluence.model.util.DirectoryBeanUtil;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.model.AbstractDirectoryBean;
 import de.aservo.confapi.commons.model.DirectoriesBean;
 import de.aservo.confapi.commons.model.DirectoryCrowdBean;
-import de.aservo.confapi.commons.service.api.DirectoryService;
+import de.aservo.confapi.commons.service.api.DirectoriesService;
+import de.aservo.confapi.confluence.model.util.DirectoryBeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,8 +25,8 @@ import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
 import static java.lang.String.format;
 
 @Component
-@ExportAsService(DirectoryService.class)
-public class DirectoryServiceImpl implements DirectoryService {
+@ExportAsService(DirectoriesService.class)
+public class DirectoryServiceImpl implements DirectoriesService {
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryServiceImpl.class);
 

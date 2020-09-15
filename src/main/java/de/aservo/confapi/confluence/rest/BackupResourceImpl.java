@@ -94,9 +94,9 @@ public class BackupResourceImpl implements BackupResource {
             // override responseBuilder status when task is completed
             responseBuilder.status(CREATED);
 
-            if (backupQueueBean.getEntityUri() != null) {
+            if (backupQueueBean.getEntityUrl() != null) {
                 // set location header if entity URI is set
-                responseBuilder.location(backupQueueBean.getEntityUri());
+                responseBuilder.location(backupQueueBean.getEntityUrl());
             }
         }
 

@@ -10,7 +10,6 @@ import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecStore;
 import com.atlassian.gadgets.spec.GadgetSpec;
 import com.atlassian.gadgets.spec.GadgetSpecFactory;
 import com.atlassian.sal.api.user.UserKey;
-import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.GadgetBean;
 import de.aservo.confapi.commons.model.GadgetsBean;
 import de.aservo.confapi.commons.service.api.GadgetsService;
@@ -60,19 +59,7 @@ public class GadgetsServiceTest {
 
         GadgetsBean gadgetsBean = gadgetsService.getGadgets();
 
-        assertEquals(externalGadgetSpec.getSpecUri().toString(), gadgetsBean.getGadgets().iterator().next().getUrl());
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void testAddGadgetWithNullUrl() {
-        gadgetsService.addGadget(new GadgetBean());
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void testAddGadgetWithInvalidUrl() {
-        GadgetBean gadgetBean = new GadgetBean();
-        gadgetBean.setUrl("this is invalid uri format");
-        gadgetsService.addGadget(gadgetBean);
+        assertEquals(externalGadgetSpec.getSpecUri(), gadgetsBean.getGadgets().iterator().next().getUrl());
     }
 
     @Test
@@ -82,9 +69,8 @@ public class GadgetsServiceTest {
         doReturn(externalGadgetSpec).when(externalGadgetSpecStore).add(any());
 
         ConfluenceUser user = createConfluenceUser();
-        String gadgetUrlToSet = externalGadgetSpec.getSpecUri().toString();
         GadgetBean gadgetBean = new GadgetBean();
-        gadgetBean.setUrl(gadgetUrlToSet);
+        gadgetBean.setUrl(externalGadgetSpec.getSpecUri());
 
         GadgetSpec gadgetSpec = GadgetSpec.gadgetSpec(externalGadgetSpec.getSpecUri()).build();
 
@@ -96,7 +82,7 @@ public class GadgetsServiceTest {
         doReturn(gadgetSpec).when(gadgetSpecFactory).getGadgetSpec(externalGadgetSpec.getSpecUri(), null);
 
         GadgetBean gadgetsBean = gadgetsService.addGadget(gadgetBean);
-        assertEquals(gadgetUrlToSet, gadgetsBean.getUrl());
+        assertEquals(externalGadgetSpec.getSpecUri(), gadgetsBean.getUrl());
     }
 
     @Test
@@ -106,9 +92,8 @@ public class GadgetsServiceTest {
         doReturn(externalGadgetSpec).when(externalGadgetSpecStore).add(any());
 
         ConfluenceUser user = createConfluenceUser();
-        String gadgetUrlToSet = externalGadgetSpec.getSpecUri().toString();
         GadgetBean gadgetBean = new GadgetBean();
-        gadgetBean.setUrl(gadgetUrlToSet);
+        gadgetBean.setUrl(externalGadgetSpec.getSpecUri());
         GadgetsBean gadgetsBeanToSet = new GadgetsBean(Collections.singletonList(gadgetBean));
 
         GadgetSpec gadgetSpec = GadgetSpec.gadgetSpec(externalGadgetSpec.getSpecUri()).build();
@@ -121,7 +106,7 @@ public class GadgetsServiceTest {
         doReturn(gadgetSpec).when(gadgetSpecFactory).getGadgetSpec(externalGadgetSpec.getSpecUri(), null);
 
         GadgetsBean gadgetsBean = gadgetsService.setGadgets(gadgetsBeanToSet);
-        assertEquals(gadgetUrlToSet, gadgetsBean.getGadgets().iterator().next().getUrl());
+        assertEquals(externalGadgetSpec.getSpecUri(), gadgetsBean.getGadgets().iterator().next().getUrl());
     }
 
     private ExternalGadgetSpec createExternalGadgetSpec() throws URISyntaxException {
