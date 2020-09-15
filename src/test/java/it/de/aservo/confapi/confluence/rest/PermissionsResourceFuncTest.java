@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class PermissionsResourceTest {
+public class PermissionsResourceFuncTest {
 
     @Test
     public void testGetAnonymousPermissions() {
