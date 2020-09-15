@@ -198,7 +198,7 @@ public class BackupServiceTest {
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
         assertNotNull(backupQueueBean);
-        assertNull(backupQueueBean.getEntityUri());
+        assertNull(backupQueueBean.getEntityUrl());
     }
 
     @Test
@@ -221,7 +221,7 @@ public class BackupServiceTest {
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
         assertNotNull(backupQueueBean);
-        assertNotNull(backupQueueBean.getEntityUri());
+        assertNotNull(backupQueueBean.getEntityUrl());
     }
 
     @Test
@@ -238,7 +238,7 @@ public class BackupServiceTest {
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
         assertNotNull(backupQueueBean);
-        assertNull(backupQueueBean.getEntityUri());
+        assertNull(backupQueueBean.getEntityUrl());
     }
 
     @Test
@@ -259,7 +259,7 @@ public class BackupServiceTest {
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(BACKUP_QUEUE_UUID);
         assertNotNull(backupQueueBean);
-        assertNull(backupQueueBean.getEntityUri());
+        assertNull(backupQueueBean.getEntityUrl());
 
         verify(eventPublisher).publish(any(ClusterReindexRequiredEvent.class));
         verify(indexManager).reIndex();

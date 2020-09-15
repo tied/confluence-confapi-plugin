@@ -164,7 +164,7 @@ public class BackupServiceImpl implements BackupService {
 
             if (task instanceof ExportSpaceLongRunningTask) {
                 final ExportSpaceLongRunningTask exportTask = (ExportSpaceLongRunningTask) task;
-                backupQueueBean.setEntityUri(createUri(exportTask.getDownloadPath()));
+                backupQueueBean.setEntityUrl(createUri(exportTask.getDownloadPath()));
             } else { // ImportLongRunningTask
                 // reason 'global import' coming from Confluence sources
                 eventPublisher.publish(new ClusterReindexRequiredEvent("global import"));

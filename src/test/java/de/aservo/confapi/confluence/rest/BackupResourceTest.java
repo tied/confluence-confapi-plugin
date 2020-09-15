@@ -123,7 +123,7 @@ public class BackupResourceTest {
     public void testGetQueueComplete() {
         final BackupQueueBean backupQueueBean = new BackupQueueBean();
         backupQueueBean.setPercentageComplete(100);
-        backupQueueBean.setEntityUri(BACKUP_QUEUE_URI);
+        backupQueueBean.setEntityUrl(BACKUP_QUEUE_URI);
         doReturn(backupQueueBean).when(backupService).getQueue(any());
 
         final Response response = backupResource.getQueue("123");

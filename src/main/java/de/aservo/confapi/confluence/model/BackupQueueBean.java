@@ -23,6 +23,6 @@ public class BackupQueueBean {
     private long estimatedTimeRemainingInMillis;
 
     @XmlElement
-    private URI entityUri;
+    private URI entityUrl;
 
 }
