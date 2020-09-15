@@ -339,12 +339,6 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| contentType 
-|  <<string>> 
-| - 
-| null 
-|  
-
 | formField 
 |  <<boolean>> 
 | - 
@@ -371,6 +365,12 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 | inputStream 
 |  <<object>> 
+| - 
+| null 
+|  
+
+| contentType 
+|  <<string>> 
 | - 
 | null 
 |  
@@ -2619,35 +2619,29 @@ endif::internal-generation[]
 | 
 |  
 
-| appType 
-|  
-| String  
-| 
-|  
-
-| linkType 
-| X 
-| String  
-| 
-|  _Enum:_ BAMBOO, JIRA, BITBUCKET, CONFLUENCE, FISHEYE, CROWD, 
-
 | name 
 | X 
 | String  
 | 
 |  
 
-| displayUrl 
+| type 
 | X 
 | String  
 | 
-|  
+|  _Enum:_ BAMBOO, JIRA, BITBUCKET, CONFLUENCE, FISHEYE, CROWD, 
+
+| displayUrl 
+| X 
+| URI  
+| 
+| uri 
 
 | rpcUrl 
 | X 
-| String  
+| URI  
 | 
-|  
+| uri 
 
 | primary 
 |  
@@ -2890,7 +2884,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| readonly 
+| readOnly 
 |  
 | Boolean  
 | 
@@ -2915,7 +2909,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| uri 
+| url 
 | X 
 | URI  
 | 
@@ -3283,13 +3277,13 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| readonly 
+| readOnly 
 |  
 | Boolean  
 | 
 |  
 
-| readonlyForLocalGroups 
+| readOnlyForLocalGroups 
 |  
 | Boolean  
 | 
@@ -3345,7 +3339,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| hostName 
+| host 
 | X 
 | String  
 | 
@@ -3407,12 +3401,6 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| contentType 
-|  
-| String  
-| 
-|  
-
 | formField 
 |  
 | Boolean  
@@ -3443,6 +3431,12 @@ endif::internal-generation[]
 | 
 |  
 
+| contentType 
+|  
+| String  
+| 
+|  
+
 |===
 
 
@@ -3458,9 +3452,9 @@ endif::internal-generation[]
 
 | url 
 |  
-| String  
+| URI  
 | 
-|  
+| uri 
 
 |===
 
@@ -3494,7 +3488,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| licenseType 
+| type 
 |  
 | String  
 | 
@@ -3518,7 +3512,7 @@ endif::internal-generation[]
 | 
 | date-time 
 
-| numUsers 
+| maxUsers 
 |  
 | Integer  
 | 
@@ -3695,7 +3689,7 @@ endif::internal-generation[]
 | 
 |  
 
-| tls 
+| useTls 
 |  
 | Boolean  
 | 
@@ -3741,9 +3735,9 @@ endif::internal-generation[]
 
 | baseUrl 
 |  
-| String  
+| URI  
 | 
-|  
+| uri 
 
 | mode 
 |  
@@ -3770,7 +3764,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| userName 
+| username 
 |  
 | String  
 | 

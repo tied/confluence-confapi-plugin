@@ -53,7 +53,7 @@ public class MailServerServiceTest {
         assertNull(bean.getPassword());
         assertEquals(smtpMailServer.getDefaultFrom(), bean.getFrom());
         assertEquals(smtpMailServer.getPrefix(), bean.getPrefix());
-        assertEquals(smtpMailServer.isTlsRequired(), bean.isTls());
+        assertEquals(smtpMailServer.isTlsRequired(), bean.getUseTls());
         assertEquals(smtpMailServer.getMailProtocol().getProtocol(), bean.getProtocol());
         assertEquals(smtpMailServer.getPort(), String.valueOf(bean.getPort()));
     }

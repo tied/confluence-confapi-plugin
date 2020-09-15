@@ -9,18 +9,15 @@ import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecStore;
 import com.atlassian.gadgets.spec.GadgetSpecFactory;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.GadgetBean;
 import de.aservo.confapi.commons.model.GadgetsBean;
 import de.aservo.confapi.commons.service.api.GadgetsService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -51,7 +48,7 @@ public class GadgetsServiceImpl implements GadgetsService {
     public GadgetsBean getGadgets() {
         Iterable<ExternalGadgetSpec> specIterable = externalGadgetSpecStore.entries();
         List<GadgetBean> gadgetBeanList = StreamSupport.stream(specIterable.spliterator(), false)
-                .map(spec -> spec.getSpecUri().toString())
+                .map(ExternalGadgetSpec::getSpecUri)
                 .map(url -> {
                     GadgetBean gadgetBean = new GadgetBean();
                     gadgetBean.setUrl(url);
@@ -71,16 +68,7 @@ public class GadgetsServiceImpl implements GadgetsService {
     @Override
     public GadgetBean addGadget(GadgetBean gadgetBean) {
         //initial checks
-        String url = gadgetBean.getUrl();
-        if (StringUtils.isBlank(url)) {
-            throw new BadRequestException("'url' must not be null or empty!");
-        }
-        URI uri;
-        try {
-            uri = new URI(url.trim());
-        } catch (URISyntaxException e) {
-            throw new BadRequestException(String.format("Cannot interpret gadget url '%s'", url));
-        }
+        URI url = gadgetBean.getUrl();
 
         //validate gadget url
         log.debug("testing external gadget link url for validity: {}", url);
@@ -91,13 +79,13 @@ public class GadgetsServiceImpl implements GadgetsService {
                 .ignoreCache(false)
                 .user(new GadgetRequestContext.User(user.getKey().getStringValue(), user.getName()))
                 .build();
-        gadgetSpecFactory.getGadgetSpec(uri, requestContext);
+        gadgetSpecFactory.getGadgetSpec(url, requestContext);
 
         //add gadget url to store
-        ExternalGadgetSpec addedGadget = externalGadgetSpecStore.add(uri);
+        ExternalGadgetSpec addedGadget = externalGadgetSpecStore.add(url);
 
         GadgetBean addedGadgetBean = new GadgetBean();
-        addedGadgetBean.setUrl(addedGadget.getSpecUri().toString());
+        addedGadgetBean.setUrl(addedGadget.getSpecUri());
         return addedGadgetBean;
     }
 }

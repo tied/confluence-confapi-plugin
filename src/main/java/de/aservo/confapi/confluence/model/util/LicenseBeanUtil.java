@@ -19,11 +19,11 @@ public class LicenseBeanUtil {
 
         final LicenseBean licenseBean = new LicenseBean();
         licenseBean.setProducts(Collections.singletonList(productLicense.getProductDisplayName()));
-        licenseBean.setLicenseType(productLicense.getLicenseTypeName());
+        licenseBean.setType(productLicense.getLicenseTypeName());
         licenseBean.setOrganization(productLicense.getOrganisationName());
         licenseBean.setDescription(productLicense.getDescription());
         licenseBean.setExpiryDate(productLicense.getMaintenanceExpiryDate());
-        licenseBean.setNumUsers(productLicense.getNumberOfUsers());
+        licenseBean.setMaxUsers(productLicense.getNumberOfUsers());
         return licenseBean;
     }
 

@@ -10,12 +10,11 @@ import com.atlassian.applinks.api.application.fecru.FishEyeCrucibleApplicationTy
 import com.atlassian.applinks.api.application.jira.JiraApplicationType;
 import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
-import de.aservo.confapi.commons.model.type.ApplicationLinkTypes;
 import org.apache.commons.lang3.NotImplementedException;
 
 import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
+
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkTypes.*;
 
 public class ApplicationLinkBeanUtil {
 
@@ -30,12 +29,11 @@ public class ApplicationLinkBeanUtil {
 
         final ApplicationLinkBean applicationLinkBean = new ApplicationLinkBean();
         applicationLinkBean.setServerId(linkDetails.getId().toString());
-        applicationLinkBean.setAppType(linkDetails.getType().toString());
         applicationLinkBean.setName(linkDetails.getName());
-        applicationLinkBean.setDisplayUrl(linkDetails.getDisplayUrl().toString());
-        applicationLinkBean.setRpcUrl(linkDetails.getRpcUrl().toString());
+        applicationLinkBean.setType(getLinkTypeFromAppType(linkDetails.getType()));
+        applicationLinkBean.setDisplayUrl(linkDetails.getDisplayUrl());
+        applicationLinkBean.setRpcUrl(linkDetails.getRpcUrl());
         applicationLinkBean.setPrimary(linkDetails.isPrimary());
-        applicationLinkBean.setLinkType(getLinkTypeFromAppType(linkDetails.getType()));
         return applicationLinkBean;
     }
 
@@ -43,16 +41,15 @@ public class ApplicationLinkBeanUtil {
      * To application link details application link details.
      *
      * @return the application link details
-     * @throws URISyntaxException the uri syntax exception
      */
     @NotNull
     public static ApplicationLinkDetails toApplicationLinkDetails(
-            @NotNull final ApplicationLinkBean applicationLinkBean) throws URISyntaxException {
+            @NotNull final ApplicationLinkBean applicationLinkBean) {
 
         return ApplicationLinkDetails.builder()
                 .name(applicationLinkBean.getName())
-                .displayUrl(new URI(applicationLinkBean.getDisplayUrl()))
-                .rpcUrl(new URI(applicationLinkBean.getRpcUrl()))
+                .displayUrl(applicationLinkBean.getDisplayUrl())
+                .rpcUrl(applicationLinkBean.getRpcUrl())
                 .isPrimary(applicationLinkBean.isPrimary())
                 .build();
     }
@@ -63,21 +60,21 @@ public class ApplicationLinkBeanUtil {
      * @param type the ApplicationType
      * @return the linktype
      */
-    private static ApplicationLinkTypes getLinkTypeFromAppType(
+    private static ApplicationLinkBean.ApplicationLinkTypes getLinkTypeFromAppType(
             @NotNull final ApplicationType type) {
 
         if (type instanceof BambooApplicationType) {
-            return ApplicationLinkTypes.BAMBOO;
+            return BAMBOO;
         } else if (type instanceof JiraApplicationType) {
-            return ApplicationLinkTypes.JIRA;
+            return JIRA;
         } else if (type instanceof BitbucketApplicationType) {
-            return ApplicationLinkTypes.BITBUCKET;
+            return BITBUCKET;
         } else if (type instanceof ConfluenceApplicationType) {
-            return ApplicationLinkTypes.CONFLUENCE;
+            return CONFLUENCE;
         } else if (type instanceof FishEyeCrucibleApplicationType) {
-            return ApplicationLinkTypes.FISHEYE;
+            return FISHEYE;
         } else if (type instanceof CrowdApplicationType) {
-            return ApplicationLinkTypes.CROWD;
+            return CROWD;
         } else {
             throw new NotImplementedException("application type '" + type.getClass() + "' not implemented");
         }

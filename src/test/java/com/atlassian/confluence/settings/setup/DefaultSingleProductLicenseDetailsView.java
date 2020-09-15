@@ -23,7 +23,7 @@ public class DefaultSingleProductLicenseDetailsView implements SingleProductLice
     @Nonnull
     @Override
     public String getLicenseTypeName() {
-        return licenseBean.getLicenseType();
+        return licenseBean.getType();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class DefaultSingleProductLicenseDetailsView implements SingleProductLice
 
     @Override
     public int getNumberOfUsers() {
-        return licenseBean.getNumUsers();
+        return licenseBean.getMaxUsers();
     }
 
     @Nonnull

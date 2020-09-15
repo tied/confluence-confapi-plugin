@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.net.URI;
 
 @Component
 @ExportAsService(SettingsService.class)
@@ -27,7 +28,7 @@ public class SettingsServiceImpl implements SettingsService {
         final Settings settings = settingsManager.getGlobalSettings();
 
         final SettingsBean settingsBean = new SettingsBean();
-        settingsBean.setBaseUrl(settings.getBaseUrl());
+        settingsBean.setBaseUrl(URI.create(settings.getBaseUrl()));
         settingsBean.setTitle(settings.getSiteTitle());
 
         return settingsBean;
@@ -37,8 +38,8 @@ public class SettingsServiceImpl implements SettingsService {
     public SettingsBean setSettings(SettingsBean settingsBean) {
         final Settings settings = settingsManager.getGlobalSettings();
 
-        if (StringUtils.isNotBlank(settingsBean.getBaseUrl())) {
-            settings.setBaseUrl(settingsBean.getBaseUrl());
+        if (settingsBean.getBaseUrl() != null) {
+            settings.setBaseUrl(settingsBean.getBaseUrl().toString());
         }
 
         if (StringUtils.isNotBlank(settingsBean.getTitle())) {

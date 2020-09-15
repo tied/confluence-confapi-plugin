@@ -23,7 +23,7 @@ public class MailServerSmtpBeanUtil {
         mailServerSmtpBean.setProtocol(smtpMailServer.getMailProtocol().getProtocol());
         mailServerSmtpBean.setHost(smtpMailServer.getHostname());
         mailServerSmtpBean.setPort(smtpMailServer.getPort());
-        mailServerSmtpBean.setTls(smtpMailServer.isTlsRequired());
+        mailServerSmtpBean.setUseTls(smtpMailServer.isTlsRequired());
         mailServerSmtpBean.setTimeout(smtpMailServer.getTimeout());
         mailServerSmtpBean.setUsername(smtpMailServer.getUsername());
         return mailServerSmtpBean;

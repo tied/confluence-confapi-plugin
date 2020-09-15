@@ -10,7 +10,7 @@ public class UserBeanUtil {
             final User user) {
 
         final UserBean userBean = new UserBean();
-        userBean.setUserName(user.getName());
+        userBean.setUsername(user.getName());
         userBean.setFullName(user.getFullName());
         userBean.setEmail(user.getEmail());
 
@@ -22,7 +22,7 @@ public class UserBeanUtil {
             final UserBean userBean) {
 
         return new ConfluenceUserImpl(
-                userBean.getUserName(),
+                userBean.getUsername(),
                 userBean.getFullName(),
                 userBean.getEmail()
         );

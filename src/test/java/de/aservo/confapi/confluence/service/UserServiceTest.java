@@ -25,11 +25,11 @@ public class UserServiceTest {
     @Mock
     private UserManager userManager;
 
-    private UserServiceImpl userService;
+    private UsersServiceImpl userService;
 
     @Before
     public void setup() {
-        userService = new UserServiceImpl(userManager);
+        userService = new UsersServiceImpl(userManager);
     }
 
     @Test
@@ -84,12 +84,12 @@ public class UserServiceTest {
     @Test
     public void testUpdateUserPassword() throws EntityException, NotFoundException, BadRequestException {
         final UserBean userBean = UserBean.EXAMPLE_1;
-        doReturn(toUser(userBean)).when(userManager).getUser(userBean.getUserName());
+        doReturn(toUser(userBean)).when(userManager).getUser(userBean.getUsername());
 
         final UserBean updateUserBean = new UserBean();
         updateUserBean.setPassword("new password");
 
-        final UserBean updatedUserBean = userService.updateUser(userBean.getUserName(), userBean);
+        final UserBean updatedUserBean = userService.updateUser(userBean.getUsername(), userBean);
         assertEquals(userBean, updatedUserBean);
         // user password is not returned here, getting user bean shows update was successful
         assertNull(updatedUserBean.getPassword());
