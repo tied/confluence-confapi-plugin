@@ -24,6 +24,7 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.spring.container.ContainerManager;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
+import de.aservo.confapi.commons.exception.NotFoundException;
 import de.aservo.confapi.confluence.model.BackupBean;
 import de.aservo.confapi.confluence.model.BackupQueueBean;
 import de.aservo.confapi.confluence.service.api.BackupService;
@@ -181,18 +182,15 @@ public class BackupServiceImpl implements BackupService {
             @Nullable final String spaceKey) {
 
         log.info("Trying to find space with key '{}'", spaceKey);
+
         if (StringUtils.isBlank(spaceKey)) {
-            final String message = "No space key given for export";
-            log.error(message);
-            throw new BadRequestException(message);
+            throw new BadRequestException("No space key given for export");
         }
 
         final Optional<Space> optionalSpace = spaceService.find().withKeys(spaceKey).fetch();
 
         if (!optionalSpace.isPresent()) {
-            final String message = String.format("Space with key %s does not exist", spaceKey);
-            log.error(message);
-            throw new BadRequestException(message);
+            throw new NotFoundException(String.format("Space with key '%s' does not exist", spaceKey));
         }
 
         return optionalSpace.get();

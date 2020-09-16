@@ -19,6 +19,7 @@ import com.atlassian.core.task.longrunning.LongRunningTask;
 import com.atlassian.event.api.EventPublisher;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
+import de.aservo.confapi.commons.exception.NotFoundException;
 import de.aservo.confapi.confluence.model.BackupBean;
 import de.aservo.confapi.confluence.model.BackupQueueBean;
 import de.aservo.confapi.confluence.util.HttpUtil;
@@ -331,7 +332,7 @@ public class BackupServiceTest {
         backupService.getSpace("");
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test(expected = NotFoundException.class)
     public void testGetSpaceNotExists() {
         final SpaceService.SpaceFinder spaceFinder = mock(SpaceService.SpaceFinder.class);
         doReturn(spaceFinder).when(spaceFinder).withKeys(SPACE_KEY);
