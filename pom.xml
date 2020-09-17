@@ -13,7 +13,7 @@
     </parent>
 
     <artifactId>confapi-confluence-plugin</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>ConfAPI for Confluence</name>
