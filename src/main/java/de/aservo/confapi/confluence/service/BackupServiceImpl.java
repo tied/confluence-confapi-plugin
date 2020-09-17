@@ -37,9 +37,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP;
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP_QUEUE;
@@ -52,6 +56,13 @@ public class BackupServiceImpl implements BackupService {
     private static final Logger log = LoggerFactory.getLogger(BackupServiceImpl.class);
 
     private static final String COMPONENT_GATE_KEEPER = "gateKeeper";
+
+    public static final String FILE_ENTITIES_XML = "entities.xml";
+    public static final String FILE_EXPORT_DESCRIPTOR_PROPERTIES = "exportDescriptor.properties";
+
+    public static final String PROPERTY_EXPORT_TYPE = "exportType";
+    public static final String PROPERTY_EXPORT_TYPE_SPACE = "space";
+    public static final String PROPERTY_SPACE_KEY = "spaceKey";
 
     private final EventPublisher eventPublisher;
     private final ImportExportManager importExportManager;
@@ -113,6 +124,8 @@ public class BackupServiceImpl implements BackupService {
     public void doImportSynchronously(
             final File file) {
 
+        validateImportFile(file);
+
         final ImportContext importContext = createImportContext(file);
         final ImportLongRunningTask task = createImportLongRunningTask(importContext);
 
@@ -124,6 +137,8 @@ public class BackupServiceImpl implements BackupService {
     @Override
     public URI doImportAsynchronously(
             final File file) {
+
+        validateImportFile(file);
 
         final ImportContext importContext = createImportContext(file);
         final ImportLongRunningTask task = createImportLongRunningTask(importContext);
@@ -178,22 +193,21 @@ public class BackupServiceImpl implements BackupService {
 
     // export helper methods
 
+    @Nonnull
     Space getSpace(
             @Nullable final String spaceKey) {
-
-        log.info("Trying to find space with key '{}'", spaceKey);
 
         if (StringUtils.isBlank(spaceKey)) {
             throw new BadRequestException("No space key given for export");
         }
 
-        final Optional<Space> optionalSpace = spaceService.find().withKeys(spaceKey).fetch();
+        final Space space = findSpace(spaceKey);
 
-        if (!optionalSpace.isPresent()) {
+        if (space == null) {
             throw new NotFoundException(String.format("Space with key '%s' does not exist", spaceKey));
         }
 
-        return optionalSpace.get();
+        return space;
     }
 
     ExportContext createExportContext(
@@ -239,6 +253,27 @@ public class BackupServiceImpl implements BackupService {
 
     // import helper methods
 
+    void validateImportFile(
+            final File file) {
+
+        final Properties properties = getExportFileProperties(file);
+
+        final String exportType = properties.getProperty(PROPERTY_EXPORT_TYPE);
+        final String spaceKey = properties.getProperty(PROPERTY_SPACE_KEY);
+
+        if (StringUtils.isBlank(exportType) || !exportType.equalsIgnoreCase(PROPERTY_EXPORT_TYPE_SPACE)) {
+            throw new BadRequestException("Given export file is not a space export");
+        }
+
+        if (StringUtils.isBlank(spaceKey)) {
+            throw new BadRequestException("Given export file does not contain a space key");
+        }
+
+        if (findSpace(spaceKey) != null) {
+            throw new BadRequestException(String.format("The export file's space key '%s' already exists", spaceKey));
+        }
+    }
+
     ImportContext createImportContext(
             @Nonnull final File file) {
 
@@ -254,6 +289,63 @@ public class BackupServiceImpl implements BackupService {
                 importExportManager,
                 importContext
         );
+    }
+
+    // helper methods
+
+    @Nullable
+    protected Space findSpace(
+            @Nonnull final String spaceKey) {
+
+        log.info("Trying to find space with key '{}'", spaceKey);
+
+        return spaceService.find()
+                .withKeys(spaceKey)
+                .fetch()
+                .orElse(null);
+    }
+
+    protected Properties getExportFileProperties(
+            final File file) {
+
+        try (final ZipFile zipFile = new ZipFile(file)) {
+            return getExportZipFileProperties(zipFile);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    protected Properties getExportZipFileProperties(
+            final ZipFile zipFile) {
+
+        final Properties properties = new Properties();
+
+        boolean hasEntitiesXml = false;
+        boolean hasExportDescriptorProperties = false;
+
+        try {
+            final Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                final ZipEntry entry = entries.nextElement();
+
+                if (entry.getName().equals(FILE_EXPORT_DESCRIPTOR_PROPERTIES)) {
+                    hasExportDescriptorProperties = true;
+                    properties.load(zipFile.getInputStream(entry));
+                } else if (entry.getName().equals(FILE_ENTITIES_XML)) {
+                    hasEntitiesXml = true;
+                }
+            }
+        } catch (IOException e) {
+            throw new InternalServerErrorException(e);
+        }
+
+        if (!hasEntitiesXml || !hasExportDescriptorProperties) {
+            throw new BadRequestException(String.format(
+                    "Given file '%s' does not seem to be a Confluence export", zipFile.getName()));
+        }
+
+        return properties;
     }
 
 }

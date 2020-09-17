@@ -17,6 +17,7 @@ import com.atlassian.confluence.util.longrunning.LongRunningTaskId;
 import com.atlassian.confluence.util.longrunning.LongRunningTaskManager;
 import com.atlassian.core.task.longrunning.LongRunningTask;
 import com.atlassian.event.api.EventPublisher;
+import com.sun.tools.javac.util.List;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.exception.NotFoundException;
@@ -33,12 +34,21 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.ws.rs.core.UriBuilder;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP;
 import static de.aservo.confapi.commons.constants.ConfAPI.BACKUP_QUEUE;
+import static de.aservo.confapi.confluence.service.BackupServiceImpl.*;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -149,6 +159,7 @@ public class BackupServiceTest {
     @Test
     public void testDoImportSynchronously() {
         final BackupServiceImpl spy = spy(backupService);
+        doNothing().when(spy).validateImportFile(any());
 
         final File file = mock(File.class);
         final ImportContext importContext = mock(ImportContext.class);
@@ -164,6 +175,7 @@ public class BackupServiceTest {
     @Test
     public void testDoImportAsynchronously() {
         final BackupServiceImpl spy = spy(backupService);
+        doNothing().when(spy).validateImportFile(any());
 
         final File file = mock(File.class);
         final ImportContext importContext = mock(ImportContext.class);
@@ -368,6 +380,74 @@ public class BackupServiceTest {
     // import helper methods
 
     @Test
+    public void testValidateImportFile() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final Properties properties = new Properties();
+        properties.setProperty(PROPERTY_EXPORT_TYPE, PROPERTY_EXPORT_TYPE_SPACE);
+        properties.setProperty(PROPERTY_SPACE_KEY, SPACE_KEY);
+
+        doReturn(properties).when(spy).getExportFileProperties(file);
+        doReturn(null).when(spy).findSpace(SPACE_KEY);
+
+        spy.validateImportFile(file);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testValidateImportFileNoExportType() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final Properties properties = new Properties();
+
+        doReturn(properties).when(spy).getExportFileProperties(file);
+
+        spy.validateImportFile(file);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testValidateImportFileWrongExportType() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final Properties properties = new Properties();
+        properties.setProperty(PROPERTY_EXPORT_TYPE, "system");
+
+        doReturn(properties).when(spy).getExportFileProperties(file);
+
+        spy.validateImportFile(file);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testValidateImportFileNoSpaceKey() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final Properties properties = new Properties();
+        properties.setProperty(PROPERTY_EXPORT_TYPE, PROPERTY_EXPORT_TYPE_SPACE);
+
+        doReturn(properties).when(spy).getExportFileProperties(file);
+
+        spy.validateImportFile(file);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testValidateImportFileSpaceAlreadyExists() {
+        final BackupServiceImpl spy = spy(backupService);
+
+        final File file = mock(File.class);
+        final Properties properties = new Properties();
+        properties.setProperty(PROPERTY_EXPORT_TYPE, PROPERTY_EXPORT_TYPE_SPACE);
+        properties.setProperty(PROPERTY_SPACE_KEY, SPACE_KEY);
+
+        doReturn(properties).when(spy).getExportFileProperties(file);
+        doReturn(mock(Space.class)).when(spy).findSpace(SPACE_KEY);
+
+        spy.validateImportFile(file);
+    }
+
+    @Test
     public void testCreateImportContext() {
         final String filePath = "/path/to/File";
         final File file = mock(File.class);
@@ -383,6 +463,81 @@ public class BackupServiceTest {
 
         assertEquals(user, importContext.getUser());
         assertEquals(filePath, importContext.getWorkingFile());
+    }
+
+    @Test
+    public void testGetExportZipFileProperties() throws IOException {
+        final ZipFile zipFile = mock(ZipFile.class);
+
+        final ZipEntry zipEntryEntitiesXml = mock(ZipEntry.class);
+        doReturn(FILE_ENTITIES_XML).when(zipEntryEntitiesXml).getName();
+        final ZipEntry zipEntryExportDescriptorProperties = mock(ZipEntry.class);
+        doReturn(FILE_EXPORT_DESCRIPTOR_PROPERTIES).when(zipEntryExportDescriptorProperties).getName();
+        final String propertiesString = String.format("%s=%s\n%s=%s",
+                PROPERTY_EXPORT_TYPE, PROPERTY_EXPORT_TYPE_SPACE,
+                PROPERTY_SPACE_KEY, SPACE_KEY);
+        final InputStream propertiesInputStream = new ByteArrayInputStream(propertiesString.getBytes());
+
+        final List<ZipEntry> zipEntries = List.of(zipEntryExportDescriptorProperties, zipEntryEntitiesXml);
+        final Enumeration<ZipEntry> zipEntryEnumeration = Collections.enumeration(zipEntries);
+        doReturn(zipEntryEnumeration).when(zipFile).entries();
+        doReturn(propertiesInputStream).when(zipFile).getInputStream(zipEntryExportDescriptorProperties);
+
+        final Properties properties = backupService.getExportZipFileProperties(zipFile);
+        assertEquals(PROPERTY_EXPORT_TYPE_SPACE, properties.getProperty(PROPERTY_EXPORT_TYPE));
+        assertEquals(SPACE_KEY, properties.getProperty(PROPERTY_SPACE_KEY));
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testGetExportZipFilePropertiesNoEntitiesXml() throws IOException {
+        final ZipFile zipFile = mock(ZipFile.class);
+
+        final ZipEntry zipEntryExportDescriptorProperties = mock(ZipEntry.class);
+        doReturn(FILE_EXPORT_DESCRIPTOR_PROPERTIES).when(zipEntryExportDescriptorProperties).getName();
+        final InputStream emptyInputStream = new InputStream() {
+            @Override
+            public int read() {
+                return -1;
+            }
+        };
+
+        final List<ZipEntry> zipEntries = List.of(zipEntryExportDescriptorProperties);
+        final Enumeration<ZipEntry> zipEntryEnumeration = Collections.enumeration(zipEntries);
+        doReturn(zipEntryEnumeration).when(zipFile).entries();
+        doReturn(emptyInputStream).when(zipFile).getInputStream(zipEntryExportDescriptorProperties);
+
+        backupService.getExportZipFileProperties(zipFile);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testGetExportZipFilePropertiesNoExportDescriptorProperties() {
+        final ZipFile zipFile = mock(ZipFile.class);
+
+        final ZipEntry zipEntryEntitiesXml = mock(ZipEntry.class);
+        doReturn(FILE_ENTITIES_XML).when(zipEntryEntitiesXml).getName();
+
+        final List<ZipEntry> zipEntries = List.of(zipEntryEntitiesXml);
+        final Enumeration<ZipEntry> zipEntryEnumeration = Collections.enumeration(zipEntries);
+        doReturn(zipEntryEnumeration).when(zipFile).entries();
+
+        backupService.getExportZipFileProperties(zipFile);
+    }
+
+    @Test(expected = InternalServerErrorException.class)
+    public void testGetExportZipFilePropertiesIOExceptionMappedToInternalServerErrorException() throws IOException {
+        final ZipFile zipFile = mock(ZipFile.class);
+
+        final ZipEntry zipEntryEntitiesXml = mock(ZipEntry.class);
+        doReturn(FILE_ENTITIES_XML).when(zipEntryEntitiesXml).getName();
+        final ZipEntry zipEntryExportDescriptorProperties = mock(ZipEntry.class);
+        doReturn(FILE_EXPORT_DESCRIPTOR_PROPERTIES).when(zipEntryExportDescriptorProperties).getName();
+
+        final List<ZipEntry> zipEntries = List.of(zipEntryExportDescriptorProperties, zipEntryEntitiesXml);
+        final Enumeration<ZipEntry> zipEntryEnumeration = Collections.enumeration(zipEntries);
+        doReturn(zipEntryEnumeration).when(zipFile).entries();
+        doThrow(new IOException("Exception")).when(zipFile).getInputStream(zipEntryExportDescriptorProperties);
+
+        backupService.getExportZipFileProperties(zipFile);
     }
 
 }
