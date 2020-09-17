@@ -6,8 +6,8 @@ opensource@aservo.com
 :toclevels: 3
 :source-highlighter: highlightjs
 :keywords: openapi, rest, ConfAPI for Confluence 
-:specDir: src/main/resources/doc/
-:snippetDir: 
+:specDir: src/main/resources/openapi/specs/
+:snippetDir: src/main/resources/openapi/snippets/
 :generator-template: v1 2019-12-20
 :info-url: https://github.com/aservo/confapi-confluence-plugin
 :app-name: ConfAPI for Confluence
@@ -17,7 +17,7 @@ opensource@aservo.com
 This plugin provides methods for accessing configuration for Confluence.
 
 
-// markup not found, no include::{specDir}intro.adoc[opts=optional]
+include::{specDir}intro.adoc[opts=optional]
 
 
 == Access
@@ -339,14 +339,14 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| formField 
-|  <<boolean>> 
+| contentType 
+|  <<string>> 
 | - 
 | null 
 |  
 
-| contentType 
-|  <<string>> 
+| formField 
+|  <<boolean>> 
 | - 
 | null 
 |  
@@ -2570,36 +2570,6 @@ endif::internal-generation[]
 | 
 |  
 
-| server 
-|  
-| DirectoryLdapServer  
-| 
-|  
-
-| permissions 
-|  
-| DirectoryLdapPermissions  
-| 
-|  
-
-| advanced 
-|  
-| DirectoryInternalAdvanced  
-| 
-|  
-
-| credentialPolicy 
-|  
-| DirectoryInternalCredentialPolicy  
-| 
-|  
-
-| schema 
-|  
-| DirectoryLdapSchema  
-| 
-|  
-
 |===
 
 
@@ -3401,15 +3371,15 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| formField 
-|  
-| Boolean  
-| 
-|  
-
 | contentType 
 |  
 | String  
+| 
+|  
+
+| formField 
+|  
+| Boolean  
 | 
 |  
 
