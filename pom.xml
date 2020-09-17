@@ -395,7 +395,10 @@
                             <generatorName>asciidoc</generatorName>
                             <output>${project.basedir}</output>
                             <skipValidateSpec>true</skipValidateSpec>
-                            <additionalProperties>specDir=src/main/resources/doc/</additionalProperties>
+                            <additionalProperties>
+                                <additionalProperty>specDir=src/main/resources/openapi/specs/</additionalProperty>
+                                <additionalProperty>snippetDir=src/main/resources/openapi/snippets/</additionalProperty>
+                            </additionalProperties>
                         </configuration>
                     </execution>
                 </executions>
