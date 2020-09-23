@@ -316,7 +316,7 @@ endif::internal-generation[]
 [.doImportByFileUpload]
 ==== doImportByFileUpload
     
-`PUT /backup/import`
+`POST /backup/import`
 
 Import based on an export file upload
 
@@ -325,7 +325,7 @@ Import based on an export file upload
 Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 
-// markup not found, no include::{specDir}backup/import/PUT/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}backup/import/POST/spec.adoc[opts=optional]
 
 
 
@@ -339,14 +339,14 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| contentType 
-|  <<string>> 
+| formField 
+|  <<boolean>> 
 | - 
 | null 
 |  
 
-| formField 
-|  <<boolean>> 
+| contentType 
+|  <<string>> 
 | - 
 | null 
 |  
@@ -417,20 +417,20 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}backup/import/PUT/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}backup/import/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}backup/import/PUT/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}backup/import/POST/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :backup/import/PUT/PUT.json[]
+// file not found, no * wiremock data link :backup/import/POST/POST.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}backup/import/PUT/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}backup/import/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -2570,6 +2570,36 @@ endif::internal-generation[]
 | 
 |  
 
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
 |===
 
 
@@ -3371,15 +3401,15 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| contentType 
-|  
-| String  
-| 
-|  
-
 | formField 
 |  
 | Boolean  
+| 
+|  
+
+| contentType 
+|  
+| String  
 | 
 |  
 
