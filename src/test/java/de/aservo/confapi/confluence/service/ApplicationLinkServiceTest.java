@@ -3,6 +3,7 @@ package de.aservo.confapi.confluence.service;
 import com.atlassian.applinks.api.ApplicationId;
 import com.atlassian.applinks.api.ApplicationLink;
 import com.atlassian.applinks.api.ApplicationType;
+import com.atlassian.applinks.api.TypeNotInstalledException;
 import com.atlassian.applinks.core.ApplinkStatus;
 import com.atlassian.applinks.core.ApplinkStatusService;
 import com.atlassian.applinks.core.DefaultApplinkStatus;
@@ -29,7 +30,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.validation.ValidationException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -86,23 +86,50 @@ public class ApplicationLinkServiceTest {
     }
 
     @Test
+    public void testGetApplicationLink() throws URISyntaxException, NoAccessException, NoSuchApplinkException, TypeNotInstalledException {
+        ApplicationLink applicationLink = createApplicationLink();
+        doReturn(applicationLink).when(mutatingApplicationLinkService).getApplicationLink(any());
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
+
+        ApplicationLinkBean appLinkResponse = applicationLinkService.getApplicationLink(UUID.randomUUID());
+
+        ApplicationLinkBean applicationLinkBean = ApplicationLinkBeanUtil.toApplicationLinkBean(applicationLink);
+        applicationLinkBean.setStatus(AVAILABLE);
+        assertEquals(applicationLinkBean, appLinkResponse);
+    }
+
+    @Test
     public void testSetApplicationLinks()
-            throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
+            throws URISyntaxException, NoAccessException, NoSuchApplinkException {
 
         ApplicationLink applicationLink = createApplicationLink();
         ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
         ApplicationLinksBean applicationLinksBean = new ApplicationLinksBean(Collections.singletonList(createApplicationLinkBean()));
 
         doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
-        doReturn(applicationLink).when(mutatingApplicationLinkService).createApplicationLink(
-                any(ApplicationType.class), any(ApplicationLinkDetails.class));
+        doReturn(applicationLink).when(mutatingApplicationLinkService).addApplicationLink(any(), any(), any());
         doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
         doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
 
         ApplicationLinksBean applicationLinkResponse = applicationLinkService.setApplicationLinks(applicationLinksBean, true);
 
         assertEquals(applicationLinkResponse.getApplicationLinks().iterator().next().getName(), applicationLinkBean.getName());
-        assertNotEquals(applicationLinkResponse, applicationLinkBean);
+    }
+
+    @Test
+    public void testSetApplicationLink()
+            throws URISyntaxException, NoAccessException, NoSuchApplinkException {
+
+        ApplicationLink applicationLink = createApplicationLink();
+        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
+
+        doReturn(applicationLink).when(mutatingApplicationLinkService).addApplicationLink(any(), any(), any());
+        doReturn(new DefaultApplicationType()).when(typeAccessor).getApplicationType(any());
+        doReturn(createApplinkStatus(applicationLink, AVAILABLE)).when(applinkStatusService).getApplinkStatus(any());
+
+        ApplicationLinkBean applicationLinkResponse = applicationLinkService.setApplicationLink(UUID.randomUUID(), applicationLinkBean, true);
+
+        assertEquals(applicationLinkBean.getName(), applicationLinkResponse.getName());
     }
 
     @Test
@@ -172,14 +199,6 @@ public class ApplicationLinkServiceTest {
         ApplicationLinkBean applicationLinkResponse = applicationLinkService.addApplicationLink(applicationLinkBean, false);
     }
 
-    @Test(expected = ValidationException.class)
-    public void testAddApplicationLinkMissingLinkType() throws URISyntaxException {
-        ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
-        applicationLinkBean.setType(null);
-
-        applicationLinkService.addApplicationLink(applicationLinkBean, true);
-    }
-
     @Test
     public void testApplicationLinkTypeConverter() throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
         for (ApplicationLinkBean.ApplicationLinkTypes linkType : ApplicationLinkBean.ApplicationLinkTypes.values()) {
@@ -196,6 +215,30 @@ public class ApplicationLinkServiceTest {
 
             assertEquals(applicationLinkResponse.getName(), applicationLinkBean.getName());
         }
+    }
+
+    @Test
+    public void testDeleteApplicationLinks() throws URISyntaxException {
+        ApplicationLink applicationLink = createApplicationLink();
+        doReturn(Collections.singletonList(applicationLink)).when(mutatingApplicationLinkService).getApplicationLinks();
+
+        applicationLinkService.deleteApplicationLinks(true);
+        assertTrue("Delete Successful", true);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testDeleteApplicationLinksWithoutForceParameter() throws URISyntaxException {
+        ApplicationLink applicationLink = createApplicationLink();
+        applicationLinkService.deleteApplicationLinks(false);
+    }
+
+    @Test
+    public void testDeleteApplicationLink() throws URISyntaxException, TypeNotInstalledException {
+        ApplicationLink applicationLink = createApplicationLink();
+        doReturn(applicationLink).when(mutatingApplicationLinkService).getApplicationLink(any());
+
+        applicationLinkService.deleteApplicationLink(UUID.randomUUID());
+        assertTrue("Delete Successful", true);
     }
 
     private ApplicationLinkBean createApplicationLinkBean() throws URISyntaxException {

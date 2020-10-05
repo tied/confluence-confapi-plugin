@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +47,11 @@ public class DirectoryServiceImpl implements DirectoriesService {
             beans.add(crowdBean);
         }
         return new DirectoriesBean(beans);
+    }
+
+    @Override
+    public AbstractDirectoryBean getDirectory(long l) {
+        return null;
     }
 
     @Override
@@ -80,6 +86,11 @@ public class DirectoryServiceImpl implements DirectoriesService {
     }
 
     @Override
+    public AbstractDirectoryBean setDirectory(long l, @NotNull AbstractDirectoryBean abstractDirectoryBean, boolean b) {
+        return null;
+    }
+
+    @Override
     public AbstractDirectoryBean addDirectory(AbstractDirectoryBean abstractDirectoryBean, boolean testConnection) {
         if (abstractDirectoryBean instanceof DirectoryCrowdBean) {
             DirectoryCrowdBean crowdBean = (DirectoryCrowdBean)abstractDirectoryBean;
@@ -89,6 +100,16 @@ public class DirectoryServiceImpl implements DirectoriesService {
         } else {
             throw new InternalServerErrorException(format("Adding directory type '%s' is not supported (yet)", abstractDirectoryBean.getClass()));
         }
+    }
+
+    @Override
+    public void deleteDirectories(boolean b) {
+
+    }
+
+    @Override
+    public void deleteDirectory(long l) {
+
     }
 
     private Directory validateAndCreateDirectoryConfig(DirectoryCrowdBean crowdBean, boolean testConnection) {

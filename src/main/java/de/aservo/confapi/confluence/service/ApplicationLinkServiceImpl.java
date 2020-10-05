@@ -1,7 +1,9 @@
 package de.aservo.confapi.confluence.service;
 
+import com.atlassian.applinks.api.ApplicationId;
 import com.atlassian.applinks.api.ApplicationLink;
 import com.atlassian.applinks.api.ApplicationType;
+import com.atlassian.applinks.api.TypeNotInstalledException;
 import com.atlassian.applinks.api.application.bamboo.BambooApplicationType;
 import com.atlassian.applinks.api.application.bitbucket.BitbucketApplicationType;
 import com.atlassian.applinks.api.application.confluence.ConfluenceApplicationType;
@@ -14,6 +16,7 @@ import com.atlassian.applinks.internal.common.exception.NoAccessException;
 import com.atlassian.applinks.internal.common.exception.NoSuchApplinkException;
 import com.atlassian.applinks.spi.auth.AuthenticationConfigurationException;
 import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
+import com.atlassian.applinks.spi.link.MutableApplicationLink;
 import com.atlassian.applinks.spi.link.MutatingApplicationLinkService;
 import com.atlassian.applinks.spi.manifest.ManifestNotFoundException;
 import com.atlassian.applinks.spi.util.TypeAccessor;
@@ -32,12 +35,12 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.CONNECTION_REFUSED;
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.*;
-import static de.aservo.confapi.commons.util.BeanValidationUtil.validate;
 import static de.aservo.confapi.confluence.model.util.ApplicationLinkBeanUtil.toApplicationLinkBean;
 
 @Component
@@ -70,23 +73,55 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         return new ApplicationLinksBean(applicationLinkBeans);
     }
 
+    @Override
+    public ApplicationLinkBean getApplicationLink(
+            final UUID uuid) {
+        ApplicationId id = new ApplicationId(uuid.toString());
+        try {
+            MutableApplicationLink applicationLink = mutatingApplicationLinkService.getApplicationLink(id);
+            return getApplicationLinkBeanWithStatus(applicationLink);
+        } catch (TypeNotInstalledException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
 
     @Override
     public ApplicationLinksBean setApplicationLinks(
             final ApplicationLinksBean applicationLinksBean,
             final boolean ignoreSetupErrors) {
 
-        applicationLinksBean.getApplicationLinks().forEach(link -> addApplicationLink(link, ignoreSetupErrors));
+        applicationLinksBean.getApplicationLinks().forEach(bean -> setApplicationLink(bean.getId(), bean, ignoreSetupErrors));
         return getApplicationLinks();
+    }
+
+    @Override
+    public ApplicationLinkBean setApplicationLink(
+            final UUID uuid,
+            final ApplicationLinkBean applicationLinkBean,
+            final boolean ignoreSetupErrors) {
+
+        ApplicationId id = new ApplicationId(uuid.toString());
+
+        try {
+            //entity must be removed first (there is no update service method)
+            ApplicationLink applicationLink = mutatingApplicationLinkService.getApplicationLink(id);
+            mutatingApplicationLinkService.deleteApplicationLink(applicationLink);
+
+            //finally a new entity is added with the known existing server id
+            ApplicationLinkDetails linkDetails = ApplicationLinkBeanUtil.toApplicationLinkDetails(applicationLinkBean);
+            ApplicationType applicationType = buildApplicationType(applicationLinkBean.getType());
+            MutableApplicationLink mutableApplicationLink = mutatingApplicationLinkService.addApplicationLink(id, applicationType, linkDetails);
+            return getApplicationLinkBeanWithStatus(mutableApplicationLink);
+
+        } catch (TypeNotInstalledException e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
     public ApplicationLinkBean addApplicationLink(
             final ApplicationLinkBean linkBean,
             final boolean ignoreSetupErrors) {
-
-        //preparations
-        validate(linkBean);
 
         ApplicationLinkDetails linkDetails = ApplicationLinkBeanUtil.toApplicationLinkDetails(linkBean);
         ApplicationType applicationType = buildApplicationType(linkBean.getType());
@@ -119,6 +154,28 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         }
 
         return getApplicationLinkBeanWithStatus(applicationLink);
+    }
+
+    @Override
+    public void deleteApplicationLinks(boolean force) {
+        if (!force) {
+            throw new BadRequestException("'force = true' must be supplied to delete all entries");
+        } else {
+            for (ApplicationLink applicationLink : mutatingApplicationLinkService.getApplicationLinks()) {
+                mutatingApplicationLinkService.deleteApplicationLink(applicationLink);
+            }
+        }
+    }
+
+    @Override
+    public void deleteApplicationLink(UUID id) {
+        ApplicationId applicationId = new ApplicationId(String.valueOf(id));
+        try {
+            MutableApplicationLink applicationLink = mutatingApplicationLinkService.getApplicationLink(applicationId);
+            mutatingApplicationLinkService.deleteApplicationLink(applicationLink);
+        } catch (TypeNotInstalledException e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     private ApplicationType buildApplicationType(ApplicationLinkBean.ApplicationLinkTypes linkType) {

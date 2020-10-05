@@ -135,6 +135,257 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.deleteApplicationLink]
+==== deleteApplicationLink
+    
+`DELETE /application-links/{id}`
+
+Deletes a single application link
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}application-links/\{id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/{id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/\{id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteApplicationLinks]
+==== deleteApplicationLinks
+    
+`DELETE /application-links`
+
+Deletes all application links. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}application-links/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| force 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getApplicationLink]
+==== getApplicationLink
+    
+`GET /application-links/{id}`
+
+Gets a single application link
+
+===== Description 
+
+Upon successful request, returns a `ApplicationLinkBean` object containing the requested application link
+
+
+// markup not found, no include::{specDir}application-links/\{id\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<ApplicationLinkBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<ApplicationLinkBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/{id}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/\{id\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getApplicationLinks]
 ==== getApplicationLinks
     
@@ -209,12 +460,125 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.setApplicationLink]
+==== setApplicationLink
+    
+`PUT /application-links/{id}`
+
+Updates an application link
+
+===== Description 
+
+Upon successful request, returns the updated `ApplicationLinkBean` object containing the updated application link
+
+
+// markup not found, no include::{specDir}application-links/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ApplicationLinkBean 
+|  <<ApplicationLinkBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ignore-setup-errors 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ApplicationLinkBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<ApplicationLinkBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}application-links/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :application-links/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}application-links/\{id\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.setApplicationLinks]
 ==== setApplicationLinks
     
 `PUT /application-links`
 
-Set a new set of application links
+Sets or updates a set of application links
 
 ===== Description 
 
@@ -339,18 +703,6 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| formField 
-|  <<boolean>> 
-| - 
-| null 
-|  
-
-| contentType 
-|  <<string>> 
-| - 
-| null 
-|  
-
 | name 
 |  <<string>> 
 | - 
@@ -371,6 +723,18 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 | inputStream 
 |  <<object>> 
+| - 
+| null 
+|  
+
+| contentType 
+|  <<string>> 
+| - 
+| null 
+|  
+
+| formField 
+|  <<boolean>> 
 | - 
 | null 
 |  
@@ -823,6 +1187,170 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.deleteDirectories]
+==== deleteDirectories
+    
+`DELETE /directories`
+
+Deletes all user directories. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}directories/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| force 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteDirectory]
+==== deleteDirectory
+    
+`DELETE /directories/{id}`
+
+Deletes a single user directory
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}directories/\{id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/{id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/\{id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getDirectories]
 ==== getDirectories
     
@@ -897,16 +1425,103 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.getDirectory]
+==== getDirectory
+    
+`GET /directories/{id}`
+
+Gets a single user directories
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}directories/\{id\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<AbstractDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<AbstractDirectoryBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/{id}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/\{id\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.setDirectories]
 ==== setDirectories
     
 `PUT /directories`
 
-Set a new list of directories
+Sets or updates a list of directories
 
 ===== Description 
 
-Any existing directories with the same names will be removed before adding the new ones
+Any existing configurations with the same 'name' property is updated.
 
 
 // markup not found, no include::{specDir}directories/PUT/spec.adoc[opts=optional]
@@ -992,6 +1607,119 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}directories/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.setDirectory]
+==== setDirectory
+    
+`PUT /directories/{id}`
+
+Updates a single directory
+
+===== Description 
+
+Any existing configuration with the same 'name' property is updated.
+
+
+// markup not found, no include::{specDir}directories/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AbstractDirectoryBean 
+|  <<AbstractDirectoryBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| test-connection 
+|   
+| - 
+| false 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AbstractDirectoryBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<AbstractDirectoryBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}directories/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :directories/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}directories/\{id\}/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1088,6 +1816,257 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.deleteGadget]
+==== deleteGadget
+    
+`DELETE /gadgets/{id}`
+
+Deletes a single gadget
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}gadgets/\{id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/{id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/\{id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteGadgets]
+==== deleteGadgets
+    
+`DELETE /gadgets`
+
+Deletes all gadgets. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}gadgets/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| force 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<ErrorCollection>>
+
+
+===== Content Type
+
+* */*
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getGadget]
+==== getGadget
+    
+`GET /gadgets/{id}`
+
+Gets a single gadget
+
+===== Description 
+
+Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
+
+// markup not found, no include::{specDir}gadgets/\{id\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<GadgetBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/{id}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/\{id\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getGadgets]
 ==== getGadgets
     
@@ -1162,12 +2141,112 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.setGadget]
+==== setGadget
+    
+`PUT /gadgets/{id}`
+
+Updates a single gadget
+
+===== Description 
+
+Upon successful request, returns a `GadgetBean` object containing gadget details
+
+
+// markup not found, no include::{specDir}gadgets/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| GadgetBean 
+|  <<GadgetBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<GadgetBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<GadgetBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}gadgets/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :gadgets/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}gadgets/\{id\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.setGadgets]
 ==== setGadgets
     
 `PUT /gadgets`
 
-Set a new list of gadgets
+Sets or updates a new list of gadgets
 
 ===== Description 
 
@@ -1340,6 +2419,93 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.getLicense]
+==== getLicense
+    
+`GET /licenses/{product}`
+
+Gets licenses information for a single license
+
+===== Description 
+
+Upon successful request, returns a `LicenseBean` object containing license details.
+
+
+// markup not found, no include::{specDir}licenses/\{product\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| product 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<LicenseBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicenseBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/\{product\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/\{product\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/{product}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/\{product\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getLicenses]
 ==== getLicenses
     
@@ -1414,12 +2580,112 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.setLicense]
+==== setLicense
+    
+`PUT /licenses/{id}`
+
+Updates a single license
+
+===== Description 
+
+Existing license details are always cleared before setting the new licenses. Upon successful request, returns a `LicenseBean` object containing license details
+
+
+// markup not found, no include::{specDir}licenses/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| id 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| LicenseBean 
+|  <<LicenseBean>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<LicenseBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| 
+|  <<LicenseBean>>
+
+
+| 0
+| 
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}licenses/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}licenses/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :licenses/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}licenses/\{id\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.setLicenses]
 ==== setLicenses
     
 `PUT /licenses`
 
-Set a new set of license
+Sets or Updates a set of licenses
 
 ===== Description 
 
@@ -2570,36 +3836,6 @@ endif::internal-generation[]
 | 
 |  
 
-| server 
-|  
-| DirectoryLdapServer  
-| 
-|  
-
-| permissions 
-|  
-| DirectoryLdapPermissions  
-| 
-|  
-
-| advanced 
-|  
-| DirectoryInternalAdvanced  
-| 
-|  
-
-| credentialPolicy 
-|  
-| DirectoryInternalCredentialPolicy  
-| 
-|  
-
-| schema 
-|  
-| DirectoryLdapSchema  
-| 
-|  
-
 |===
 
 
@@ -2612,6 +3848,12 @@ endif::internal-generation[]
 [cols="2,1,2,4,1"]
 |===         
 | Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| UUID  
+| 
+| uuid 
 
 | serverId 
 |  
@@ -3401,18 +4643,6 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| formField 
-|  
-| Boolean  
-| 
-|  
-
-| contentType 
-|  
-| String  
-| 
-|  
-
 | name 
 |  
 | String  
@@ -3437,6 +4667,18 @@ endif::internal-generation[]
 | 
 |  
 
+| contentType 
+|  
+| String  
+| 
+|  
+
+| formField 
+|  
+| Boolean  
+| 
+|  
+
 |===
 
 
@@ -3449,6 +4691,12 @@ endif::internal-generation[]
 [cols="2,1,2,4,1"]
 |===         
 | Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
 
 | url 
 |  

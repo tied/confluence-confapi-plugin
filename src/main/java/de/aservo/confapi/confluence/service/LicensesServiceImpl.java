@@ -14,6 +14,7 @@ import de.aservo.confapi.commons.service.api.LicensesService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 
 import static com.atlassian.confluence.setup.ConfluenceBootstrapConstants.DEFAULT_LICENSE_REGISTRY_KEY;
@@ -35,6 +36,11 @@ public class LicensesServiceImpl implements LicensesService {
         LicensesBean licensesBean = new LicensesBean();
         licensesBean.setLicenses(Collections.singletonList(LicenseBeanUtil.toLicenseBean(confluenceLicenseView)));
         return licensesBean;
+    }
+
+    @Override
+    public LicenseBean getLicense(@NotNull String product) {
+        return null;
     }
 
     @Override
@@ -60,6 +66,11 @@ public class LicensesServiceImpl implements LicensesService {
     }
 
     @Override
+    public LicenseBean setLicense(String s, @NotNull LicenseBean licenseBean) {
+        return null;
+    }
+
+    @Override
     public LicenseBean addLicense(LicenseBean licenseBean) {
         try {
             licenseHandler.addProductLicense(DEFAULT_LICENSE_REGISTRY_KEY, licenseBean.getKey());
@@ -68,4 +79,5 @@ public class LicensesServiceImpl implements LicensesService {
         }
         return licenseBean;
     }
+
 }
