@@ -5,6 +5,8 @@ import com.atlassian.applinks.api.ApplicationLink;
 import com.atlassian.applinks.api.ApplicationLinkRequestFactory;
 import com.atlassian.applinks.api.ApplicationType;
 import com.atlassian.applinks.api.auth.AuthenticationProvider;
+import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
+import com.atlassian.applinks.spi.link.MutableApplicationLink;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,7 @@ import java.net.URI;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DefaultApplicationLink implements ApplicationLink {
+public class DefaultApplicationLink implements ApplicationLink, MutableApplicationLink {
 
     private ApplicationId id;
     private ApplicationType type;
@@ -57,5 +59,10 @@ public class DefaultApplicationLink implements ApplicationLink {
     @Override
     public ApplicationLinkRequestFactory createNonImpersonatingAuthenticatedRequestFactory() {
         return null;
+    }
+
+    @Override
+    public void update(ApplicationLinkDetails applicationLinkDetails) {
+
     }
 }

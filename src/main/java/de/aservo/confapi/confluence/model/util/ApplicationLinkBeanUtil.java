@@ -14,6 +14,8 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkTypes.*;
 
 public class ApplicationLinkBeanUtil {
@@ -28,7 +30,7 @@ public class ApplicationLinkBeanUtil {
             @NotNull final ApplicationLink linkDetails) {
 
         final ApplicationLinkBean applicationLinkBean = new ApplicationLinkBean();
-        applicationLinkBean.setServerId(linkDetails.getId().toString());
+        applicationLinkBean.setId(UUID.fromString(linkDetails.getId().get()));
         applicationLinkBean.setName(linkDetails.getName());
         applicationLinkBean.setType(getLinkTypeFromAppType(linkDetails.getType()));
         applicationLinkBean.setDisplayUrl(linkDetails.getDisplayUrl());

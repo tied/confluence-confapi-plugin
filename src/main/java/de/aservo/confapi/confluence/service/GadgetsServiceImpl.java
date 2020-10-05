@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
@@ -58,11 +59,21 @@ public class GadgetsServiceImpl implements GadgetsService {
     }
 
     @Override
+    public GadgetBean getGadget(long l) {
+        return null;
+    }
+
+    @Override
     public GadgetsBean setGadgets(GadgetsBean gadgetsBean) {
         //remove existing gadgets before adding the new ones
         externalGadgetSpecStore.entries().forEach(gadget -> externalGadgetSpecStore.remove(gadget.getId()));
         gadgetsBean.getGadgets().forEach(this::addGadget);
         return getGadgets();
+    }
+
+    @Override
+    public GadgetBean setGadget(long l, @NotNull GadgetBean gadgetBean) {
+        return null;
     }
 
     @Override
@@ -87,5 +98,15 @@ public class GadgetsServiceImpl implements GadgetsService {
         GadgetBean addedGadgetBean = new GadgetBean();
         addedGadgetBean.setUrl(addedGadget.getSpecUri());
         return addedGadgetBean;
+    }
+
+    @Override
+    public void deleteGadgets(boolean b) {
+
+    }
+
+    @Override
+    public void deleteGadget(long l) {
+
     }
 }
