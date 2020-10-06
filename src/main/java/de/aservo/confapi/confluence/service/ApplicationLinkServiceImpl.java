@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -90,7 +91,20 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
             final ApplicationLinksBean applicationLinksBean,
             final boolean ignoreSetupErrors) {
 
-        applicationLinksBean.getApplicationLinks().forEach(bean -> setApplicationLink(bean.getId(), bean, ignoreSetupErrors));
+        ApplicationLinksBean applicationLinks = getApplicationLinks();
+        applicationLinksBean.getApplicationLinks().forEach(bean -> {
+
+            //find existing link by rpcUrl
+            Optional<ApplicationLinkBean> existingLinkBean = applicationLinks.getApplicationLinks().stream()
+                    .filter(link -> link.getRpcUrl().equals(bean.getRpcUrl())).findFirst();
+
+            //update existing or add new link from request bean
+            if (existingLinkBean.isPresent()) {
+                setApplicationLink(existingLinkBean.get().getId(), bean, ignoreSetupErrors);
+            } else {
+                addApplicationLink(bean, ignoreSetupErrors);
+            }
+        });
         return getApplicationLinks();
     }
 
@@ -130,7 +144,7 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         Class<? extends ApplicationType> appType = applicationType != null ? applicationType.getClass() : null;
         ApplicationLink primaryApplicationLink = mutatingApplicationLinkService.getPrimaryApplicationLink(appType);
         if (primaryApplicationLink != null) {
-            log.info("An existing application link configuration '{}' was found and is removed now before adding the new configuration",
+            log.info("An existiaang application link configuration '{}' was found and is removed now before adding the new configuration",
                     primaryApplicationLink.getName());
             mutatingApplicationLinkService.deleteApplicationLink(primaryApplicationLink);
         }
