@@ -703,6 +703,12 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
+| contentType 
+|  <<string>> 
+| - 
+| null 
+|  
+
 | name 
 |  <<string>> 
 | - 
@@ -723,12 +729,6 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 | inputStream 
 |  <<object>> 
-| - 
-| null 
-|  
-
-| contentType 
-|  <<string>> 
 | - 
 | null 
 |  
@@ -3836,6 +3836,36 @@ endif::internal-generation[]
 | 
 |  
 
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
 |===
 
 
@@ -3854,12 +3884,6 @@ endif::internal-generation[]
 | UUID  
 | 
 | uuid 
-
-| serverId 
-|  
-| String  
-| 
-|  
 
 | name 
 | X 
@@ -4643,6 +4667,12 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
+| contentType 
+|  
+| String  
+| 
+|  
+
 | name 
 |  
 | String  
@@ -4664,12 +4694,6 @@ endif::internal-generation[]
 | inputStream 
 |  
 | Object  
-| 
-|  
-
-| contentType 
-|  
-| String  
 | 
 |  
 

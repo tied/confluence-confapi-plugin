@@ -21,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 public interface BackupResource {
 
@@ -96,6 +97,6 @@ public interface BackupResource {
             }
     )
     Response getQueue(
-            @Nonnull @PathParam("uuid") final String uuid);
+            @Nonnull @PathParam("uuid") final UUID uuid);
 
 }

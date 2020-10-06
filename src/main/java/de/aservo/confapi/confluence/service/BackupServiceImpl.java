@@ -42,6 +42,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -152,9 +153,9 @@ public class BackupServiceImpl implements BackupService {
 
     @Override
     public BackupQueueBean getQueue(
-            final String uuid) {
+            final UUID uuid) {
 
-        final LongRunningTaskId taskId = LongRunningTaskId.valueOf(uuid);
+        final LongRunningTaskId taskId = LongRunningTaskId.valueOf(uuid.toString());
         final LongRunningTask task = longRunningTaskManager.getLongRunningTask(getUser(), taskId);
         log.info("Trying to get queue information for task with uuid '{}'", uuid);
 
