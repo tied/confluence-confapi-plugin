@@ -18,6 +18,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.net.URI;
+import java.util.UUID;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.easymock.EasyMock.expect;
@@ -30,8 +31,8 @@ import static org.mockito.Mockito.mock;
 @PrepareForTest({HttpUtil.class, FilePartUtil.class})
 public class BackupResourceTest {
 
-    private static final URI BACKUP_ZIP_URI = URI.create("http://localhost:1990/confluence/space-export.zip");
     private static final URI BACKUP_QUEUE_URI = URI.create("http://localhost:1990/confluence/rest/confapi/1/backup/queue/123");
+    private static final UUID BACKUP_QUEUE_UUID = UUID.fromString("a0b1cdef-0a12-3bcd-45e6-0a1bcd2345ef");
     private static final String RESPONSE_METADATA_LOCATION = "Location";
 
     @Mock
@@ -115,7 +116,7 @@ public class BackupResourceTest {
         backupQueueBean.setPercentageComplete(50);
         doReturn(backupQueueBean).when(backupService).getQueue(any());
 
-        final Response response = backupResource.getQueue("123");
+        final Response response = backupResource.getQueue(BACKUP_QUEUE_UUID);
         assertEquals(OK.getStatusCode(), response.getStatus());
     }
 
@@ -126,7 +127,7 @@ public class BackupResourceTest {
         backupQueueBean.setEntityUrl(BACKUP_QUEUE_URI);
         doReturn(backupQueueBean).when(backupService).getQueue(any());
 
-        final Response response = backupResource.getQueue("123");
+        final Response response = backupResource.getQueue(BACKUP_QUEUE_UUID);
         assertEquals(CREATED.getStatusCode(), response.getStatus());
         assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }
@@ -137,14 +138,14 @@ public class BackupResourceTest {
         backupQueueBean.setPercentageComplete(100);
         doReturn(backupQueueBean).when(backupService).getQueue(any());
 
-        final Response response = backupResource.getQueue("123");
+        final Response response = backupResource.getQueue(BACKUP_QUEUE_UUID);
         assertEquals(CREATED.getStatusCode(), response.getStatus());
         assertNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }
 
     @Test
     public void testGetQueueUuidNotFound() {
-        final Response response = backupResource.getQueue("123");
+        final Response response = backupResource.getQueue(BACKUP_QUEUE_UUID);
         assertEquals(NOT_FOUND.getStatusCode(), response.getStatus());
     }
 

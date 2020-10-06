@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.util.UUID;
 
 import static de.aservo.confapi.confluence.util.HttpUtil.isLongRunningTaskSupported;
 import static javax.ws.rs.core.Response.Status.*;
@@ -78,7 +79,7 @@ public class BackupResourceImpl implements BackupResource {
 
     @Override
     public Response getQueue(
-            @Nonnull final String uuid) {
+            @Nonnull final UUID uuid) {
 
         final BackupQueueBean backupQueueBean = backupService.getQueue(uuid);
 

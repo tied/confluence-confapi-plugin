@@ -5,6 +5,7 @@ import de.aservo.confapi.confluence.model.BackupQueueBean;
 
 import java.io.File;
 import java.net.URI;
+import java.util.UUID;
 
 public interface BackupService {
 
@@ -21,6 +22,6 @@ public interface BackupService {
             File filePart);
 
     BackupQueueBean getQueue(
-            String uuid);
+            UUID uuid);
 
 }
