@@ -5,10 +5,13 @@ import com.atlassian.confluence.user.AuthenticatedUserThreadLocal;
 import com.atlassian.confluence.user.ConfluenceUser;
 import com.atlassian.gadgets.GadgetRequestContext;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpec;
+import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecId;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecStore;
 import com.atlassian.gadgets.spec.GadgetSpecFactory;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
+import de.aservo.confapi.commons.exception.BadRequestException;
+import de.aservo.confapi.commons.exception.NotFoundException;
 import de.aservo.confapi.commons.model.GadgetBean;
 import de.aservo.confapi.commons.model.GadgetsBean;
 import de.aservo.confapi.commons.service.api.GadgetsService;
@@ -21,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -49,31 +53,38 @@ public class GadgetsServiceImpl implements GadgetsService {
     public GadgetsBean getGadgets() {
         Iterable<ExternalGadgetSpec> specIterable = externalGadgetSpecStore.entries();
         List<GadgetBean> gadgetBeanList = StreamSupport.stream(specIterable.spliterator(), false)
-                .map(ExternalGadgetSpec::getSpecUri)
-                .map(url -> {
+                .map(spec -> {
                     GadgetBean gadgetBean = new GadgetBean();
-                    gadgetBean.setUrl(url);
+                    gadgetBean.setId(Long.valueOf(spec.getId().value()));
+                    gadgetBean.setUrl(spec.getSpecUri());
                     return gadgetBean;
                 }).collect(Collectors.toList());
         return new GadgetsBean(gadgetBeanList);
     }
 
     @Override
-    public GadgetBean getGadget(long l) {
-        return null;
+    public GadgetBean getGadget(long id) {
+        return findGadget(id);
     }
 
     @Override
     public GadgetsBean setGadgets(GadgetsBean gadgetsBean) {
-        //remove existing gadgets before adding the new ones
-        externalGadgetSpecStore.entries().forEach(gadget -> externalGadgetSpecStore.remove(gadget.getId()));
-        gadgetsBean.getGadgets().forEach(this::addGadget);
+        //as the gadget only consists of an url, only new gadgets need to be added, existing gadget urls remain
+        GadgetsBean existingGadgets = getGadgets();
+        gadgetsBean.getGadgets().forEach(gadgetBean -> {
+            Optional<GadgetBean> gadget = existingGadgets.getGadgets().stream()
+                    .filter(bean -> bean.getUrl().toString().equals(gadgetBean.getUrl().toString())).findFirst();
+            if (!gadget.isPresent()) {
+                addGadget(gadgetBean);
+            }
+        });
         return getGadgets();
     }
 
     @Override
-    public GadgetBean setGadget(long l, @NotNull GadgetBean gadgetBean) {
-        return null;
+    public GadgetBean setGadget(long id, @NotNull GadgetBean gadgetBean) {
+        deleteGadget(id);
+        return addGadget(gadgetBean);
     }
 
     @Override
@@ -101,12 +112,30 @@ public class GadgetsServiceImpl implements GadgetsService {
     }
 
     @Override
-    public void deleteGadgets(boolean b) {
-
+    public void deleteGadgets(boolean force) {
+        if (!force) {
+            throw new BadRequestException("'force = true' must be supplied to delete all entries");
+        } else {
+            externalGadgetSpecStore.entries().forEach(gadget -> externalGadgetSpecStore.remove(gadget.getId()));
+        }
     }
 
     @Override
-    public void deleteGadget(long l) {
+    public void deleteGadget(long id) {
 
+        //ensure gadget exists
+        findGadget(id);
+
+        //remove gadget
+        externalGadgetSpecStore.remove(ExternalGadgetSpecId.valueOf(String.valueOf(id)));
+    }
+
+    private GadgetBean findGadget(long id) {
+        Optional<GadgetBean> result = getGadgets().getGadgets().stream().filter(gadget -> gadget.getId().equals(id)).findFirst();
+        if (!result.isPresent()) {
+            throw new NotFoundException(String.format("gadget with id '%s' could not be found", id));
+        } else {
+            return result.get();
+        }
     }
 }
