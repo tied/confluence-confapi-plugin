@@ -24,6 +24,7 @@ import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType;
 import de.aservo.confapi.commons.model.ApplicationLinksBean;
 import de.aservo.confapi.commons.service.api.ApplicationLinksService;
 import de.aservo.confapi.confluence.model.DefaultAuthenticationScenario;
@@ -34,8 +35,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -91,20 +93,20 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
             final ApplicationLinksBean applicationLinksBean,
             final boolean ignoreSetupErrors) {
 
-        ApplicationLinksBean applicationLinks = getApplicationLinks();
-        applicationLinksBean.getApplicationLinks().forEach(bean -> {
+        //existing applinks map
+        Map<URI, ApplicationLinkBean> linkBeanMap = getApplicationLinks().getApplicationLinks().stream()
+                .collect(Collectors.toMap(ApplicationLinkBean::getRpcUrl, link -> link));
 
-            //find existing link by rpcUrl
-            Optional<ApplicationLinkBean> existingLinkBean = applicationLinks.getApplicationLinks().stream()
-                    .filter(link -> link.getRpcUrl().equals(bean.getRpcUrl())).findFirst();
-
-            //update existing or add new link from request bean
-            if (existingLinkBean.isPresent()) {
-                setApplicationLink(existingLinkBean.get().getId(), bean, ignoreSetupErrors);
+        //find existing link by rpcUrl
+        for (ApplicationLinkBean applicationLink : applicationLinksBean.getApplicationLinks()) {
+            URI key = applicationLink.getRpcUrl();
+            if (linkBeanMap.containsKey(key)) {
+                setApplicationLink(linkBeanMap.get(key).getUuid(), applicationLink, ignoreSetupErrors);
             } else {
-                addApplicationLink(bean, ignoreSetupErrors);
+                addApplicationLink(applicationLink, ignoreSetupErrors);
             }
-        });
+        }
+
         return getApplicationLinks();
     }
 
@@ -192,7 +194,7 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         }
     }
 
-    private ApplicationType buildApplicationType(ApplicationLinkBean.ApplicationLinkTypes linkType) {
+    private ApplicationType buildApplicationType(ApplicationLinkType linkType) {
         switch (linkType) {
             case BAMBOO:
                 return typeAccessor.getApplicationType(BambooApplicationType.class);
