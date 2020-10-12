@@ -26,7 +26,7 @@ public class MailServerSmtpBeanUtilTest {
         assertEquals(server.getHostname(), bean.getHost());
         assertEquals(Integer.valueOf(server.getPort()), bean.getPort());
         assertEquals(server.isTlsRequired(), bean.getUseTls());
-        assertEquals(server.getTimeout(), bean.getTimeout());
+        assertTrue(server.getTimeout() == bean.getTimeout());
         assertEquals(server.getUsername(), bean.getUsername());
         assertNull(bean.getPassword());
     }

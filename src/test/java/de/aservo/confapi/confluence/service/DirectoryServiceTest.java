@@ -7,8 +7,8 @@ import com.atlassian.crowd.exception.DirectoryCurrentlySynchronisingException;
 import com.atlassian.crowd.model.directory.DirectoryImpl;
 import com.atlassian.crowd.model.directory.ImmutableDirectory;
 import de.aservo.confapi.commons.exception.BadRequestException;
-import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.exception.NotFoundException;
+import de.aservo.confapi.commons.exception.ServiceUnavailableException;
 import de.aservo.confapi.commons.model.AbstractDirectoryBean;
 import de.aservo.confapi.commons.model.DirectoriesBean;
 import de.aservo.confapi.commons.model.DirectoryCrowdBean;
@@ -217,7 +217,7 @@ public class DirectoryServiceTest {
         directoryService.deleteDirectory(1L);
     }
 
-    @Test(expected = InternalServerErrorException.class)
+    @Test(expected = ServiceUnavailableException.class)
     public void testDeleteDirectoryCurrentlySynchronisingException() throws DirectoryCurrentlySynchronisingException {
         doReturn(createDirectory()).when(crowdDirectoryService).findDirectoryById(1L);
         doThrow(new DirectoryCurrentlySynchronisingException(1L)).when(crowdDirectoryService).removeDirectory(1L);

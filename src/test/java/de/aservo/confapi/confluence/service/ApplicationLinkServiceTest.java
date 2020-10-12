@@ -21,6 +21,7 @@ import com.atlassian.confluence.settings.setup.DefaultApplicationType;
 import de.aservo.confapi.commons.exception.BadRequestException;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
 import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus;
+import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType;
 import de.aservo.confapi.commons.model.ApplicationLinksBean;
 import de.aservo.confapi.confluence.model.DefaultAuthenticationScenario;
 import de.aservo.confapi.confluence.model.util.ApplicationLinkBeanUtil;
@@ -40,7 +41,7 @@ import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.AUTH
 import static com.atlassian.applinks.internal.status.error.ApplinkErrorType.CONNECTION_REFUSED;
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.AVAILABLE;
 import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkStatus.CONFIGURATION_ERROR;
-import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkTypes.CROWD;
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType.CROWD;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -201,7 +202,7 @@ public class ApplicationLinkServiceTest {
 
     @Test
     public void testApplicationLinkTypeConverter() throws URISyntaxException, ManifestNotFoundException, NoAccessException, NoSuchApplinkException {
-        for (ApplicationLinkBean.ApplicationLinkTypes linkType : ApplicationLinkBean.ApplicationLinkTypes.values()) {
+        for (ApplicationLinkType linkType : ApplicationLinkType.values()) {
             ApplicationLink applicationLink = createApplicationLink();
             ApplicationLinkBean applicationLinkBean = createApplicationLinkBean();
             applicationLinkBean.setType(linkType);

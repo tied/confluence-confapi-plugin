@@ -40,11 +40,11 @@ include::{specDir}intro.adoc[opts=optional]
     
 `POST /application-links`
 
-Add a single application link
+Add an application link
 
 ===== Description 
 
-Upon successful request, returns the added `ApplicationLinkBean` object
+
 
 
 // markup not found, no include::{specDir}application-links/POST/spec.adoc[opts=optional]
@@ -103,12 +103,12 @@ Upon successful request, returns the added `ApplicationLinkBean` object
 
 
 | 200
-| 
+| Returns the added application link.
 |  <<ApplicationLinkBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -138,16 +138,16 @@ endif::internal-generation[]
 [.deleteApplicationLink]
 ==== deleteApplicationLink
     
-`DELETE /application-links/{id}`
+`DELETE /application-links/{uuid}`
 
-Deletes a single application link
+Delete an application link
 
 ===== Description 
 
 
 
 
-// markup not found, no include::{specDir}application-links/\{id\}/DELETE/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}application-links/\{uuid\}/DELETE/spec.adoc[opts=optional]
 
 
 
@@ -159,7 +159,7 @@ Deletes a single application link
 |===         
 |Name| Description| Required| Default| Pattern
 
-| id 
+| uuid 
 |   
 | X 
 | null 
@@ -174,8 +174,9 @@ Deletes a single application link
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -189,8 +190,13 @@ Deletes a single application link
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -198,20 +204,20 @@ Deletes a single application link
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/DELETE/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/DELETE/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/DELETE/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/DELETE/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :application-links/{id}/DELETE/DELETE.json[]
+// file not found, no * wiremock data link :application-links/{uuid}/DELETE/DELETE.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}application-links/\{id\}/DELETE/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}application-links/\{uuid\}/DELETE/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -222,11 +228,11 @@ endif::internal-generation[]
     
 `DELETE /application-links`
 
-Deletes all application links. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+Delete all application links
 
 ===== Description 
 
-
+NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
 
 
 // markup not found, no include::{specDir}application-links/DELETE/spec.adoc[opts=optional]
@@ -256,8 +262,9 @@ Deletes all application links. NOTE: The 'force' parameter must be set to 'true'
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -271,8 +278,13 @@ Deletes all application links. NOTE: The 'force' parameter must be set to 'true'
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -302,16 +314,16 @@ endif::internal-generation[]
 [.getApplicationLink]
 ==== getApplicationLink
     
-`GET /application-links/{id}`
+`GET /application-links/{uuid}`
 
-Gets a single application link
+Get an application link
 
 ===== Description 
 
-Upon successful request, returns a `ApplicationLinkBean` object containing the requested application link
+Upon successful request, 
 
 
-// markup not found, no include::{specDir}application-links/\{id\}/GET/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}application-links/\{uuid\}/GET/spec.adoc[opts=optional]
 
 
 
@@ -323,7 +335,7 @@ Upon successful request, returns a `ApplicationLinkBean` object containing the r
 |===         
 |Name| Description| Required| Default| Pattern
 
-| id 
+| uuid 
 |   
 | X 
 | null 
@@ -354,12 +366,12 @@ Upon successful request, returns a `ApplicationLinkBean` object containing the r
 
 
 | 200
-| 
+| Returns the requested application link.
 |  <<ApplicationLinkBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -367,20 +379,20 @@ Upon successful request, returns a `ApplicationLinkBean` object containing the r
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/GET/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/GET/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/GET/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :application-links/{id}/GET/GET.json[]
+// file not found, no * wiremock data link :application-links/{uuid}/GET/GET.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}application-links/\{id\}/GET/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}application-links/\{uuid\}/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -395,7 +407,7 @@ Get all application links
 
 ===== Description 
 
-Upon successful request, returns a `ApplicationLinksBean` object containing all application links
+
 
 
 // markup not found, no include::{specDir}application-links/GET/spec.adoc[opts=optional]
@@ -428,12 +440,12 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 
 | 200
-| 
+| Returns all application links.
 |  <<ApplicationLinksBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -463,16 +475,16 @@ endif::internal-generation[]
 [.setApplicationLink]
 ==== setApplicationLink
     
-`PUT /application-links/{id}`
+`PUT /application-links/{uuid}`
 
-Updates an application link
+Update an application link
 
 ===== Description 
 
-Upon successful request, returns the updated `ApplicationLinkBean` object containing the updated application link
 
 
-// markup not found, no include::{specDir}application-links/\{id\}/PUT/spec.adoc[opts=optional]
+
+// markup not found, no include::{specDir}application-links/\{uuid\}/PUT/spec.adoc[opts=optional]
 
 
 
@@ -484,7 +496,7 @@ Upon successful request, returns the updated `ApplicationLinkBean` object contai
 |===         
 |Name| Description| Required| Default| Pattern
 
-| id 
+| uuid 
 |   
 | X 
 | null 
@@ -541,12 +553,12 @@ Upon successful request, returns the updated `ApplicationLinkBean` object contai
 
 
 | 200
-| 
+| Returns the updated application link.
 |  <<ApplicationLinkBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -554,20 +566,20 @@ Upon successful request, returns the updated `ApplicationLinkBean` object contai
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/PUT/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/PUT/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}application-links/\{id\}/PUT/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}application-links/\{uuid\}/PUT/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :application-links/{id}/PUT/PUT.json[]
+// file not found, no * wiremock data link :application-links/{uuid}/PUT/PUT.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}application-links/\{id\}/PUT/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}application-links/\{uuid\}/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -578,11 +590,11 @@ endif::internal-generation[]
     
 `PUT /application-links`
 
-Sets or updates a set of application links
+Set or update a list of application links
 
 ===== Description 
 
-Upon successful request, returns a `ApplicationLinksBean` object containing all application links
+NOTE: All existing application links with the same 'rpcUrl' attribute are updated.
 
 
 // markup not found, no include::{specDir}application-links/PUT/spec.adoc[opts=optional]
@@ -641,12 +653,12 @@ Upon successful request, returns a `ApplicationLinksBean` object containing all 
 
 
 | 200
-| 
+| Returns all application links.
 |  <<ApplicationLinksBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1092,11 +1104,11 @@ endif::internal-generation[]
     
 `POST /directories`
 
-Adds a new directory
+Add a user directory
 
 ===== Description 
 
-Adds a new user directory to the existing list of directories
+
 
 
 // markup not found, no include::{specDir}directories/POST/spec.adoc[opts=optional]
@@ -1155,12 +1167,12 @@ Adds a new user directory to the existing list of directories
 
 
 | 200
-| 
+| Returns the added directory.
 |  <<AbstractDirectoryBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1192,11 +1204,11 @@ endif::internal-generation[]
     
 `DELETE /directories`
 
-Deletes all user directories. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+Delete all user directories
 
 ===== Description 
 
-
+NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
 
 
 // markup not found, no include::{specDir}directories/DELETE/spec.adoc[opts=optional]
@@ -1226,8 +1238,9 @@ Deletes all user directories. NOTE: The 'force' parameter must be set to 'true' 
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -1241,8 +1254,13 @@ Deletes all user directories. NOTE: The 'force' parameter must be set to 'true' 
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1274,7 +1292,7 @@ endif::internal-generation[]
     
 `DELETE /directories/{id}`
 
-Deletes a single user directory
+Delete a user directory
 
 ===== Description 
 
@@ -1308,8 +1326,9 @@ Deletes a single user directory
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -1323,8 +1342,13 @@ Deletes a single user directory
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1356,7 +1380,7 @@ endif::internal-generation[]
     
 `GET /directories`
 
-Get the list of user directories
+Get all user directories
 
 ===== Description 
 
@@ -1393,12 +1417,12 @@ Get the list of user directories
 
 
 | 200
-| 
+| Returns all directories.
 |  <<DirectoriesBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1430,7 +1454,7 @@ endif::internal-generation[]
     
 `GET /directories/{id}`
 
-Gets a single user directories
+Get a user directory
 
 ===== Description 
 
@@ -1480,12 +1504,12 @@ Gets a single user directories
 
 
 | 200
-| 
+| Returns the requested directory.
 |  <<AbstractDirectoryBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1517,11 +1541,11 @@ endif::internal-generation[]
     
 `PUT /directories`
 
-Sets or updates a list of directories
+Set or update a list of user directories
 
 ===== Description 
 
-Any existing configurations with the same 'name' property is updated.
+NOTE: All existing directories with the same 'name' attribute are updated.
 
 
 // markup not found, no include::{specDir}directories/PUT/spec.adoc[opts=optional]
@@ -1580,12 +1604,12 @@ Any existing configurations with the same 'name' property is updated.
 
 
 | 200
-| 
+| Returns all directories.
 |  <<DirectoriesBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1617,11 +1641,11 @@ endif::internal-generation[]
     
 `PUT /directories/{id}`
 
-Updates a single directory
+Update a user directory
 
 ===== Description 
 
-Any existing configuration with the same 'name' property is updated.
+
 
 
 // markup not found, no include::{specDir}directories/\{id\}/PUT/spec.adoc[opts=optional]
@@ -1693,12 +1717,12 @@ Any existing configuration with the same 'name' property is updated.
 
 
 | 200
-| 
+| Returns the updated directory.
 |  <<AbstractDirectoryBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1734,11 +1758,11 @@ endif::internal-generation[]
     
 `POST /gadgets`
 
-Adds a single gadget
+Add a gadget
 
 ===== Description 
 
-Upon successful request, returns the added `GadgetBean` object containing gadget details
+Upon successful request, returns a `GadgetBean` object of the created gadget.
 
 
 // markup not found, no include::{specDir}gadgets/POST/spec.adoc[opts=optional]
@@ -1784,12 +1808,12 @@ Upon successful request, returns the added `GadgetBean` object containing gadget
 
 
 | 200
-| 
+| Returns the added gadget.
 |  <<GadgetBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1821,7 +1845,7 @@ endif::internal-generation[]
     
 `DELETE /gadgets/{id}`
 
-Deletes a single gadget
+Delete a gadget
 
 ===== Description 
 
@@ -1855,8 +1879,9 @@ Deletes a single gadget
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -1870,8 +1895,13 @@ Deletes a single gadget
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1903,11 +1933,11 @@ endif::internal-generation[]
     
 `DELETE /gadgets`
 
-Deletes all gadgets. NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
+Delete all gadgets
 
 ===== Description 
 
-
+NOTE: The 'force' parameter must be set to 'true' in order to execute this request.
 
 
 // markup not found, no include::{specDir}gadgets/DELETE/spec.adoc[opts=optional]
@@ -1937,8 +1967,9 @@ Deletes all gadgets. NOTE: The 'force' parameter must be set to 'true' in order 
 
 ===== Return Type
 
-<<ErrorCollection>>
 
+
+-
 
 ===== Content Type
 
@@ -1952,8 +1983,13 @@ Deletes all gadgets. NOTE: The 'force' parameter must be set to 'true' in order 
 | Code | Message | Datatype 
 
 
+| 200
+| Returns an empty body.
+|  <<>>
+
+
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -1985,11 +2021,11 @@ endif::internal-generation[]
     
 `GET /gadgets/{id}`
 
-Gets a single gadget
+Get a gadget
 
 ===== Description 
 
-Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
 
 
 // markup not found, no include::{specDir}gadgets/\{id\}/GET/spec.adoc[opts=optional]
@@ -2035,12 +2071,12 @@ Upon successful request, returns a `GadgetsBean` object containing gadgets detai
 
 
 | 200
-| 
+| Returns the requested gadget.
 |  <<GadgetBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2076,7 +2112,7 @@ Get all gadgets
 
 ===== Description 
 
-Upon successful request, returns a `GadgetsBean` object containing gadgets details
+
 
 
 // markup not found, no include::{specDir}gadgets/GET/spec.adoc[opts=optional]
@@ -2109,12 +2145,12 @@ Upon successful request, returns a `GadgetsBean` object containing gadgets detai
 
 
 | 200
-| 
+| Returns all gadgets.
 |  <<GadgetsBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2146,11 +2182,11 @@ endif::internal-generation[]
     
 `PUT /gadgets/{id}`
 
-Updates a single gadget
+Update a gadget
 
 ===== Description 
 
-Upon successful request, returns a `GadgetBean` object containing gadget details
+
 
 
 // markup not found, no include::{specDir}gadgets/\{id\}/PUT/spec.adoc[opts=optional]
@@ -2209,12 +2245,12 @@ Upon successful request, returns a `GadgetBean` object containing gadget details
 
 
 | 200
-| 
+| Returns the updated gadget.
 |  <<GadgetBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2246,11 +2282,11 @@ endif::internal-generation[]
     
 `PUT /gadgets`
 
-Sets or updates a new list of gadgets
+Set or update a list of gadgets
 
 ===== Description 
 
-Upon successful request, returns a `GadgetsBean` object containing gadgets details
+NOTE: This will only create gadgets that does not exist yet as there is no real 'update'.
 
 
 // markup not found, no include::{specDir}gadgets/PUT/spec.adoc[opts=optional]
@@ -2296,12 +2332,12 @@ Upon successful request, returns a `GadgetsBean` object containing gadgets detai
 
 
 | 200
-| 
+| Returns all gadgets.
 |  <<GadgetsBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2337,11 +2373,11 @@ endif::internal-generation[]
     
 `POST /licenses`
 
-Adds a single license
+Add a license
 
 ===== Description 
 
-Upon successful request, returns the added `LicenseBean` object containing license details
+
 
 
 // markup not found, no include::{specDir}licenses/POST/spec.adoc[opts=optional]
@@ -2387,12 +2423,12 @@ Upon successful request, returns the added `LicenseBean` object containing licen
 
 
 | 200
-| 
+| Returns the added license details
 |  <<LicenseBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2414,93 +2450,6 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}licenses/POST/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
-[.getLicense]
-==== getLicense
-    
-`GET /licenses/{product}`
-
-Gets licenses information for a single license
-
-===== Description 
-
-Upon successful request, returns a `LicenseBean` object containing license details.
-
-
-// markup not found, no include::{specDir}licenses/\{product\}/GET/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-====== Path Parameters
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| product 
-|   
-| X 
-| null 
-|  
-
-|===         
-
-
-
-
-
-
-===== Return Type
-
-<<LicenseBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<LicenseBean>>
-
-
-| 0
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}licenses/\{product\}/GET/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}licenses/\{product\}/GET/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :licenses/{product}/GET/GET.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}licenses/\{product\}/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -2548,12 +2497,12 @@ Upon successful request, returns a `LicensesBean` object containing license deta
 
 
 | 200
-| 
+| Returns a list of all licenses (NOTE: for all applications except Jira this will return a single license)
 |  <<LicensesBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2575,193 +2524,6 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}licenses/GET/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
-[.setLicense]
-==== setLicense
-    
-`PUT /licenses/{id}`
-
-Updates a single license
-
-===== Description 
-
-Existing license details are always cleared before setting the new licenses. Upon successful request, returns a `LicenseBean` object containing license details
-
-
-// markup not found, no include::{specDir}licenses/\{id\}/PUT/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-====== Path Parameters
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| id 
-|   
-| X 
-| null 
-|  
-
-|===         
-
-===== Body Parameter
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| LicenseBean 
-|  <<LicenseBean>> 
-| X 
-|  
-|  
-
-|===         
-
-
-
-
-
-===== Return Type
-
-<<LicenseBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<LicenseBean>>
-
-
-| 0
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}licenses/\{id\}/PUT/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}licenses/\{id\}/PUT/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :licenses/{id}/PUT/PUT.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}licenses/\{id\}/PUT/implementation.adoc[opts=optional]
-
-
-endif::internal-generation[]
-
-
-[.setLicenses]
-==== setLicenses
-    
-`PUT /licenses`
-
-Sets or Updates a set of licenses
-
-===== Description 
-
-Existing license details are always cleared before setting the new licenses. Upon successful request, returns a `LicensesBean` object containing license details
-
-
-// markup not found, no include::{specDir}licenses/PUT/spec.adoc[opts=optional]
-
-
-
-===== Parameters
-
-
-===== Body Parameter
-
-[cols="2,3,1,1,1"]
-|===         
-|Name| Description| Required| Default| Pattern
-
-| LicensesBean 
-|  <<LicensesBean>> 
-| X 
-|  
-|  
-
-|===         
-
-
-
-
-
-===== Return Type
-
-<<LicensesBean>>
-
-
-===== Content Type
-
-* application/json
-
-===== Responses
-
-.http response codes
-[cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
-
-
-| 200
-| 
-|  <<LicensesBean>>
-
-
-| 0
-| 
-|  <<ErrorCollection>>
-
-|===         
-
-===== Samples
-
-
-// markup not found, no include::{snippetDir}licenses/PUT/http-request.adoc[opts=optional]
-
-
-// markup not found, no include::{snippetDir}licenses/PUT/http-response.adoc[opts=optional]
-
-
-
-// file not found, no * wiremock data link :licenses/PUT/PUT.json[]
-
-
-ifdef::internal-generation[]
-===== Implementation
-
-// markup not found, no include::{specDir}licenses/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -2813,17 +2575,17 @@ Get the default POP mail server
 
 
 | 200
-| 
+| Returns the default POP mail server&#39;s details.
 |  <<MailServerPopBean>>
 
 
 | 204
-| 
+| Returns an error message explaining that no default POP mail server is configured.
 |  <<ErrorCollection>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2892,17 +2654,17 @@ Get the default SMTP mail server
 
 
 | 200
-| 
+| Returns the default SMTP mail server&#39;s details.
 |  <<MailServerSmtpBean>>
 
 
 | 204
-| 
+| Returns an error message explaining that no default SMTP mail server is configured.
 |  <<ErrorCollection>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -2984,12 +2746,12 @@ Set the default POP mail server
 
 
 | 200
-| 
+| Returns the default POP mail server&#39;s details.
 |  <<MailServerPopBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3071,12 +2833,12 @@ Set the default SMTP mail server
 
 
 | 200
-| 
+| Returns the default SMTP mail server&#39;s details.
 |  <<MailServerSmtpBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3277,7 +3039,7 @@ endif::internal-generation[]
     
 `GET /ping`
 
-Simple ping method for probing the REST api. Returns 'pong' upon success
+Ping method for probing the REST API.
 
 ===== Description 
 
@@ -3302,9 +3064,6 @@ Simple ping method for probing the REST api. Returns 'pong' upon success
 
 -
 
-===== Content Type
-
-* text/plain
 
 ===== Responses
 
@@ -3314,8 +3073,8 @@ Simple ping method for probing the REST api. Returns 'pong' upon success
 | Code | Message | Datatype 
 
 
-| 0
-| default response
+| 200
+| Returns &#39;pong&#39;
 |  <<>>
 
 |===         
@@ -3388,12 +3147,12 @@ Get the application settings
 
 
 | 200
-| 
+| Returns the application settings
 |  <<SettingsBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3475,12 +3234,12 @@ Set the application settings
 
 
 | 200
-| 
+| Returns the application settings
 |  <<SettingsBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3516,11 +3275,11 @@ endif::internal-generation[]
     
 `GET /users`
 
-Retrieves user information
+Get a user
 
 ===== Description 
 
-Upon successful request, returns a `UserBean` object containing user details
+
 
 
 // markup not found, no include::{specDir}users/GET/spec.adoc[opts=optional]
@@ -3539,7 +3298,7 @@ Upon successful request, returns a `UserBean` object containing user details
 |===         
 |Name| Description| Required| Default| Pattern
 
-| userName 
+| username 
 |   
 | X 
 | null 
@@ -3566,12 +3325,12 @@ Upon successful request, returns a `UserBean` object containing user details
 
 
 | 200
-| 
+| Returns the requested user details
 |  <<UserBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3603,11 +3362,11 @@ endif::internal-generation[]
     
 `PUT /users`
 
-Updates user details
+Update an user
 
 ===== Description 
 
-Upon successful request, returns the updated `UserBean` object (user name cannot be updated)
+
 
 
 // markup not found, no include::{specDir}users/PUT/spec.adoc[opts=optional]
@@ -3639,7 +3398,7 @@ Upon successful request, returns the updated `UserBean` object (user name cannot
 |===         
 |Name| Description| Required| Default| Pattern
 
-| userName 
+| username 
 |   
 | X 
 | null 
@@ -3666,12 +3425,12 @@ Upon successful request, returns the updated `UserBean` object (user name cannot
 
 
 | 200
-| 
+| Returns the updated user details
 |  <<UserBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3703,11 +3462,11 @@ endif::internal-generation[]
     
 `PUT /users/password`
 
-Updates the user password
+Update a user password
 
 ===== Description 
 
-Upon successful request, returns the updated `UserBean` object.
+
 
 
 // markup not found, no include::{specDir}users/password/PUT/spec.adoc[opts=optional]
@@ -3739,7 +3498,7 @@ Upon successful request, returns the updated `UserBean` object.
 |===         
 |Name| Description| Required| Default| Pattern
 
-| userName 
+| username 
 |   
 | X 
 | null 
@@ -3766,12 +3525,12 @@ Upon successful request, returns the updated `UserBean` object.
 
 
 | 200
-| 
+| Returns the user details
 |  <<UserBean>>
 
 
 | 0
-| 
+| Returns a list of error messages.
 |  <<ErrorCollection>>
 
 |===         
@@ -3879,7 +3638,7 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| id 
+| uuid 
 |  
 | UUID  
 | 
@@ -4760,6 +4519,12 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
+| products 
+|  
+| List  of <<string>> 
+| 
+|  
+
 | type 
 |  
 | String  
@@ -4793,12 +4558,6 @@ endif::internal-generation[]
 | key 
 |  
 | String  
-| 
-|  
-
-| products 
-|  
-| List  of <<string>> 
 | 
 |  
 

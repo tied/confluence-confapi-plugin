@@ -20,8 +20,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -48,7 +47,7 @@ public class MailServerServiceTest {
         assertEquals(smtpMailServer.getName(), bean.getName());
         assertEquals(smtpMailServer.getDescription(), bean.getDescription());
         assertEquals(smtpMailServer.getHostname(), bean.getHost());
-        assertEquals(smtpMailServer.getTimeout(), bean.getTimeout());
+        assertTrue(smtpMailServer.getTimeout() == bean.getTimeout());
         assertEquals(smtpMailServer.getUsername(), bean.getUsername());
         assertNull(bean.getPassword());
         assertEquals(smtpMailServer.getDefaultFrom(), bean.getFrom());
@@ -130,7 +129,7 @@ public class MailServerServiceTest {
         assertEquals(popMailServer.getName(), bean.getName());
         assertEquals(popMailServer.getDescription(), bean.getDescription());
         assertEquals(popMailServer.getHostname(), bean.getHost());
-        assertEquals(popMailServer.getTimeout(), bean.getTimeout());
+        assertTrue(popMailServer.getTimeout() == bean.getTimeout());
         assertEquals(popMailServer.getUsername(), bean.getUsername());
         assertNull(bean.getPassword());
         assertEquals(popMailServer.getMailProtocol().getProtocol(), bean.getProtocol());

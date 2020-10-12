@@ -4,7 +4,6 @@ import com.atlassian.confluence.settings.setup.DefaultSingleProductLicenseDetail
 import com.atlassian.sal.api.i18n.InvalidOperationException;
 import com.atlassian.sal.api.license.LicenseHandler;
 import de.aservo.confapi.commons.exception.BadRequestException;
-import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.model.LicenseBean;
 import de.aservo.confapi.commons.model.LicensesBean;
 import org.junit.Before;
@@ -42,31 +41,8 @@ public class LicensesServiceTest {
         assertEquals(testLicense.getDescription(), licenses.getLicenses().iterator().next().getDescription());
     }
 
-    @Test(expected = InternalServerErrorException.class)
-    public void testSetLicensesWithError() throws InvalidOperationException {
-        LicensesBean licensesBean = LicensesBean.EXAMPLE_1;
-        DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licensesBean.getLicenses().iterator().next());
-        doReturn(true).when(licenseHandler).hostAllowsMultipleLicenses();
-        doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
-        doThrow(new InvalidOperationException("", "")).when(licenseHandler).removeProductLicense(any(String.class));
-
-        licenseService.setLicenses(licensesBean);
-    }
-
     @Test
-    public void testSetLicenses() {
-        LicensesBean licensesBean = LicensesBean.EXAMPLE_1;
-        DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licensesBean.getLicenses().iterator().next());
-        doReturn(false).when(licenseHandler).hostAllowsMultipleLicenses();
-        doReturn(testLicense).when(licenseHandler).getProductLicenseDetails(DEFAULT_LICENSE_REGISTRY_KEY);
-
-        LicensesBean updatedLicensesBean = licenseService.setLicenses(licensesBean);
-
-        assertEquals(testLicense.getDescription(), updatedLicensesBean.getLicenses().iterator().next().getDescription());
-    }
-
-    @Test
-    public void testSetLicense() {
+    public void testAddLicense() {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         DefaultSingleProductLicenseDetailsView testLicense = new DefaultSingleProductLicenseDetailsView(licenseBean);
 
@@ -76,7 +52,7 @@ public class LicensesServiceTest {
     }
 
     @Test(expected = BadRequestException.class)
-    public void testSetLicenseWithError() throws InvalidOperationException {
+    public void testAddLicenseWithError() throws InvalidOperationException {
         LicenseBean licenseBean = LicenseBean.EXAMPLE_1;
         doThrow(new InvalidOperationException("", "")).when(licenseHandler).addProductLicense(any(), any());
 

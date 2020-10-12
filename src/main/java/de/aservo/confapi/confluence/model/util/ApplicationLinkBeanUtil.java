@@ -10,13 +10,13 @@ import com.atlassian.applinks.api.application.fecru.FishEyeCrucibleApplicationTy
 import com.atlassian.applinks.api.application.jira.JiraApplicationType;
 import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType;
 import org.apache.commons.lang3.NotImplementedException;
 
 import javax.validation.constraints.NotNull;
-
 import java.util.UUID;
 
-import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkTypes.*;
+import static de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType.*;
 
 public class ApplicationLinkBeanUtil {
 
@@ -30,7 +30,7 @@ public class ApplicationLinkBeanUtil {
             @NotNull final ApplicationLink linkDetails) {
 
         final ApplicationLinkBean applicationLinkBean = new ApplicationLinkBean();
-        applicationLinkBean.setId(UUID.fromString(linkDetails.getId().get()));
+        applicationLinkBean.setUuid(UUID.fromString(linkDetails.getId().get()));
         applicationLinkBean.setName(linkDetails.getName());
         applicationLinkBean.setType(getLinkTypeFromAppType(linkDetails.getType()));
         applicationLinkBean.setDisplayUrl(linkDetails.getDisplayUrl());
@@ -62,7 +62,7 @@ public class ApplicationLinkBeanUtil {
      * @param type the ApplicationType
      * @return the linktype
      */
-    private static ApplicationLinkBean.ApplicationLinkTypes getLinkTypeFromAppType(
+    private static ApplicationLinkType getLinkTypeFromAppType(
             @NotNull final ApplicationType type) {
 
         if (type instanceof BambooApplicationType) {

@@ -8,8 +8,8 @@ import com.atlassian.crowd.exception.DirectoryCurrentlySynchronisingException;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import de.aservo.confapi.commons.exception.BadRequestException;
-import de.aservo.confapi.commons.exception.InternalServerErrorException;
 import de.aservo.confapi.commons.exception.NotFoundException;
+import de.aservo.confapi.commons.exception.ServiceUnavailableException;
 import de.aservo.confapi.commons.model.AbstractDirectoryBean;
 import de.aservo.confapi.commons.model.DirectoriesBean;
 import de.aservo.confapi.commons.model.DirectoryCrowdBean;
@@ -35,6 +35,7 @@ import static java.lang.String.format;
 public class DirectoryServiceImpl implements DirectoriesService {
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryServiceImpl.class);
+    public static final int RETRY_AFTER_IN_SECONDS = 5;
 
     private final CrowdDirectoryService crowdDirectoryService;
 
@@ -143,7 +144,7 @@ public class DirectoryServiceImpl implements DirectoriesService {
         try {
             crowdDirectoryService.removeDirectory(id);
         } catch (DirectoryCurrentlySynchronisingException e) {
-            throw new InternalServerErrorException(e);
+            throw new ServiceUnavailableException(e, RETRY_AFTER_IN_SECONDS);
         }
     }
 

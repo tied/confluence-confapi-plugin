@@ -14,6 +14,7 @@ import com.atlassian.applinks.spi.link.ApplicationLinkDetails;
 import com.atlassian.confluence.settings.setup.DefaultApplicationLink;
 import com.atlassian.confluence.settings.setup.DefaultApplicationType;
 import de.aservo.confapi.commons.model.ApplicationLinkBean;
+import de.aservo.confapi.commons.model.ApplicationLinkBean.ApplicationLinkType;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +61,7 @@ public class ApplicationLinkBeanUtilTest {
 
     @Test
     public void testLinkTypeGenerator() throws URISyntaxException {
-        for (ApplicationLinkBean.ApplicationLinkTypes linkType : ApplicationLinkBean.ApplicationLinkTypes.values()) {
+        for (ApplicationLinkType linkType : ApplicationLinkType.values()) {
             ApplicationType applicationType = null;
             switch (linkType) {
                 case BAMBOO:
