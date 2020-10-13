@@ -243,7 +243,7 @@ public class BackupServiceImpl implements BackupService {
                 spaceManager,
                 exportContext.getSpaceKeyOfSpaceExport(),
                 exportContext.getType(),
-                null);
+                "all");
     }
 
     private DownloadGateKeeper createDownloadGateKeeper() {
