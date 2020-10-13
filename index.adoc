@@ -715,6 +715,18 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
+| formField 
+|  <<boolean>> 
+| - 
+| null 
+|  
+
+| contentType 
+|  <<string>> 
+| - 
+| null 
+|  
+
 | name 
 |  <<string>> 
 | - 
@@ -735,18 +747,6 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 | inputStream 
 |  <<object>> 
-| - 
-| null 
-|  
-
-| contentType 
-|  <<string>> 
-| - 
-| null 
-|  
-
-| formField 
-|  <<boolean>> 
 | - 
 | null 
 |  
@@ -847,6 +847,19 @@ Initiates an asynchronous export if enabled by server, synchronous otherwise
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| force-synchronous 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -940,6 +953,19 @@ Same as export but especially for the most common case: Single space export with
 
 
 
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| force-synchronous 
+|   
+| - 
+| false 
+|  
+
+|===         
 
 
 ===== Return Type
@@ -4426,6 +4452,18 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
+| formField 
+|  
+| Boolean  
+| 
+|  
+
+| contentType 
+|  
+| String  
+| 
+|  
+
 | name 
 |  
 | String  
@@ -4447,18 +4485,6 @@ endif::internal-generation[]
 | inputStream 
 |  
 | Object  
-| 
-|  
-
-| contentType 
-|  
-| String  
-| 
-|  
-
-| formField 
-|  
-| Boolean  
 | 
 |  
 

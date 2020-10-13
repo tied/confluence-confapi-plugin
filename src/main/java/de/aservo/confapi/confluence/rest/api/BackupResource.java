@@ -14,11 +14,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.UUID;
@@ -40,6 +42,7 @@ public interface BackupResource {
             }
     )
     Response getExport(
+            @QueryParam("force-synchronous") @DefaultValue("false") final boolean forceSynchronous,
             @Nonnull final BackupBean backupBean);
 
     @GET
@@ -56,6 +59,7 @@ public interface BackupResource {
             }
     )
     Response getExportByKey(
+            @QueryParam("force-synchronous") @DefaultValue("false") final boolean forceSynchronous,
             @Nonnull @PathParam("key") String key);
 
     @POST

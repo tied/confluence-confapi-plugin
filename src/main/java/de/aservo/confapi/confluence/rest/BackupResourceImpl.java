@@ -37,9 +37,10 @@ public class BackupResourceImpl implements BackupResource {
 
     @Override
     public Response getExport(
+            final boolean forceSynchronous,
             @Nonnull final BackupBean backupBean) {
 
-        if (isLongRunningTaskSupported()) {
+        if (isLongRunningTaskSupported() && !forceSynchronous) {
             return Response.status(ACCEPTED)
                     .location(backupService.getExportAsynchronously(backupBean))
                     .build();
@@ -52,6 +53,7 @@ public class BackupResourceImpl implements BackupResource {
 
     @Override
     public Response getExportByKey(
+            final boolean forceSynchronous,
             @Nonnull final String key) {
 
         final BackupBean backupBean = new BackupBean();
@@ -59,7 +61,7 @@ public class BackupResourceImpl implements BackupResource {
         backupBean.setBackupAttachments(true);
         backupBean.setBackupComments(true);
 
-        return getExport(backupBean);
+        return getExport(forceSynchronous, backupBean);
     }
 
     public Response doImportByFileUpload(

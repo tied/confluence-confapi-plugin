@@ -55,7 +55,7 @@ public class BackupResourceTest {
 
         doReturn(BACKUP_QUEUE_URI).when(backupService).getExportAsynchronously(any(BackupBean.class));
 
-        final Response response = backupResource.getExportByKey("space");
+        final Response response = backupResource.getExportByKey(false, "space");
         assertEquals(ACCEPTED.getStatusCode(), response.getStatus());
         assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }
@@ -68,7 +68,20 @@ public class BackupResourceTest {
 
         doReturn(BACKUP_QUEUE_URI).when(backupService).getExportSynchronously(any(BackupBean.class));
 
-        final Response response = backupResource.getExportByKey("space");
+        final Response response = backupResource.getExportByKey(false, "space");
+        assertEquals(CREATED.getStatusCode(), response.getStatus());
+        assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
+    }
+
+    @Test
+    public void testGetExportSynchronouslyForced() {
+        PowerMock.mockStatic(HttpUtil.class);
+        expect(HttpUtil.isLongRunningTaskSupported()).andReturn(Boolean.TRUE);
+        PowerMock.replay(HttpUtil.class);
+
+        doReturn(BACKUP_QUEUE_URI).when(backupService).getExportSynchronously(any(BackupBean.class));
+
+        final Response response = backupResource.getExportByKey(true, "space");
         assertEquals(CREATED.getStatusCode(), response.getStatus());
         assertNotNull(response.getMetadata().getFirst(RESPONSE_METADATA_LOCATION));
     }
