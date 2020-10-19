@@ -715,18 +715,6 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| formField 
-|  <<boolean>> 
-| - 
-| null 
-|  
-
-| contentType 
-|  <<string>> 
-| - 
-| null 
-|  
-
 | name 
 |  <<string>> 
 | - 
@@ -747,6 +735,18 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 
 | inputStream 
 |  <<object>> 
+| - 
+| null 
+|  
+
+| contentType 
+|  <<string>> 
+| - 
+| null 
+|  
+
+| formField 
+|  <<boolean>> 
 | - 
 | null 
 |  
@@ -4452,18 +4452,6 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| formField 
-|  
-| Boolean  
-| 
-|  
-
-| contentType 
-|  
-| String  
-| 
-|  
-
 | name 
 |  
 | String  
@@ -4485,6 +4473,18 @@ endif::internal-generation[]
 | inputStream 
 |  
 | Object  
+| 
+|  
+
+| contentType 
+|  
+| String  
+| 
+|  
+
+| formField 
+|  
+| Boolean  
 | 
 |  
 

@@ -32,8 +32,7 @@ import static com.atlassian.crowd.model.directory.DirectoryImpl.ATTRIBUTE_KEY_US
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DirectoryServiceTest {
@@ -183,14 +182,14 @@ public class DirectoryServiceTest {
     }
 
     @Test
-    public void testDeleteDirectories() {
+    public void testDeleteDirectories() throws DirectoryCurrentlySynchronisingException {
         Directory directory = createDirectory();
         doReturn(directory).when(crowdDirectoryService).findDirectoryById(1L);
         doReturn(Collections.singletonList(directory)).when(crowdDirectoryService).findAllDirectories();
 
         directoryService.deleteDirectories(true);
 
-        assertTrue("Delete Successful", true);
+        verify(crowdDirectoryService).removeDirectory(1L);
     }
 
     @Test
@@ -200,16 +199,16 @@ public class DirectoryServiceTest {
 
         directoryService.deleteDirectories(true);
 
-        assertTrue("Delete Successful", true);
+        verify(crowdDirectoryService).findAllDirectories();
     }
 
     @Test
-    public void testDeleteDirectory() {
+    public void testDeleteDirectory() throws DirectoryCurrentlySynchronisingException {
         doReturn(createDirectory()).when(crowdDirectoryService).findDirectoryById(1L);
 
         directoryService.deleteDirectory(1L);
 
-        assertTrue("Delete Successful", true);
+        verify(crowdDirectoryService).removeDirectory(1L);
     }
 
     @Test(expected = NotFoundException.class)

@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import static com.atlassian.crowd.directory.RemoteCrowdDirectory.*;
@@ -51,7 +50,7 @@ public class DirectoryBeanUtilTest {
     }
 
     @Test
-    public void testToDirectoryBeanWithProxy() throws URISyntaxException {
+    public void testToDirectoryBeanWithProxy() {
         final DirectoryImpl directory = new DirectoryImpl("test", DirectoryType.CROWD, "test.class");
         directory.setAttribute(CROWD_SERVER_URL, "http://localhost");
         directory.setAttribute(APPLICATION_PASSWORD, "test");
