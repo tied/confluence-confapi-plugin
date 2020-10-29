@@ -19,6 +19,11 @@
     <name>ConfAPI for Confluence</name>
     <description>REST API for automated Confluence configuration.</description>
 
+    <organization>
+        <name>ASERVO Software GmbH</name>
+        <url>https://www.aservo.com</url>
+    </organization>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
