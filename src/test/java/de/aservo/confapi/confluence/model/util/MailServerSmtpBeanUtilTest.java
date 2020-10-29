@@ -26,19 +26,9 @@ public class MailServerSmtpBeanUtilTest {
         assertEquals(server.getHostname(), bean.getHost());
         assertEquals(Integer.valueOf(server.getPort()), bean.getPort());
         assertEquals(server.isTlsRequired(), bean.getUseTls());
-        assertTrue(server.getTimeout() == bean.getTimeout());
+        assertEquals(server.getTimeout(), (long) bean.getTimeout());
         assertEquals(server.getUsername(), bean.getUsername());
         assertNull(bean.getPassword());
-    }
-
-    @Test
-    public void testToMailServerSmtpBeanHideEmptyDescription() {
-        final SMTPMailServer server = new DefaultTestSmtpMailServerImpl();
-        server.setDescription("");
-        final MailServerSmtpBean bean = MailServerSmtpBeanUtil.toMailServerSmtpBean(server);
-
-        assertNotNull(bean);
-        assertNull(bean.getDescription());
     }
 
 }

@@ -28,14 +28,4 @@ public class MailServerPopBeanUtilTest {
         assertNull(bean.getPassword());
     }
 
-    @Test
-    public void testToMailServerPopBeanHideEmptyDescription() {
-        final PopMailServer server = new DefaultTestPopMailServerImpl();
-        server.setDescription("");
-        final MailServerPopBean bean = MailServerPopBeanUtil.toMailServerPopBean(server);
-
-        assertNotNull(bean);
-        assertNull(bean.getDescription());
-    }
-
 }
