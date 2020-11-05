@@ -13,7 +13,7 @@
     </parent>
 
     <artifactId>confapi-confluence-plugin</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.9-SNAPSHOT</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>ConfAPI for Confluence</name>
@@ -66,10 +66,11 @@
         <atlassian.gadgets.version>4.3.2.1</atlassian.gadgets.version>
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
-        <confapi-commons.version>0.0.27-SNAPSHOT</confapi-commons.version>
+        <confapi-commons.version>0.0.30-SNAPSHOT</confapi-commons.version>
+        <confluence-lookandfeel.version>5.9.1-issue-CONF-38693-m2</confluence-lookandfeel.version>
+        <custom-favicon-api.version>2.0.2</custom-favicon-api.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
         <log4j.version>2.8.2</log4j.version>
-        <openapi-generator-maven-plugin.version>4.3.0</openapi-generator-maven-plugin.version>
         <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
         <powermock-api-easymock.version>2.0.7</powermock-api-easymock.version>
         <slf4j.version>1.7.30</slf4j.version>
@@ -142,6 +143,20 @@
         </dependency>
 
         <dependency>
+            <groupId>com.atlassian.confluence.plugins</groupId>
+            <artifactId>confluence-lookandfeel</artifactId>
+            <version>${confluence-lookandfeel.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.favicon</groupId>
+            <artifactId>custom-favicon-api</artifactId>
+            <version>${custom-favicon-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.atlassian.confluence</groupId>
             <artifactId>confluence-rest-api</artifactId>
             <scope>provided</scope>
@@ -150,6 +165,12 @@
         <dependency>
             <groupId>com.atlassian.crowd</groupId>
             <artifactId>crowd-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.plugins.rest</groupId>
+            <artifactId>atlassian-rest-common</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -174,12 +195,6 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.atlassian.plugins.rest</groupId>
-            <artifactId>atlassian-rest-common</artifactId>
             <scope>provided</scope>
         </dependency>
 
