@@ -17,7 +17,8 @@
     <packaging>atlassian-plugin</packaging>
 
     <name>ConfAPI for Confluence</name>
-    <description>REST API for automated Confluence configuration.</description>
+    <description>ConfAPI for Confluence provides a REST API for automated configuration tasks.</description>
+    <url>https://github.com/aservo/confapi-confluence-plugin</url>
 
     <organization>
         <name>ASERVO Software GmbH</name>
