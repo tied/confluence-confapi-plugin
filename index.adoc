@@ -1121,6 +1121,358 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Cache]
+=== Cache
+
+
+[.flushCache]
+==== flushCache
+    
+`POST /caches/flush/{name}`
+
+Flushes a cache
+
+===== Description 
+
+Empties the specified cache
+
+
+// markup not found, no include::{specDir}caches/flush/\{name\}/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<CacheBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Returns the emptied Cache.
+|  <<CacheBean>>
+
+
+| 0
+| Returns a list of error messages.
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}caches/flush/\{name\}/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}caches/flush/\{name\}/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :caches/flush/{name}/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}caches/flush/\{name\}/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCache]
+==== getCache
+    
+`GET /caches/{name}`
+
+Read cache information for a specified cache
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}caches/\{name\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<CacheBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Returns configuration for a given cache.
+|  <<CacheBean>>
+
+
+| 0
+| Returns a list of error messages.
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}caches/\{name\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}caches/\{name\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :caches/{name}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}caches/\{name\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCaches]
+==== getCaches
+    
+`GET /caches`
+
+Read all cache informations
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}caches/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<CachesBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Returns all information for current cache configuration.
+|  <<CachesBean>>
+
+
+| 0
+| Returns a list of error messages.
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}caches/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}caches/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :caches/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}caches/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateCache]
+==== updateCache
+    
+`PUT /caches/{name}`
+
+Update an existing cache-size
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}caches/\{name\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| CacheBean 
+|  <<CacheBean>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<CacheBean>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Returns the modified Cache.
+|  <<CacheBean>>
+
+
+| 0
+| Returns a list of error messages.
+|  <<ErrorCollection>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}caches/\{name\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}caches/\{name\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :caches/{name}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}caches/\{name\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.Directories]
 === Directories
 
@@ -4309,6 +4661,74 @@ endif::internal-generation[]
 | URI  
 | 
 | uri 
+
+|===
+
+
+[#CacheBean]
+=== _CacheBean_ 
+
+
+
+[.fields-CacheBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| maxObjectCount 
+|  
+| Integer  
+| 
+| int32 
+
+| currentHeapSizeInByte 
+|  
+| Long  
+| 
+| int64 
+
+| effectivenessInPercent 
+|  
+| Double  
+| 
+| double 
+
+| utilisationInPercent 
+|  
+| Double  
+| 
+| double 
+
+| flushable 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#CachesBean]
+=== _CachesBean_ 
+
+
+
+[.fields-CachesBean]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| gadgets 
+|  
+| List  of <<GadgetBean>> 
+| 
+|  
 
 |===
 
