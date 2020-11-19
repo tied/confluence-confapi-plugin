@@ -3131,12 +3131,12 @@ endif::internal-generation[]
 === Settings
 
 
-[.getColourScheme]
-==== getColourScheme
+[.getBrandingColorScheme]
+==== getBrandingColorScheme
     
 `GET /settings/branding/color-scheme`
 
-Get the colour scheme
+Get the color scheme
 
 ===== Description 
 
@@ -3173,7 +3173,7 @@ Get the colour scheme
 
 
 | 200
-| Returns the colour scheme
+| Returns the color scheme
 |  <<SettingsBrandingColorSchemeBean>>
 
 
@@ -3205,8 +3205,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.getFavicon]
-==== getFavicon
+[.getBrandingFavicon]
+==== getBrandingFavicon
     
 `GET /settings/branding/favicon`
 
@@ -3280,8 +3280,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.getLogo]
-==== getLogo
+[.getBrandingLogo]
+==== getBrandingLogo
     
 `GET /settings/branding/logo`
 
@@ -3429,12 +3429,12 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.setColourScheme]
-==== setColourScheme
+[.setBrandingColorScheme]
+==== setBrandingColorScheme
     
 `PUT /settings/branding/color-scheme`
 
-Set the colour scheme
+Set the color scheme
 
 ===== Description 
 
@@ -3484,7 +3484,7 @@ Set the colour scheme
 
 
 | 200
-| Returns the updated colour scheme
+| Returns the updated color scheme
 |  <<SettingsBrandingColorSchemeBean>>
 
 
@@ -3516,8 +3516,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.setFavicon]
-==== setFavicon
+[.setBrandingFavicon]
+==== setBrandingFavicon
     
 `PUT /settings/branding/favicon`
 
@@ -3604,8 +3604,8 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.setLogo]
-==== setLogo
+[.setBrandingLogo]
+==== setBrandingLogo
     
 `PUT /settings/branding/logo`
 
@@ -4119,6 +4119,36 @@ endif::internal-generation[]
 | Date  
 | 
 | date-time 
+
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
 
 |===
 
