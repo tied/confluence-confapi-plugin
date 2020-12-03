@@ -56,7 +56,7 @@ public interface CachesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
             tags = {ConfAPI.CACHE},
-            summary = "Update an existing cache-size",
+            summary = "Update an existing cache-size. Only Setting maxObjectCount is supported.",
             responses = {
                     @ApiResponse(
                             responseCode = "200", content = @Content(schema = @Schema(implementation = CacheBean.class)),
