@@ -30,6 +30,7 @@ public class SettingsServiceImpl implements SettingsService {
         final SettingsBean settingsBean = new SettingsBean();
         settingsBean.setBaseUrl(URI.create(settings.getBaseUrl()));
         settingsBean.setTitle(settings.getSiteTitle());
+        settingsBean.setContactMessage(settings.getCustomContactMessage());
 
         return settingsBean;
     }
@@ -44,6 +45,10 @@ public class SettingsServiceImpl implements SettingsService {
 
         if (StringUtils.isNotBlank(settingsBean.getTitle())) {
             settings.setSiteTitle(settingsBean.getTitle());
+        }
+
+        if (StringUtils.isNotBlank(settingsBean.getContactMessage())) {
+            settings.setCustomContactMessage(settingsBean.getContactMessage());
         }
 
         settingsManager.updateGlobalSettings(settings);

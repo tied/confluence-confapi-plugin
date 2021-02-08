@@ -67,7 +67,7 @@
         <atlassian.gadgets.version>4.3.2.1</atlassian.gadgets.version>
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.5</atlassian.spring.scanner.version>
-        <confapi-commons.version>0.0.31-SNAPSHOT</confapi-commons.version>
+        <confapi-commons.version>0.0.32-SNAPSHOT</confapi-commons.version>
         <confluence-lookandfeel.version>5.9.1-issue-CONF-38693-m2</confluence-lookandfeel.version>
         <custom-favicon-api.version>2.0.2</custom-favicon-api.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>

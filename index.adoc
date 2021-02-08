@@ -715,14 +715,14 @@ Initiates an asynchronous import if enabled by server, synchronous otherwise
 |===         
 |Name| Description| Required| Default| Pattern
 
-| contentType 
-|  <<string>> 
+| formField 
+|  <<boolean>> 
 | - 
 | null 
 |  
 
-| formField 
-|  <<boolean>> 
+| contentType 
+|  <<string>> 
 | - 
 | null 
 |  
@@ -1378,7 +1378,7 @@ endif::internal-generation[]
     
 `PUT /caches/{name}`
 
-Update an existing cache-size
+Update an existing cache-size. Only Setting maxObjectCount is supported.
 
 ===== Description 
 
@@ -4472,6 +4472,36 @@ endif::internal-generation[]
 | 
 | date-time 
 
+| server 
+|  
+| DirectoryLdapServer  
+| 
+|  
+
+| permissions 
+|  
+| DirectoryLdapPermissions  
+| 
+|  
+
+| advanced 
+|  
+| DirectoryInternalAdvanced  
+| 
+|  
+
+| credentialPolicy 
+|  
+| DirectoryInternalCredentialPolicy  
+| 
+|  
+
+| schema 
+|  
+| DirectoryLdapSchema  
+| 
+|  
+
 |===
 
 
@@ -5389,15 +5419,15 @@ endif::internal-generation[]
 |===         
 | Field Name| Required| Type| Description| Format
 
-| contentType 
-|  
-| String  
-| 
-|  
-
 | formField 
 |  
 | Boolean  
+| 
+|  
+
+| contentType 
+|  
+| String  
 | 
 |  
 
@@ -5740,6 +5770,12 @@ endif::internal-generation[]
 |  
 
 | title 
+|  
+| String  
+| 
+|  
+
+| contactMessage 
 |  
 | String  
 | 
