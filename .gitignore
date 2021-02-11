@@ -19,3 +19,6 @@
 
 .openapi-generator*
 jacoco.exec
+
+# osx specific
+.DS_Store

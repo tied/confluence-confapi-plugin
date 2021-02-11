@@ -34,6 +34,8 @@ public class SettingsServiceTest {
     @Test
     public void testGetSettings() {
         final Settings settings = new DefaultTestSettings();
+        String customContactMessage = "Test";
+        settings.setCustomContactMessage(customContactMessage);
         doReturn(settings).when(settingsManager).getGlobalSettings();
 
         final SettingsBean settingsBean = settingsService.getSettings();
@@ -41,6 +43,7 @@ public class SettingsServiceTest {
         final SettingsBean settingsBeanRef = new SettingsBean();
         settingsBeanRef.setBaseUrl(URI.create(settings.getBaseUrl()));
         settingsBeanRef.setTitle(settings.getSiteTitle());
+        settingsBeanRef.setContactMessage(customContactMessage);
 
         assertEquals(settingsBeanRef, settingsBean);
     }
@@ -51,10 +54,13 @@ public class SettingsServiceTest {
         doReturn(defaultSettings).when(settingsManager).getGlobalSettings();
 
         final Settings updateSettings = new OtherTestSettings();
+        String customContactMessage = "Test";
+        updateSettings.setCustomContactMessage(customContactMessage);
 
         final SettingsBean requestBean = new SettingsBean();
         requestBean.setBaseUrl(URI.create(updateSettings.getBaseUrl()));
         requestBean.setTitle(updateSettings.getSiteTitle());
+        requestBean.setContactMessage(updateSettings.getCustomContactMessage());
 
         final SettingsBean responseBean = settingsService.setSettings(requestBean);
 
@@ -65,6 +71,7 @@ public class SettingsServiceTest {
         final SettingsBean settingsBean = new SettingsBean();
         settingsBean.setBaseUrl(URI.create(settings.getBaseUrl()));
         settingsBean.setTitle(settings.getSiteTitle());
+        settingsBean.setContactMessage(settings.getCustomContactMessage());
 
         assertEquals(requestBean, settingsBean);
         assertEquals(requestBean, responseBean);
