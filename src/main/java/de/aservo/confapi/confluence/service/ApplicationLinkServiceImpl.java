@@ -119,16 +119,22 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         ApplicationId id = new ApplicationId(uuid.toString());
 
         try {
-            //entity must be removed first (there is no update service method)
-            ApplicationLink applicationLink = mutatingApplicationLinkService.getApplicationLink(id);
-            mutatingApplicationLinkService.deleteApplicationLink(applicationLink);
-
-            //finally a new entity is added with the known existing server id
-            ApplicationLinkDetails linkDetails = ApplicationLinkBeanUtil.toApplicationLinkDetails(applicationLinkBean);
+            MutableApplicationLink applicationLink = mutatingApplicationLinkService.getApplicationLink(id);
             ApplicationType applicationType = buildApplicationType(applicationLinkBean.getType());
+            ApplicationLinkDetails linkDetails = ApplicationLinkBeanUtil.toApplicationLinkDetails(applicationLinkBean);
+
+            if (applicationLink.getType().equals(applicationType)
+                    && applicationLinkBean.getPassword() == null
+                    && applicationLinkBean.getUsername() == null) {
+                applicationLink.update(linkDetails);
+                return getApplicationLinkBeanWithStatus(applicationLink);
+            }
+
+            //entity must be removed first (there is no update service method)
+            mutatingApplicationLinkService.deleteApplicationLink(applicationLink);
+            //finally a new entity is added with the known existing server id
             MutableApplicationLink mutableApplicationLink = mutatingApplicationLinkService.addApplicationLink(id, applicationType, linkDetails);
             return getApplicationLinkBeanWithStatus(mutableApplicationLink);
-
         } catch (TypeNotInstalledException e) {
             throw new BadRequestException(e.getMessage());
         }
@@ -194,7 +200,7 @@ public class ApplicationLinkServiceImpl implements ApplicationLinksService {
         }
     }
 
-    private ApplicationType buildApplicationType(ApplicationLinkType linkType) {
+    protected ApplicationType buildApplicationType(ApplicationLinkType linkType) {
         switch (linkType) {
             case BAMBOO:
                 return typeAccessor.getApplicationType(BambooApplicationType.class);
