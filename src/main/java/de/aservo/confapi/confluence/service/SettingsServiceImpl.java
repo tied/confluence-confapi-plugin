@@ -31,6 +31,7 @@ public class SettingsServiceImpl implements SettingsService {
         settingsBean.setBaseUrl(URI.create(settings.getBaseUrl()));
         settingsBean.setTitle(settings.getSiteTitle());
         settingsBean.setContactMessage(settings.getCustomContactMessage());
+        settingsBean.setExternalUserManagement(settings.isExternalUserManagement());
 
         return settingsBean;
     }
@@ -38,7 +39,6 @@ public class SettingsServiceImpl implements SettingsService {
     @Override
     public SettingsBean setSettings(SettingsBean settingsBean) {
         final Settings settings = settingsManager.getGlobalSettings();
-
         if (settingsBean.getBaseUrl() != null) {
             settings.setBaseUrl(settingsBean.getBaseUrl().toString());
         }
@@ -49,6 +49,10 @@ public class SettingsServiceImpl implements SettingsService {
 
         if (StringUtils.isNotBlank(settingsBean.getContactMessage())) {
             settings.setCustomContactMessage(settingsBean.getContactMessage());
+        }
+
+        if (settingsBean.getExternalUserManagement() != null) {
+            settings.setExternalUserManagement(settingsBean.getExternalUserManagement());
         }
 
         settingsManager.updateGlobalSettings(settings);
