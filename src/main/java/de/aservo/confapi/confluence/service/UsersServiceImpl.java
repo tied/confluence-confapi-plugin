@@ -1,6 +1,7 @@
 package de.aservo.confapi.confluence.service;
 
 import com.atlassian.confluence.user.ConfluenceUser;
+import com.atlassian.confluence.user.UserAccessor;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.user.EntityException;
@@ -12,8 +13,6 @@ import de.aservo.confapi.commons.exception.NotFoundException;
 import de.aservo.confapi.commons.model.UserBean;
 import de.aservo.confapi.commons.service.api.UsersService;
 import de.aservo.confapi.confluence.model.util.UserBeanUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -25,13 +24,17 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 @ExportAsService(UsersService.class)
 public class UsersServiceImpl implements UsersService {
 
-    private static final Logger log = LoggerFactory.getLogger(UsersServiceImpl.class);
-
     private final UserManager userManager;
 
+    private final UserAccessor userAccessor;
+
     @Inject
-    public UsersServiceImpl(@ComponentImport final UserManager userManager) {
+    public UsersServiceImpl(
+            @ComponentImport final UserManager userManager,
+            @ComponentImport final UserAccessor userAccessor) {
+
         this.userManager = userManager;
+        this.userAccessor = userAccessor;
     }
 
     @Override
@@ -45,17 +48,23 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UserBean updateUser(
             final String userName,
-            final UserBean userBean) throws NotFoundException, BadRequestException {
+            final UserBean userBean) {
 
         validate(userBean);
-        final User user = findConfluenceUser(userName);
+        User user = findConfluenceUser(userName);
 
+        if (isNotBlank(userBean.getUsername()) && !userName.equals(userBean.getUsername())) {
+            try {
+                user = userAccessor.renameUser((ConfluenceUser)user, userBean.getUsername());
+            } catch (EntityException e) {
+                throw new BadRequestException(String.format("Error trying to update username for user: %s. " +
+                        "New username might already exist, operation is not permitted or the crowd service could not " +
+                        "handle the request.", user.getName()));
+            }
+        }
         // userManager.saveUser will convert this user into a ConfluenceUser
         final DefaultUser updateUser = new DefaultUser(user);
 
-        if (isNotBlank(userBean.getUsername())) {
-            log.info("Updating user name is currently not supported");
-        }
         if (isNotBlank(userBean.getFullName())) {
             updateUser.setFullName(userBean.getFullName());
         }
@@ -92,7 +101,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     private User findConfluenceUser(
-            final String username) throws NotFoundException {
+            final String username) {
 
         final ConfluenceUser confluenceUser;
 

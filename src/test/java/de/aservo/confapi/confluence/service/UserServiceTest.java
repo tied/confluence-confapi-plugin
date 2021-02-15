@@ -1,5 +1,8 @@
 package de.aservo.confapi.confluence.service;
 
+import com.atlassian.confluence.user.ConfluenceUser;
+import com.atlassian.confluence.user.ConfluenceUserImpl;
+import com.atlassian.confluence.user.UserAccessor;
 import com.atlassian.user.EntityException;
 import com.atlassian.user.User;
 import com.atlassian.user.UserManager;
@@ -18,6 +21,7 @@ import static de.aservo.confapi.confluence.model.util.UserBeanUtil.toUserBean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -25,11 +29,14 @@ public class UserServiceTest {
     @Mock
     private UserManager userManager;
 
+    @Mock
+    private UserAccessor userAccessor;
+
     private UsersServiceImpl userService;
 
     @Before
     public void setup() {
-        userService = new UsersServiceImpl(userManager);
+        userService = new UsersServiceImpl(userManager, userAccessor);
     }
 
     @Test
@@ -60,6 +67,35 @@ public class UserServiceTest {
         final UserBean updatedUserBean = userService.updateUser(user.getName(), updateUserBean);
 
         assertEquals(updateUserBean, updatedUserBean);
+    }
+
+    @Test
+    public void testUpdateUsername() throws EntityException {
+        final UserBean requestUserBean = new UserBean();
+        requestUserBean.setUsername("ChangeUsername");
+
+        final User existingUser = toUser(UserBean.EXAMPLE_1);
+        final ConfluenceUserImpl userUpdatedUsername = new ConfluenceUserImpl(existingUser);
+        userUpdatedUsername.setName(requestUserBean.getUsername());
+
+        doReturn(existingUser).when(userManager).getUser(existingUser.getName());
+        doReturn(userUpdatedUsername).when(userAccessor).renameUser((ConfluenceUser)existingUser, requestUserBean.getUsername());
+
+        final UserBean updatedUserBean = userService.updateUser(existingUser.getName(), requestUserBean);
+
+        assertEquals(requestUserBean.getUsername(), updatedUserBean.getUsername());
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testUpdateUsernameException() throws EntityException {
+        final UserBean requestUserBean = new UserBean();
+        requestUserBean.setUsername("ChangeUsername");
+
+        final User existingUser = toUser(UserBean.EXAMPLE_1);
+        doReturn(existingUser).when(userManager).getUser(existingUser.getName());
+        doThrow(new EntityException()).when(userAccessor).renameUser((ConfluenceUser)existingUser, requestUserBean.getUsername());
+
+        userService.updateUser(existingUser.getName(), requestUserBean);
     }
 
     @Test
