@@ -32,20 +32,6 @@ jobs:
     - name: Build with Maven
       run: ./mvnw package -DskipUnitTests -B
 
-    - name: Stage
-      run: |
-        set +x
-        mkdir -p /tmp/artifacts
-        cd target
-        cp *.jar /tmp/artifacts
-        cp *.obr /tmp/artifacts
-
-    - name: Upload Package
-      uses: actions/upload-artifact@v2
-      with:
-        name: Package
-        path: /tmp/artifacts
-
   unit-tests:
     needs: package
 
@@ -73,7 +59,6 @@ jobs:
 
     - name: Run Unit Tests and analyze on SonarCloud
       run: ./mvnw test sonar:sonar -B
-
 
   integration-tests:
     needs: package
