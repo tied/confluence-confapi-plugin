@@ -1,0 +1,100 @@
+name: CI Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  package:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: confapi-plugin-${{ hashFiles('**/pom.xml') }}
+        restore-keys: confapi-plugin
+
+    - name: Download Dependencies
+      run: ./mvnw dependency:go-offline -U -B
+
+    - name: Build with Maven
+      run: ./mvnw package -DskipUnitTests -B
+
+    - name: Stage
+      run: |
+        set +x
+        mkdir -p /tmp/artifacts
+        cd target
+        cp *.jar /tmp/artifacts
+        cp *.obr /tmp/artifacts
+
+    - name: Upload Package
+      uses: actions/upload-artifact@v2
+      with:
+        name: Package
+        path: /tmp/artifacts
+
+  unit-tests:
+    needs: package
+
+    runs-on: ubuntu-20.04
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Cache Maven package
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: confapi-plugin-${{ hashFiles('**/pom.xml') }}
+        restore-keys: confapi-plugin
+
+    - name: Run Unit Tests and analyze on SonarCloud
+      run: ./mvnw test sonar:sonar -B
+
+
+  integration-tests:
+    needs: package
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Cache Maven package
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: confapi-plugin-${{ hashFiles('**/pom.xml') }}
+        restore-keys: confapi-plugin
+
+    - name: Run Integration Tests
+      run: ./mvnw integration-test -DskipUnitTests -B
