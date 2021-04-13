@@ -3,6 +3,7 @@ package de.aservo.confapi.confluence.service;
 import com.atlassian.confluence.languages.LocaleManager;
 import com.atlassian.confluence.user.AuthenticatedUserThreadLocal;
 import com.atlassian.confluence.user.ConfluenceUser;
+import com.atlassian.gadgets.GadgetParsingException;
 import com.atlassian.gadgets.GadgetRequestContext;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpec;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecId;
@@ -89,25 +90,27 @@ public class GadgetsServiceImpl implements GadgetsService {
 
     @Override
     public GadgetBean addGadget(GadgetBean gadgetBean) {
-        //initial checks
         URI url = gadgetBean.getUrl();
-
-        //validate gadget url
-        log.debug("testing external gadget link url for validity: {}", url);
-        ConfluenceUser user = AuthenticatedUserThreadLocal.get();
-        Locale locale = localeManager.getLocale(user);
-        GadgetRequestContext requestContext = GadgetRequestContext.Builder.gadgetRequestContext()
-                .locale(locale)
-                .ignoreCache(false)
-                .user(new GadgetRequestContext.User(user.getKey().getStringValue(), user.getName()))
-                .build();
-        gadgetSpecFactory.getGadgetSpec(url, requestContext);
-
-        //add gadget url to store
-        ExternalGadgetSpec addedGadget = externalGadgetSpecStore.add(url);
-
         GadgetBean addedGadgetBean = new GadgetBean();
-        addedGadgetBean.setUrl(addedGadget.getSpecUri());
+        ExternalGadgetSpec addedGadget = externalGadgetSpecStore.add(url);
+        try{
+            //validate gadget url
+            log.debug("testing external gadget link url for validity: {}", url);
+
+            ConfluenceUser user = AuthenticatedUserThreadLocal.get();
+            Locale locale = localeManager.getLocale(user);
+            GadgetRequestContext requestContext = GadgetRequestContext.Builder.gadgetRequestContext()
+                    .locale(locale)
+                    .ignoreCache(true)
+                    .user(new GadgetRequestContext.User(user.getKey().getStringValue(), user.getName()))
+                    .build();
+            gadgetSpecFactory.getGadgetSpec(url, requestContext);
+
+            addedGadgetBean.setUrl(addedGadget.getSpecUri());
+        } catch (GadgetParsingException e) {
+            externalGadgetSpecStore.remove(addedGadget.getId());
+            throw new BadRequestException("Invalid Gadget URL");
+        }
         return addedGadgetBean;
     }
 
