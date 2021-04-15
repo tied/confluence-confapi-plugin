@@ -4,6 +4,7 @@ import com.atlassian.confluence.languages.LocaleManager;
 import com.atlassian.confluence.user.AuthenticatedUserThreadLocal;
 import com.atlassian.confluence.user.ConfluenceUser;
 import com.atlassian.confluence.user.ConfluenceUserImpl;
+import com.atlassian.gadgets.GadgetParsingException;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpec;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecId;
 import com.atlassian.gadgets.directory.spi.ExternalGadgetSpecStore;
@@ -34,8 +35,7 @@ import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 //power mockito required here for mocking static methods of AuthenticatedUserThreadLocal
 @RunWith(PowerMockRunner.class)
@@ -103,6 +103,26 @@ public class GadgetsServiceTest {
 
         GadgetBean gadgetsBean = gadgetsService.addGadget(gadgetBean);
         assertEquals(externalGadgetSpec.getSpecUri(), gadgetsBean.getUrl());
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void testAddGadgetException() throws URISyntaxException, IllegalAccessException {
+        ExternalGadgetSpec externalGadgetSpec = createExternalGadgetSpec();
+        doReturn(Collections.singletonList(externalGadgetSpec)).when(externalGadgetSpecStore).entries();
+        doReturn(externalGadgetSpec).when(externalGadgetSpecStore).add(any());
+
+        ConfluenceUser user = createConfluenceUser();
+        GadgetBean gadgetBean = new GadgetBean();
+        gadgetBean.setUrl(externalGadgetSpec.getSpecUri());
+
+        PowerMock.mockStatic(AuthenticatedUserThreadLocal.class);
+        expect(AuthenticatedUserThreadLocal.get()).andReturn(user);
+        PowerMock.replay(AuthenticatedUserThreadLocal.class);
+
+        doReturn(Locale.GERMAN).when(localeManager).getLocale(user);
+        doThrow(new GadgetParsingException("")).when(gadgetSpecFactory).getGadgetSpec((URI) any(), any());
+
+        gadgetsService.addGadget(gadgetBean);
     }
 
     @Test
